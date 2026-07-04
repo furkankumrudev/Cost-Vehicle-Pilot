@@ -12,9 +12,9 @@
 | S1-02 | Problem ve çözüm tanımını yaz | Done |
 | S1-03 | Hedef kitleyi belirle | Done |
 | S1-04 | Product backlog oluştur | Done |
-| S1-05 | GitHub repo yapısını oluştur | In Progress |
-| S1-06 | Veri seti kaynaklarını araştır | Todo |
-| S1-07 | İlk veri kolonlarını belirle | Todo |
+| S1-05 | GitHub repo yapısını oluştur | Done |
+| S1-06 | Veri seti kaynaklarını araştır | Done |
+| S1-07 | İlk veri kolonlarını belirle | Done |
 | S1-08 | Baseline model yaklaşımını belirle | Todo |
 | S1-09 | Sprint 1 review ve retrospective yaz | Todo |
 
@@ -32,7 +32,7 @@ Sprint board ekran görüntüleri bu klasörde veya `assets/screenshots` altınd
 
 ## Ürün Durumu
 
-Proje başlangıç aşamasındadır. Ürün fikri ve ana özellikler belirlenmiştir.
+Proje başlangıç aşamasındadır. Ürün fikri, ana özellikler, veri kaynağı ve ilk temizleme pipelineı belirlenmiştir.
 
 ## Sprint Review
 
@@ -41,3 +41,4 @@ Sprint sonunda doldurulacaktır.
 ## Sprint Retrospective
 
 Sprint sonunda doldurulacaktır.
+

@@ -82,6 +82,21 @@ Planlanan teknoloji seti:
 
 Teknoloji seçimi geliştirme sürecinde veri seti, model ihtiyacı ve canlıya alma kararına göre güncellenebilir.
 
+## Veri Seti
+
+İlk MVP kapsamında public bir ikinci el araç fiyat veri seti kullanılmaktadır.
+
+Kaynak: https://raw.githubusercontent.com/ybifoundation/Dataset/main/Car%20Price.csv
+
+Ham veri `data/raw/used_car_prices.csv` altında, temizlenmiş veri ise `data/processed/used_car_prices_clean.csv` altında tutulmaktadır. Veri temizleme süreci `src/data_preprocessing.py` script'i ile tekrar üretilebilir yapıdadır.
+
+Mevcut veri seti Türkiye odaklı değildir ve fiyatlar INR para birimindedir. Bu veri, ilk teknik MVP ve model geliştirme süreci için kullanılacaktır. Mimari daha sonra Türkiye odaklı dataset veya API destekli veri akışı ile değiştirilebilecek şekilde tasarlanmaktadır.
+
+Detaylar:
+
+- [Data README](data/README.md)
+- [Data Strategy](docs/data-strategy.md)
+- [Data Dictionary](docs/data-dictionary.md)
 ## Makine Öğrenmesi Yaklaşımı
 
 İlk MVP kapsamında regresyon modelleri ile araç fiyat tahmini yapılması planlanmaktadır.
@@ -183,3 +198,4 @@ Cost-Vehicle-Pilot/
 ## Durum
 
 Proje geliştirme aşamasındadır. İlk sprint kapsamında ürün vizyonu, backlog ve veri araştırması hazırlanmaktadır.
+
