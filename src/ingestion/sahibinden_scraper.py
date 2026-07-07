@@ -12,6 +12,7 @@ import asyncio
 import random
 import re
 from dataclasses import dataclass
+from pathlib import Path
 from typing import Iterable
 from urllib.parse import urljoin
 
@@ -21,6 +22,8 @@ from .schema import VehicleListing
 from .storage import DEFAULT_DB_PATH, ListingStore
 
 BASE_URL = "https://www.sahibinden.com"
+DEFAULT_DEBUG_HTML_PATH = Path("data") / "runtime" / "debug_sahibinden_home.html"
+DEFAULT_DEBUG_RESULTS_PATH = Path("data") / "runtime" / "debug_sahibinden_results.html"
 
 
 @dataclass(slots=True)
@@ -36,6 +39,12 @@ class ScraperConfig:
     db_path: str = str(DEFAULT_DB_PATH)
     headless: bool = False
     browser_executable_path: str | None = None
+    user_data_dir: str | None = None
+    sandbox: bool = True
+    manual_wait_seconds: float = 0
+    debug_html_path: str = str(DEFAULT_DEBUG_HTML_PATH)
+    debug_results_path: str = str(DEFAULT_DEBUG_RESULTS_PATH)
+
 
 def clean_text(value: str | None) -> str | None:
     if value is None:
@@ -49,6 +58,48 @@ def parse_int(value: str | None) -> int | None:
         return None
     digits = re.sub(r"[^0-9]", "", value)
     return int(digits) if digits else None
+
+
+def infer_year_from_title(title: str) -> int | None:
+    match = re.search(r"\b(19[5-9][0-9]|20[0-2][0-9])\b", title)
+    if match:
+        return int(match.group(1))
+
+    short_match = re.search(r"\b([0-2][0-9])\s*(?:model|mdl)\b", title, flags=re.IGNORECASE)
+    if short_match:
+        year = int(short_match.group(1))
+        return 2000 + year if year <= 29 else 1900 + year
+    return None
+
+
+def infer_mileage_from_title(title: str) -> int | None:
+    normalized = (
+        title.lower()
+        .replace(".", "")
+        .replace(",", "")
+        .replace("ooo", "000")
+        .replace("bin", "000")
+    )
+    match = re.search(r"\b([0-9]{2,6})\s*(?:km|kilometre|kmde|binde)\b", normalized)
+    if match:
+        return int(match.group(1))
+
+    binde_match = re.search(r"\b([0-9]{2,3})\s*000de\b", normalized)
+    if binde_match:
+        return int(binde_match.group(1)) * 1000
+    return None
+
+
+def apply_query_defaults(listings: list[VehicleListing], query: str) -> list[VehicleListing]:
+    parts = query.split()
+    brand = parts[0] if parts else None
+    series = " ".join(parts[1:]) if len(parts) > 1 else None
+    for listing in listings:
+        if brand:
+            listing.brand = brand
+        if series:
+            listing.series = series
+    return listings
 
 
 def split_location(value: str | None) -> tuple[str | None, str | None]:
@@ -78,8 +129,8 @@ def extract_listing(row: Tag) -> VehicleListing | None:
     engine = tag_values[2] if len(tag_values) > 2 else None
 
     attr_values = [clean_text(tag.get_text(" ")) for tag in row.select("td.searchResultsAttributeValue")]
-    year = parse_int(attr_values[0] if len(attr_values) > 0 else None)
-    mileage_km = parse_int(attr_values[1] if len(attr_values) > 1 else None)
+    year = parse_int(attr_values[0] if len(attr_values) > 0 else None) or infer_year_from_title(title)
+    mileage_km = parse_int(attr_values[1] if len(attr_values) > 1 else None) or infer_mileage_from_title(title)
     color = attr_values[2] if len(attr_values) > 2 else None
 
     price_tag = row.select_one("td.searchResultsPriceValue div.classified-price-container span")
@@ -135,8 +186,22 @@ async def polite_sleep(config: ScraperConfig) -> None:
     await asyncio.sleep(random.uniform(config.delay_min, config.delay_max))
 
 
+async def select_with_timeout(tab: object, selector: str, timeout: float = 10) -> object | None:
+    try:
+        return await asyncio.wait_for(tab.select(selector), timeout=timeout)
+    except (Exception, TimeoutError):
+        return None
+
+
+async def write_debug_html(tab: object, path: str) -> None:
+    debug_path = Path(path)
+    debug_path.parent.mkdir(parents=True, exist_ok=True)
+    html = await tab.get_content()
+    debug_path.write_text(html, encoding="utf-8")
+
+
 async def click_if_exists(tab: object, selector: str) -> bool:
-    element = await tab.select(selector)
+    element = await select_with_timeout(tab, selector, timeout=5)
     if not element:
         return False
     await element.click()
@@ -145,25 +210,25 @@ async def click_if_exists(tab: object, selector: str) -> bool:
 
 async def apply_filters(tab: object, config: ScraperConfig) -> None:
     if config.year_min:
-        element = await tab.select('input[name="a5_min"]')
+        element = await select_with_timeout(tab, 'input[name="a5_min"]', timeout=5)
         if element:
             await element.send_keys(config.year_min)
     if config.year_max:
-        element = await tab.select('input[name="a5_max"]')
+        element = await select_with_timeout(tab, 'input[name="a5_max"]', timeout=5)
         if element:
             await element.send_keys(config.year_max)
 
     if config.transmission:
-        transmission = config.transmission.lower().strip()
+        transmission = config.transmission.lower().strip().replace("\u00fc", "u")
         selector = None
-        if transmission in {"manuel", "manual", "duz", "dÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¼z"}:
+        if transmission in {"manuel", "manual", "duz"}:
             selector = 'a[data-value="32467"].js-attribute.facetedCheckbox'
         elif transmission in {"otomatik", "automatic"}:
             selector = 'a[data-value="32466"].js-attribute.facetedCheckbox'
         if selector:
             await click_if_exists(tab, selector)
 
-    apply_button = await tab.select("button.js-manual-search-button")
+    apply_button = await select_with_timeout(tab, "button.js-manual-search-button", timeout=5)
     if apply_button:
         await apply_button.click()
 
@@ -171,38 +236,57 @@ async def apply_filters(tab: object, config: ScraperConfig) -> None:
 async def run_scraper(config: ScraperConfig) -> int:
     import nodriver as uc
 
-    driver = await uc.start(headless=config.headless, browser_executable_path=config.browser_executable_path)
+    user_data_dir = str(Path(config.user_data_dir).resolve()) if config.user_data_dir else None
+    print("Starting browser...", flush=True)
+    driver = await uc.start(
+        headless=config.headless,
+        browser_executable_path=config.browser_executable_path,
+        user_data_dir=user_data_dir,
+        sandbox=config.sandbox,
+    )
     saved_total = 0
     try:
+        print(f"Opening {BASE_URL}...", flush=True)
         tab = await driver.get(BASE_URL)
         await polite_sleep(config)
+        if config.manual_wait_seconds > 0:
+            print(
+                f"Manual wait: use the browser window if needed ({config.manual_wait_seconds:.0f}s)...",
+                flush=True,
+            )
+            await asyncio.sleep(config.manual_wait_seconds)
 
         try:
-            cookie_button = await tab.find("TÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¼m ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¡erezleri Kabul Et", best_match=True)
+            cookie_button = await asyncio.wait_for(tab.find("Kabul Et", best_match=True), timeout=5)
             if cookie_button:
                 await cookie_button.click()
                 await polite_sleep(config)
-        except Exception:
+        except (Exception, TimeoutError):
             pass
 
-        search_box = await tab.select("#searchText")
+        print("Looking for search input...", flush=True)
+        search_box = await select_with_timeout(tab, "#searchText", timeout=10)
         if not search_box:
-            raise RuntimeError("Search input could not be found.")
+            await write_debug_html(tab, config.debug_html_path)
+            raise RuntimeError(
+                "Search input could not be found. "
+                f"Saved received HTML to {config.debug_html_path}."
+            )
         await search_box.send_keys(config.query)
         await polite_sleep(config)
 
-        search_button = await tab.select('button[type="submit"][value="Ara"]')
+        search_button = await select_with_timeout(tab, 'button[type="submit"][value="Ara"]', timeout=10)
         if not search_button:
             raise RuntimeError("Search button could not be found.")
         await search_button.click()
         await polite_sleep(config)
 
-        suggestion = await tab.select("li.first-child.ui-menu-item a")
+        suggestion = await select_with_timeout(tab, "li.first-child.ui-menu-item a", timeout=5)
         if suggestion:
             await suggestion.click()
             await polite_sleep(config)
 
-        category = await tab.select("#searchCategoryContainer div div ul li:first-child a")
+        category = await select_with_timeout(tab, "#searchCategoryContainer div div ul li:first-child a", timeout=5)
         if category:
             await category.click()
             await polite_sleep(config)
@@ -214,13 +298,17 @@ async def run_scraper(config: ScraperConfig) -> int:
         with ListingStore(config.db_path) as store:
             for page_number in range(1, config.max_pages + 1):
                 html = await tab.get_content()
-                listings = parse_search_results(html)
+                listings = apply_query_defaults(parse_search_results(html), config.query)
+                if not listings:
+                    debug_path = Path(config.debug_results_path)
+                    debug_path.parent.mkdir(parents=True, exist_ok=True)
+                    debug_path.write_text(html, encoding="utf-8")
                 saved_total += store.upsert_many(listings)
-                print(f"page={page_number} parsed={len(listings)} stored_total={store.count()}")
+                print(f"page={page_number} parsed={len(listings)} stored_total={store.count()}", flush=True)
 
                 if page_number >= config.max_pages:
                     break
-                next_button = await tab.select('.prevNextBut[title="Sonraki"]')
+                next_button = await select_with_timeout(tab, '.prevNextBut[title="Sonraki"]', timeout=5)
                 if not next_button:
                     break
                 await next_button.click()
@@ -243,6 +331,11 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--db-path", default=str(DEFAULT_DB_PATH))
     parser.add_argument("--headless", action="store_true")
     parser.add_argument("--browser-executable-path", default=None, help="Optional Chrome/Edge executable path.")
+    parser.add_argument("--user-data-dir", default=None, help="Optional browser profile directory.")
+    parser.add_argument("--no-sandbox", action="store_true")
+    parser.add_argument("--manual-wait-seconds", type=float, default=0)
+    parser.add_argument("--debug-html-path", default=str(DEFAULT_DEBUG_HTML_PATH))
+    parser.add_argument("--debug-results-path", default=str(DEFAULT_DEBUG_RESULTS_PATH))
     return parser
 
 
@@ -260,6 +353,11 @@ def main(argv: Iterable[str] | None = None) -> None:
         db_path=args.db_path,
         headless=args.headless,
         browser_executable_path=args.browser_executable_path,
+        user_data_dir=args.user_data_dir,
+        sandbox=not args.no_sandbox,
+        manual_wait_seconds=args.manual_wait_seconds,
+        debug_html_path=args.debug_html_path,
+        debug_results_path=args.debug_results_path,
     )
     saved_total = asyncio.run(run_scraper(config))
     print(f"Saved or updated listings: {saved_total}")

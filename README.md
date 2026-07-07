@@ -1,221 +1,129 @@
 # Cost Vehicle Pilot
 
-Cost Vehicle Pilot, ikinci el araç piyasasında alıcı ve satıcıların daha bilinçli fiyat kararları verebilmesi için geliştirilen yapay zeka destekli adil fiyat tahmin ve piyasa trend analiz platformudur.
+Cost Vehicle Pilot, ikinci el araç almak veya satmak isteyen kullanıcılar için geliştirilmiş güncel piyasa analizi ve fiyat aralığı öneri platformudur.
 
-## Takım Bilgileri
+Kullanıcı araç özelliklerini seçer; sistem benzer ilanları analiz ederek fiyat dağılımını, medyan piyasa değerini ve önerilen fiyat aralığını gösterir.
 
-**Takım İsmi:** Furkan Kumru
+## Proje Mantığı
 
-Bu proje bireysel olarak geliştirilmektedir.
+Hazır ve eski bir veri setine bağlı kalmak yerine proje, güncel ilan verisiyle çalışabilecek bir veri toplama ve analiz mimarisi üzerine kurulmaktadır.
 
-| Rol | Sorumlu |
-| --- | --- |
-| Product Owner | Furkan Kumru |
-| Scrum Master | Furkan Kumru |
-| Developer | Furkan Kumru |
-| Data Analyst / ML Developer | Furkan Kumru |
-| UI/UX ve Dokümantasyon | Furkan Kumru |
+```text
+Araç özellikleri formu
+  -> Sahibinden arama sorgusu
+  -> güncel ilan verisi toplama
+  -> SQLite kayıt katmanı
+  -> benzer ilan filtreleme
+  -> fiyat dağılımı ve piyasa aralığı
+  -> Streamlit dashboard
+```
 
-## Ürün Açıklaması
-
-İkinci el araç piyasasında ilan fiyatları; marka, model, yıl, kilometre, yakıt tipi, vites türü, şehir, hasar durumu ve piyasa talebi gibi birçok faktöre göre değişmektedir. Bu değişkenlik, kullanıcıların bir aracın gerçek piyasa değerini anlamasını zorlaştırır.
-
-Cost Vehicle Pilot, geçmiş araç verilerini analiz ederek kullanıcının girdiği araç bilgilerine göre tahmini adil piyasa değerini hesaplar. Platform; fiyat tahmini, benzer araç karşılaştırması, fiyat trend grafikleri ve yapay zeka destekli yorumlar ile kullanıcıya karar verme sürecinde rehberlik eder.
-
-## Problem
-
-İkinci el araç alım-satım sürecinde kullanıcılar çoğu zaman şu sorulara net cevap bulmakta zorlanır:
-
-- Bu araç gerçek piyasa değerinde mi?
-- İlan fiyatı benzer araçlara göre yüksek mi?
-- Satıcı olarak aracı hangi fiyat aralığında ilana koymalıyım?
-- Alıcı olarak pazarlığa hangi seviyeden başlamalıyım?
-- Kilometre, model yılı, şehir ve hasar durumu fiyatı ne kadar etkiliyor?
-
-## Çözüm
-
-Cost Vehicle Pilot, araç bilgilerini makine öğrenmesi tabanlı fiyat tahmin modeliyle analiz eder ve kullanıcıya anlaşılır bir karar destek çıktısı sunar:
-
-- Tahmini adil piyasa değeri
-- Tahmini fiyat aralığı
-- Piyasa durumu sınıflandırması
-- Benzer araçlarla karşılaştırma
-- Fiyat trend grafikleri
-- Fiyatı etkileyen temel faktörler
-- Alıcı ve satıcı için yapay zeka destekli kısa yorum
-
-## Hedef Kitle
-
-- Aracını satmak isteyen bireysel kullanıcılar
-- İkinci el araç satın almak isteyen alıcılar
-- İlan fiyatının piyasa koşullarına uygunluğunu kontrol etmek isteyen kullanıcılar
-- Galeriler ve küçük ölçekli araç satıcıları
-- İkinci el araç piyasasındaki fiyat trendlerini analiz etmek isteyen kişiler
+İlk MVP'de odak, kullanıcının seçtiği araç özelliklerine göre benzer ilanların fiyat dağılımını göstermektir.
 
 ## Ürün Özellikleri
 
-- Araç bilgisi giriş formu
-- Marka, model, yıl, kilometre, yakıt tipi, vites, şehir ve hasar durumuna göre fiyat tahmini
-- Makine öğrenmesi tabanlı adil piyasa değeri hesaplama
-- Tahmini fiyat aralığı gösterimi
-- İlan fiyatının piyasanın altında, piyasa seviyesinde veya üzerinde olduğunu sınıflandırma
-- Benzer araçlarla karşılaştırma
-- Marka, model ve yıl bazlı fiyat trend grafikleri
-- Kilometre ve model yılına göre fiyat değişim analizi
-- Fiyatı etkileyen temel faktörlerin gösterimi
-- Yapay zeka destekli değerlendirme yorumu
-- Satıcılar için önerilen satış fiyatı
-- Alıcılar için pazarlık başlangıç önerisi
-- Kullanıcı dostu dashboard arayüzü
+- Marka, seri ve model/paket seçimi
+- Model yılı ve maksimum kilometre filtresi
+- Güncel ilan havuzundan benzer araç analizi
+- Minimum, maksimum, ortalama ve medyan fiyat
+- 25-75 yüzdelik aralığa göre önerilen piyasa fiyat bandı
+- Fiyat dağılım grafiği
+- Model yılı ve fiyat ilişkisi
+- Şehir yoğunluğu grafiği
+- Benzer ilan tablosu ve ilan bağlantıları
 
-## Kullanılacak Teknolojiler
+## Veri Mimarisi
 
-Planlanan teknoloji seti:
+Projede üç ana veri katmanı vardır:
 
-- Python
-- Pandas / NumPy
-- Scikit-learn
-- Matplotlib / Seaborn / Plotly
-- Streamlit veya Flask/FastAPI
-- GitHub Projects / Issues
-- Jupyter Notebook
+| Katman | Dosya / Konum | Amaç |
+| --- | --- | --- |
+| Araç katalogu | `data/reference/vehicle_catalog.json` | Marka, seri ve model/paket seçimlerini besler |
+| Güncel ilan verisi | `data/runtime/vehicle_listings.sqlite3` | Scraper ile toplanan ilanları lokal SQLite veritabanında tutar |
+| Scraper modülü | `src/ingestion/` | Sahibinden arama sonuçlarından normalize ilan verisi toplamayı hedefler |
 
-Teknoloji seçimi geliştirme sürecinde veri seti, model ihtiyacı ve canlıya alma kararına göre güncellenebilir.
+`data/runtime/` klasörü lokal çalışma verisidir ve Git'e dahil edilmez.
 
-## Veri Seti
+## Arayüzü Çalıştırma
 
-İlk MVP kapsamında public bir ikinci el araç fiyat veri seti kullanılmaktadır.
+Windows üzerinde:
 
-Kaynak: https://raw.githubusercontent.com/ybifoundation/Dataset/main/Car%20Price.csv
-
-Ham veri `data/raw/used_car_prices.csv` altında, temizlenmiş veri ise `data/processed/used_car_prices_clean.csv` altında tutulmaktadır. Veri temizleme süreci `src/data_preprocessing.py` script'i ile tekrar üretilebilir yapıdadır.
-
-Mevcut veri seti Türkiye odaklı değildir ve fiyatlar INR para birimindedir. Bu veri, ilk teknik MVP ve model geliştirme süreci için kullanılacaktır. Mimari daha sonra Türkiye odaklı dataset veya API destekli veri akışı ile değiştirilebilecek şekilde tasarlanmaktadır.
-
-Detaylar:
-
-- [Data README](data/README.md)
-- [Data Strategy](docs/data-strategy.md)
-- [Data Dictionary](docs/data-dictionary.md)
-
-## Güncel Veri Toplama Katmanı
-
-Cost Vehicle Pilot yalnızca statik bir veri setine bağlı kalmayacak şekilde tasarlanmaktadır. Projeye Sahibinden arama sonuçlarından güncel araç ilanlarını toplayabilecek bir veri toplama prototipi eklenmiştir.
-
-İlk prototip SQLite veritabanına yazar:
-
-```text
-data/runtime/vehicle_listings.sqlite3
+```bat
+scripts\run_app.bat
 ```
 
-Örnek komut:
+veya:
 
 ```bash
-python -m src.ingestion.sahibinden_scraper --query "Renault Clio" --year-min 2016 --year-max 2018 --max-pages 1
+streamlit run src/app.py
 ```
 
-Bu katman, bootcamp MVP'sinde güncel veri akışı mimarisini göstermek için kullanılacaktır. Scraping işlemleri dikkatli, sınırlı ve kaynak sitenin kurallarına uygun şekilde ele alınmalıdır. Uzun vadede aynı mimari resmi API, izinli veri sağlayıcıları veya partner veri akışlarıyla çalışabilecek şekilde genişletilebilir.
+Varsayılan adres:
 
-Detaylar: [Scraper Strategy](docs/scraper-strategy.md)
-## Makine Öğrenmesi Yaklaşımı
+```text
+http://127.0.0.1:8501
+```
 
-İlk MVP kapsamında regresyon modelleri ile araç fiyat tahmini yapılması planlanmaktadır.
+## Scraper Kullanımı
 
-Planlanan adımlar:
+Kontrollü tek sayfalık örnek:
 
-1. Veri setinin bulunması veya oluşturulması
-2. Eksik ve hatalı verilerin temizlenmesi
-3. Kategorik değişkenlerin modele uygun hale getirilmesi
-4. Baseline regresyon modelinin kurulması
-5. Farklı modellerin performans karşılaştırması
-6. Model sonuçlarının hata metrikleriyle değerlendirilmesi
-7. Fiyatı etkileyen değişkenlerin analiz edilmesi
-8. Tahmin sonucunun kullanıcı dostu bir arayüzde gösterilmesi
+```bash
+python -m src.ingestion.sahibinden_scraper --query "Renault Clio" --year-min 2020 --year-max 2025 --max-pages 1
+```
 
-## Product Backlog
+Chrome veya Edge yolu gerekiyorsa:
 
-| ID | User Story | Öncelik | Durum |
-| --- | --- | --- | --- |
-| PB-01 | Kullanıcı olarak araç bilgilerini girebilmek istiyorum. | High | Todo |
-| PB-02 | Kullanıcı olarak araç için tahmini adil piyasa değerini görmek istiyorum. | High | Todo |
-| PB-03 | Kullanıcı olarak tahmini fiyat aralığını görmek istiyorum. | High | Todo |
-| PB-04 | Kullanıcı olarak ilan fiyatının piyasanın altında veya üzerinde olduğunu anlayabilmek istiyorum. | High | Todo |
-| PB-05 | Kullanıcı olarak benzer araçlarla karşılaştırma yapabilmek istiyorum. | Medium | Todo |
-| PB-06 | Kullanıcı olarak fiyat trend grafiklerini incelemek istiyorum. | Medium | Todo |
-| PB-07 | Kullanıcı olarak fiyatı etkileyen ana faktörleri görmek istiyorum. | Medium | Todo |
-| PB-08 | Satıcı olarak önerilen satış fiyatını görmek istiyorum. | Medium | Todo |
-| PB-09 | Alıcı olarak pazarlık başlangıç önerisi almak istiyorum. | Medium | Todo |
-| PB-10 | Geliştirici olarak veri temizleme ve model eğitim sürecini dokümante etmek istiyorum. | High | Todo |
-| PB-11 | Geliştirici olarak sprint süreçlerini GitHub üzerinde belgelemek istiyorum. | High | In Progress |
-| PB-12 | Kullanıcı olarak ürünü basit bir web arayüzünden kullanmak istiyorum. | High | Todo |
+```bash
+python -m src.ingestion.sahibinden_scraper --query "Renault Clio" --max-pages 1 --browser-executable-path "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
+```
 
-## Sprint Planı
+Scraping işlemleri kontrollü, düşük hacimli ve kaynak sitenin kurallarına dikkat edilerek ele alınmalıdır. Uzun vadede aynı mimari resmi API, izinli veri sağlayıcıları veya partner veri akışlarıyla çalışabilecek şekilde tasarlanmıştır.
 
-### Sprint 1
+## Kullanılan Teknolojiler
 
-Odak: Ürün fikrinin netleştirilmesi, veri araştırması, proje iskeleti ve ilk analiz çalışmaları.
+- Python
+- Pandas
+- Plotly
+- Streamlit
+- BeautifulSoup
+- Nodriver
+- SQLite
 
-- Ürün vizyonunun yazılması
-- Hedef kitlenin belirlenmesi
-- Product backlog hazırlanması
-- Veri seti araştırması
-- İlk veri temizleme planı
-- Repo ve dokümantasyon yapısının oluşturulması
-
-Detaylar: [Sprint 1](project-management/sprint-1/sprint-1.md)
-
-### Sprint 2
-
-Odak: Veri işleme, model geliştirme ve ilk tahmin akışının oluşturulması.
-
-- Veri temizleme
-- Feature engineering
-- Baseline model
-- Model performans analizi
-- İlk fiyat tahmin fonksiyonu
-- İlk grafik denemeleri
-
-Detaylar: [Sprint 2](project-management/sprint-2/sprint-2.md)
-
-### Sprint 3
-
-Odak: Arayüz, ürün bütünlüğü, demo ve final teslim hazırlığı.
-
-- Web arayüzü
-- Dashboard ekranları
-- Tahmin sonucu ve AI yorum bölümü
-- Ürün ekran görüntüleri
-- Demo senaryosu
-- Final README düzenlemesi
-- 3 dakikalık proje videosu hazırlığı
-
-Detaylar: [Sprint 3](project-management/sprint-3/sprint-3.md)
-
-## Proje Yönetimi
-
-Bootcamp süreci boyunca sprint çıktıları, daily scrum notları, sprint board güncellemeleri, ürün durumu, sprint review ve retrospective dokümanları `project-management` klasörü altında tutulacaktır.
-
-## Repo Yapısı
+## Proje Yapısı
 
 ```text
 Cost-Vehicle-Pilot/
   README.md
+  data/
+    reference/
+      vehicle_catalog.json
+    runtime/                 # lokal çalışma verisi, Git'e girmez
   docs/
-    product-vision.md
-    target-audience.md
+    data-dictionary.md
+    data-strategy.md
     market-research.md
+    product-vision.md
+    scraper-strategy.md
+    target-audience.md
   project-management/
     sprint-1/
     sprint-2/
     sprint-3/
-  data/
-  notebooks/
+  scripts/
+    run_app.bat
   src/
-  assets/
-    screenshots/
+    app.py
+    ingestion/
+      sahibinden_scraper.py
+      schema.py
+      storage.py
 ```
+
+## Bootcamp Değeri
+
+Bu proje yalnızca statik bir CSV analizi değildir. Ürün, kullanıcının seçtiği araç özelliklerine göre güncel ilan verisi toplayabilecek, bu veriyi analiz edebilecek ve anlaşılır bir dashboard üzerinden fiyat aralığı sunabilecek şekilde tasarlanmaktadır.
 
 ## Durum
 
-Proje geliştirme aşamasındadır. İlk sprint kapsamında ürün vizyonu, backlog ve veri araştırması hazırlanmaktadır.
-
+İlk arayüz MVP'si hazırlanmıştır. Güncel ilanlar SQLite veritabanına yazılabilmekte ve Streamlit dashboard üzerinde fiyat dağılımı olarak gösterilebilmektedir.

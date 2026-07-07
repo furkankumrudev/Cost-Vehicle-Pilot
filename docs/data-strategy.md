@@ -1,38 +1,50 @@
-﻿# Data Strategy
+# Data Strategy
 
-## Goal
+## Amaç
 
-Cost Vehicle Pilot needs a reliable vehicle price dataset for training a price prediction model and generating market trend visuals.
+Cost Vehicle Pilot'un veri stratejisi, kullanıcının seçtiği araç özelliklerine göre güncel ve benzer ilanları analiz ederek piyasa fiyat aralığı üretmektir.
 
-## First MVP Decision
+## Ana Karar
 
-For Sprint 1, the project starts with a public used-car price dataset. This keeps the project independent from scraping risks and lets the team focus on the core product flow:
-
-1. Data cleaning
-2. Exploratory data analysis
-3. Price prediction model
-4. Dashboard and trend analysis
-
-## Why Not Start With Scraping?
-
-Live scraping from listing platforms can create technical and legal risks. Website structures can change, anti-bot systems can block access, and terms of service may restrict automated collection. For a one-month bootcamp project, relying on scraping from day one would increase delivery risk.
-
-## Future API / Live Data Plan
-
-The architecture will support replacing the static CSV with a scheduled data ingestion layer later.
-
-Planned flow:
+Proje hazır ve eski bir public CSV veri setine bağlı kalmayacaktır. Bunun yerine veri akışı şu şekilde tasarlanmıştır:
 
 ```text
-External API or approved data source
-  -> ingestion script
-  -> raw data storage
-  -> preprocessing pipeline
-  -> processed dataset
-  -> model training
-  -> dashboard predictions
+Araç özellikleri formu
+  -> sorgu oluşturma
+  -> güncel ilan toplama
+  -> SQLite kayıt katmanı
+  -> benzer ilan filtreleme
+  -> fiyat dağılımı ve piyasa aralığı
 ```
 
-## Current Limitation
+## Katalog Verisi
 
-The current dataset is not Turkey-specific and prices are not in TRY. It is used as a model-development dataset. In the final product narrative, this will be clearly described as the first MVP data source, while the product architecture will stay ready for Turkey-focused data.
+Arayüzde marka, seri ve model/paket seçimlerinin hazır gelmesi için `data/reference/vehicle_catalog.json` kullanılır.
+
+Bu dosya statik bir eğitim datası değildir; yalnızca kullanıcı deneyimini iyileştiren referans katalogdur.
+
+## Güncel İlan Verisi
+
+Scraper modülü, seçilen araç özelliklerine göre arama yapıp ilanları normalize ederek SQLite veritabanına yazar.
+
+Varsayılan lokal veritabanı:
+
+```text
+data/runtime/vehicle_listings.sqlite3
+```
+
+## Sorumlu Kullanım
+
+Canlı ilan sitelerinden veri toplama teknik ve hukuki riskler içerebilir. Bu nedenle proje anlatımında veri toplama katmanı; kontrollü prototip, izinli veri kaynakları, resmi API veya partner veri akışlarına uyarlanabilir mimari olarak konumlandırılır.
+
+## MVP Değeri
+
+İlk MVP için model eğitimi şart değildir. Kullanıcıya değer üreten ilk çıktı:
+
+- benzer ilan sayısı
+- fiyat dağılımı
+- medyan fiyat
+- önerilen alt/üst piyasa aralığı
+- benzer ilan listesi
+
+Bu yaklaşım ürünün doğrudan kullanıcı problemine cevap vermesini sağlar.

@@ -1,10 +1,5 @@
 pandas
-numpy
-scikit-learn
-matplotlib
-seaborn
 plotly
 streamlit
 beautifulsoup4
 nodriver
-python-dotenv

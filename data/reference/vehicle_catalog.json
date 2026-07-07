@@ -1,0 +1,7464 @@
+{
+  "source": "local Turkish vehicle listing dataset used to seed Sahibinden-style brand/series/model selectors",
+  "brand_count": 76,
+  "series_count": 553,
+  "model_count": 4340,
+  "brands": [
+    {
+      "name": "Acura",
+      "series": [
+        {
+          "name": "CL",
+          "models": []
+        },
+        {
+          "name": "Integra",
+          "models": []
+        }
+      ]
+    },
+    {
+      "name": "Aion",
+      "series": [
+        {
+          "name": "S",
+          "models": []
+        }
+      ]
+    },
+    {
+      "name": "Alfa Romeo",
+      "series": [
+        {
+          "name": "145",
+          "models": [
+            "1.4",
+            "1.4 TS STD",
+            "1.6",
+            "1.6 TS",
+            "1.6 TS Sportivo",
+            "1.7"
+          ]
+        },
+        {
+          "name": "146",
+          "models": [
+            "1.4 TS",
+            "1.4 TS Ritmo",
+            "1.6 L",
+            "1.6 TS",
+            "2.0 Ti"
+          ]
+        },
+        {
+          "name": "147",
+          "models": [
+            "1.6 TS Black Line",
+            "1.6 TS Collezione",
+            "1.6 TS Distinctive",
+            "1.6 TS Progression",
+            "1.9 JTD Q2",
+            "2.0 TS Selespeed Distinctive"
+          ]
+        },
+        {
+          "name": "156",
+          "models": [
+            "1.6 TS",
+            "1.6 TS Distinctive",
+            "1.6 TS Progression",
+            "2.0 JTS Distinctive",
+            "2.0 TS",
+            "2.0 TS Executive",
+            "2.0 TS Selespeed"
+          ]
+        },
+        {
+          "name": "159",
+          "models": [
+            "1.9 JTD Distinctive",
+            "1.9 JTD Distinctive Plus",
+            "1.9 JTD Progression",
+            "1.9 JTS Distinctive"
+          ]
+        },
+        {
+          "name": "166",
+          "models": [
+            "2.0 TB"
+          ]
+        },
+        {
+          "name": "33",
+          "models": [
+            "1.5 Giardinetta",
+            "1.5 IE"
+          ]
+        },
+        {
+          "name": "Brera",
+          "models": [
+            "3.2 JTS Q4 Sky Window"
+          ]
+        },
+        {
+          "name": "GT",
+          "models": [
+            "1.9 JTD Q2",
+            "2.0 JTS Distinctive"
+          ]
+        },
+        {
+          "name": "Giulia",
+          "models": [
+            "2.0 Competizione",
+            "2.0 T Veloce"
+          ]
+        },
+        {
+          "name": "Giulietta",
+          "models": [
+            "1.4 TB Distinctive",
+            "1.4 TB MultiAir Distinctive",
+            "1.4 TB Progression Plus",
+            "1.6 JTD",
+            "1.6 JTD Distinctive",
+            "1.6 JTD Progression",
+            "1.6 JTD Progression Plus",
+            "1.6 JTD Super TCT",
+            "1.6 JTDM-2",
+            "1.6 JTDM-2 Super",
+            "1.75 TBi Quadrifoglio Verde"
+          ]
+        },
+        {
+          "name": "MiTo",
+          "models": [
+            "1.3 JTD City",
+            "1.4 T Distinctive",
+            "1.4 T MultiAir",
+            "1.4 T MultiAir City",
+            "1.4 T MultiAir Sportivo",
+            "1.6 JTD Distinctive"
+          ]
+        },
+        {
+          "name": "Spider",
+          "models": [
+            "2.0 TS"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Anadol",
+      "series": [
+        {
+          "name": "A2 SL",
+          "models": []
+        }
+      ]
+    },
+    {
+      "name": "Aston Martin",
+      "series": [
+        {
+          "name": "DB7",
+          "models": [
+            "Volante"
+          ]
+        },
+        {
+          "name": "DB9",
+          "models": [
+            "Coupe"
+          ]
+        },
+        {
+          "name": "Rapide",
+          "models": [
+            "V12 Rapide S"
+          ]
+        },
+        {
+          "name": "Vanquish",
+          "models": [
+            "V12"
+          ]
+        },
+        {
+          "name": "Vantage",
+          "models": [
+            "V8 Vantage",
+            "V8 Vantage Roadster",
+            "V8 Vantage S"
+          ]
+        },
+        {
+          "name": "Virage",
+          "models": [
+            "Volante"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Audi",
+      "series": [
+        {
+          "name": "100 Serisi",
+          "models": [
+            "2.0 D",
+            "2.3",
+            "2.5 TDI"
+          ]
+        },
+        {
+          "name": "200 Serisi",
+          "models": [
+            "2.1"
+          ]
+        },
+        {
+          "name": "80 Serisi",
+          "models": [
+            "1.6",
+            "1.6 D",
+            "1.6 TD",
+            "1.9 TDI",
+            "2.0"
+          ]
+        },
+        {
+          "name": "A1",
+          "models": [
+            "1.4 TFSI Ambition",
+            "1.4 TFSI Attraction",
+            "1.6 TDI Ambition",
+            "1.6 TDI Attraction",
+            "1.6 TDI Sportback Ambition",
+            "1.6 TDI Sportback Attraction",
+            "1.6 TDI Sportback Sport"
+          ]
+        },
+        {
+          "name": "A3",
+          "models": [
+            "A3 Cabrio 1.2 TFSI",
+            "A3 Cabrio 1.4 TFSI Ambiente",
+            "A3 Cabrio 1.4 TFSI Ambition",
+            "A3 Cabrio 1.4 TFSI Attraction",
+            "A3 Cabrio 1.5 TFSI Sport Line",
+            "A3 Cabrio 1.8 TFSI",
+            "A3 Cabrio 35 TFSI Design",
+            "A3 Cabrio 35 TFSI Sport",
+            "A3 Hatchback 1.4 TFSI Ambiente",
+            "A3 Hatchback 1.4 TFSI Ambition",
+            "A3 Hatchback 1.6 Ambiente",
+            "A3 Hatchback 1.6 Ambition",
+            "A3 Hatchback 1.6 Attraction",
+            "A3 Hatchback 1.6 TDI Attraction",
+            "A3 Sedan 1.0 TFSI Design Line",
+            "A3 Sedan 1.0 TFSI Dynamic",
+            "A3 Sedan 1.0 TFSI Sport Line",
+            "A3 Sedan 1.0 TFSI Standart",
+            "A3 Sedan 1.4 TFSI Ambiante",
+            "A3 Sedan 1.4 TFSI Ambition",
+            "A3 Sedan 1.4 TFSI Attraction",
+            "A3 Sedan 1.5 TFSI Dynamic",
+            "A3 Sedan 1.6 TDI",
+            "A3 Sedan 1.6 TDI Ambiente",
+            "A3 Sedan 1.6 TDI Ambition",
+            "A3 Sedan 1.6 TDI Attraction",
+            "A3 Sedan 1.6 TDI Design Line",
+            "A3 Sedan 1.6 TDI Dynamic",
+            "A3 Sedan 1.6 TDI S Line",
+            "A3 Sedan 1.6 TDI Sport Line",
+            "A3 Sedan 30 TDI Design",
+            "A3 Sedan 30 TDI Dynamic",
+            "A3 Sedan 30 TDI Sport",
+            "A3 Sedan 30 TFSI Advanced",
+            "A3 Sedan 30 TFSI S-Line",
+            "A3 Sedan 35 TFSI Advanced",
+            "A3 Sedan 35 TFSI Design",
+            "A3 Sedan 35 TFSI Dynamic",
+            "A3 Sedan 35 TFSI S-Line",
+            "A3 Sedan 35 TFSI Sedan",
+            "A3 Sedan 35 TFSI Sport",
+            "A3 Sportback 1.0 TFSI Design Line",
+            "A3 Sportback 1.0 TFSI Dynamic",
+            "A3 Sportback 1.0 TFSI Sport Line",
+            "A3 Sportback 1.2 TFSI Ambiente",
+            "A3 Sportback 1.2 TFSI Attraction",
+            "A3 Sportback 1.4 TFSI",
+            "A3 Sportback 1.4 TFSI Ambiente",
+            "A3 Sportback 1.4 TFSI Ambition",
+            "A3 Sportback 1.4 TFSI Attraction",
+            "A3 Sportback 1.6 Ambiente",
+            "A3 Sportback 1.6 Ambition",
+            "A3 Sportback 1.6 Attraction",
+            "A3 Sportback 1.6 FSI",
+            "A3 Sportback 1.6 Sportback Ambiente",
+            "A3 Sportback 1.6 Sportback Ambition",
+            "A3 Sportback 1.6 Sportback Attraction",
+            "A3 Sportback 1.6 Sportback Standart",
+            "A3 Sportback 1.6 Standart",
+            "A3 Sportback 1.6 TDI Ambiente",
+            "A3 Sportback 1.6 TDI Ambition",
+            "A3 Sportback 1.6 TDI Attraction",
+            "A3 Sportback 1.6 TDI Design Line",
+            "A3 Sportback 1.6 TDI Dynamic",
+            "A3 Sportback 1.6 TDI Sport Line",
+            "A3 Sportback 1.6 TDI Standart",
+            "A3 Sportback 1.8 Ambiente",
+            "A3 Sportback 1.8 Attraction",
+            "A3 Sportback 1.8 T Ambition",
+            "A3 Sportback 1.9 TDI Attraction",
+            "A3 Sportback 2.0 FSI Attraction",
+            "A3 Sportback 2.0 TDI Ambition",
+            "A3 Sportback 30 TDI Design",
+            "A3 Sportback 30 TDI Dynamic",
+            "A3 Sportback 30 TDI Sport",
+            "A3 Sportback 30 TFSI Advanced",
+            "A3 Sportback 30 TFSI Dynamic",
+            "A3 Sportback 30 TFSI S-Line",
+            "A3 Sportback 35 TFSI Advanced",
+            "A3 Sportback 35 TFSI Design",
+            "A3 Sportback 35 TFSI Dynamic",
+            "A3 Sportback 35 TFSI S-Line",
+            "A3 Sportback 35 TFSI Sport"
+          ]
+        },
+        {
+          "name": "A4",
+          "models": [
+            "A4 Allroad Quattro 2.0 TDI",
+            "A4 Allroad Quattro 2.0 TFSI",
+            "A4 Allroad Quattro 4.0 TDI",
+            "A4 Avant 1.4 TFSI",
+            "A4 Avant 1.6",
+            "A4 Avant 1.8 T",
+            "A4 Avant 1.8 TFSI",
+            "A4 Avant 1.9 TDI",
+            "A4 Avant 2.0 TDI",
+            "A4 Avant 2.0 TDI Dynamic",
+            "A4 Avant 2.0 TDI Quattro",
+            "A4 Avant 2.5 TDI",
+            "A4 Avant 2.5 TDI Quattro",
+            "A4 Avant 2.7",
+            "A4 Avant 3.0 Quattro",
+            "A4 Avant 4.0 TDI Quattro Advanced",
+            "A4 Cabrio 1.8 T",
+            "A4 Sedan 1.4 TFSI",
+            "A4 Sedan 1.4 TFSI Design",
+            "A4 Sedan 1.4 TFSI Dynamic",
+            "A4 Sedan 1.4 TFSI Sport",
+            "A4 Sedan 1.6",
+            "A4 Sedan 1.8",
+            "A4 Sedan 1.8 T",
+            "A4 Sedan 1.8 T Quattro",
+            "A4 Sedan 1.8 TFSI",
+            "A4 Sedan 1.9 TDI",
+            "A4 Sedan 2.0",
+            "A4 Sedan 2.0 TDI",
+            "A4 Sedan 2.0 TDI Design",
+            "A4 Sedan 2.0 TDI Dynamic",
+            "A4 Sedan 2.0 TDI Quattro",
+            "A4 Sedan 2.0 TDI Quattro Design",
+            "A4 Sedan 2.0 TDI Quattro Dynamic",
+            "A4 Sedan 2.0 TDI Quattro Sport",
+            "A4 Sedan 2.0 TDI Sport",
+            "A4 Sedan 2.0 TFSI",
+            "A4 Sedan 2.0 TFSI Quattro",
+            "A4 Sedan 2.5 TDI",
+            "A4 Sedan 2.5 TDI Quattro",
+            "A4 Sedan 2.6",
+            "A4 Sedan 40 TDI Advanced",
+            "A4 Sedan 40 TDI Quattro Advanced",
+            "A4 Sedan 40 TDI Quattro S Line",
+            "A4 Sedan 40 TDI S Line",
+            "A4 Sedan 45 TFSI Quattro Advanced",
+            "A4 Sedan 45 TFSI Quattro Design",
+            "A4 Sedan 45 TFSI Quattro S Line"
+          ]
+        },
+        {
+          "name": "A5",
+          "models": [
+            "A5 Cabrio 2.0 TFSI",
+            "A5 Cabrio 2.0 TFSI Quattro",
+            "A5 Cabrio 4.0 TDI Quattro S Line",
+            "A5 Cabrio 45 TFSI Quattro Advanced",
+            "A5 Cabrio 45 TFSI Quattro S Line",
+            "A5 Coupe 1.4 TFSI Design",
+            "A5 Coupe 1.4 TFSI Sport",
+            "A5 Coupe 1.8 TFSI",
+            "A5 Coupe 2.0 TDI",
+            "A5 Coupe 2.0 TDI Quattro",
+            "A5 Coupe 2.0 TFSI",
+            "A5 Coupe 2.0 TFSI Quattro",
+            "A5 Coupe 40 TDI Quattro S Line",
+            "A5 Coupe 40 TDI Quattro Sport",
+            "A5 Coupe 45 TFSI Quattro S Line",
+            "A5 Sportback 1.4 TFSI",
+            "A5 Sportback 1.4 TFSI Design",
+            "A5 Sportback 1.4 TFSI Dynamic",
+            "A5 Sportback 1.4 TFSI Sport",
+            "A5 Sportback 2.0 TDI",
+            "A5 Sportback 2.0 TDI Quattro",
+            "A5 Sportback 2.0 TDI Quattro Advanced",
+            "A5 Sportback 2.0 TDI Quattro Design",
+            "A5 Sportback 2.0 TDI Quattro Sport",
+            "A5 Sportback 2.0 TFSI",
+            "A5 Sportback 2.0 TFSI Quattro",
+            "A5 Sportback 40 TDI Quattro Advanced",
+            "A5 Sportback 40 TDI Quattro Design",
+            "A5 Sportback 40 TDI Quattro S Line",
+            "A5 Sportback 40 TDI Quattro Sport",
+            "A5 Sportback 45 TFSI Quattro Advanced",
+            "A5 Sportback 45 TFSI Quattro S Line"
+          ]
+        },
+        {
+          "name": "A6",
+          "models": [
+            "A6 Allroad Quattro 2.5 TDI",
+            "A6 Allroad Quattro 2.7 T",
+            "A6 Allroad Quattro 2.7 TDI",
+            "A6 Allroad Quattro 3.0 TDI",
+            "A6 Avant 2.0 TDI",
+            "A6 Avant 2.0 TDI Quattro",
+            "A6 Avant 2.4 Quattro",
+            "A6 Avant 3.0 TDI Quattro",
+            "A6 Avant 40 TDI Quattro Advanced",
+            "A6 Avant 45 TFSI Quattro Design",
+            "A6 Avant 45 TFSI Quattro S Line",
+            "A6 Sedan 1.8 T Advance",
+            "A6 Sedan 1.8 T Quattro",
+            "A6 Sedan 1.8 T Quattro Advance",
+            "A6 Sedan 1.9 TDI",
+            "A6 Sedan 2.0",
+            "A6 Sedan 2.0 TDI",
+            "A6 Sedan 2.0 TDI Quattro",
+            "A6 Sedan 2.0 TFSI",
+            "A6 Sedan 2.0 TFSI Quattro",
+            "A6 Sedan 2.4",
+            "A6 Sedan 2.4 Quattro",
+            "A6 Sedan 2.5 TDI",
+            "A6 Sedan 2.5 TDI Quattro",
+            "A6 Sedan 2.8 Quattro",
+            "A6 Sedan 3.0",
+            "A6 Sedan 3.0 TDI Quattro",
+            "A6 Sedan 3.0 TFSI Quattro",
+            "A6 Sedan 3.2 FSI Quattro",
+            "A6 Sedan 40 TDI Design",
+            "A6 Sedan 40 TDI Quattro Advanced",
+            "A6 Sedan 40 TDI Quattro Design",
+            "A6 Sedan 40 TDI Quattro S Line",
+            "A6 Sedan 40 TDI Quattro Sport",
+            "A6 Sedan 45 TFSI Quattro Advanced",
+            "A6 Sedan 45 TFSI Quattro Design",
+            "A6 Sedan 45 TFSI Quattro S Line",
+            "A6 Sedan 45 TFSI Quattro Sport",
+            "A6 Sedan 50 TDI Quattro Design"
+          ]
+        },
+        {
+          "name": "A7",
+          "models": [
+            "2.0 TFSI",
+            "3.0 TDI",
+            "40 TDI",
+            "40 TDI Quattro",
+            "45 TFSI",
+            "50 TDI"
+          ]
+        },
+        {
+          "name": "A8",
+          "models": [
+            "3.0 TDI Quattro",
+            "3.0 TDI Quattro Long",
+            "4.0 TFSI Quattro",
+            "4.2 Quattro",
+            "4.2 Quattro Long",
+            "50 TDI Quattro Long",
+            "55 TFSI Quattro Long"
+          ]
+        },
+        {
+          "name": "E-Tron GT",
+          "models": [
+            "GT Quattro",
+            "GT RS"
+          ]
+        },
+        {
+          "name": "R8",
+          "models": [
+            "4.2 FSI Quattro R-tronic",
+            "5.2 FSI Quattro R-tronic"
+          ]
+        },
+        {
+          "name": "RS",
+          "models": [
+            "RS6",
+            "RS7"
+          ]
+        },
+        {
+          "name": "S",
+          "models": [
+            "S3 2.0 TFSI Quattro",
+            "S5 4.2 FSI Quattro",
+            "S8 4.0 TFSI Quattro"
+          ]
+        },
+        {
+          "name": "TT",
+          "models": [
+            "1.8 1.8 T",
+            "1.8 T Quattro",
+            "2.0 TFSI",
+            "2.0 TFSI Quattro"
+          ]
+        },
+        {
+          "name": "TTS",
+          "models": [
+            "2.0 TFSI Quattro"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "BMW",
+      "series": [
+        {
+          "name": "1 Serisi",
+          "models": [
+            "116d Comfort",
+            "116d ED EfficientDynamics",
+            "116d ED Joy Plus",
+            "116d ED Sport Line",
+            "116d First Edition M Sport",
+            "116d First Edition Sport Line",
+            "116d Joy",
+            "116d Joy Plus",
+            "116d M Plus",
+            "116d M Sport",
+            "116d One Edition",
+            "116d Premium Line",
+            "116d Sport Line",
+            "116d Sport Plus",
+            "116i Comfort",
+            "116i Joy Edition",
+            "116i M Sport",
+            "116i Premium",
+            "116i Sport Line",
+            "116i Standart",
+            "116i Technology",
+            "116i Urban Line",
+            "118i First Edition M Sport",
+            "118i First Edition Sport Line",
+            "118i Joy",
+            "118i Joy Plus",
+            "118i M Plus",
+            "118i M Sport",
+            "118i One Edition",
+            "118i One Edition M",
+            "118i Premium Line",
+            "118i Pure",
+            "118i Sport Line",
+            "118i Standart",
+            "118i Urban Line",
+            "120d",
+            "120i M Plus",
+            "120i M Sport",
+            "120i Standart",
+            "123d"
+          ]
+        },
+        {
+          "name": "2 Serisi",
+          "models": [
+            "216d Active Tourer Active Tourer",
+            "216d Active Tourer Luxury Line",
+            "216d Gran Coupe First Edition M Sport",
+            "216d Gran Coupe First Edition Sport Line",
+            "216d Gran Coupe M Sport",
+            "216d Gran Coupe Sport Line",
+            "216d Gran Tourer Gran Tourer",
+            "216d Gran Tourer Luxury Line",
+            "218i Active Tourer Active Tourer",
+            "218i Active Tourer Luxury Line",
+            "218i Active Tourer Sport Line",
+            "218i Gran Coupe First Edition M Sport",
+            "218i Gran Coupe First Edition Sport Line",
+            "218i Gran Coupe Luxury Line",
+            "218i Gran Coupe M Sport",
+            "218i Gran Coupe Sport Line",
+            "218i M Sport",
+            "220i Active Tourer M Sport",
+            "230e xDrive Luxury Line"
+          ]
+        },
+        {
+          "name": "3 Serisi",
+          "models": [
+            "316",
+            "316Ci",
+            "316i Comfort",
+            "316i Compact",
+            "316i Luxury Line",
+            "316i M Sport",
+            "316i Modern Line",
+            "316i Premium",
+            "316i Sport",
+            "316i Sport Line",
+            "316i Standart",
+            "316i Techno Plus",
+            "316i Technology",
+            "316ti Compact",
+            "318Ci",
+            "318d M Plus",
+            "318d Premium",
+            "318d Prestige",
+            "318d Sport Plus",
+            "318i 40th Year Edition",
+            "318i Edition Luxury Line",
+            "318i Edition M Sport",
+            "318i Edition Sport Line",
+            "318i M Joy",
+            "318i M Joy Plus",
+            "318i M Sport",
+            "318i Premium Line",
+            "318i Prestige",
+            "318i Sport Plus",
+            "318i Standart",
+            "318is",
+            "318ti Compact",
+            "320Cd",
+            "320Ci",
+            "320d Advantage",
+            "320d Comfort",
+            "320d Edition Comfort",
+            "320d Edition M Sport",
+            "320d Edition Sport Line",
+            "320d GT Luxury",
+            "320d Luxury",
+            "320d M Sport",
+            "320d Modern Line",
+            "320d Premium",
+            "320d Premium Line",
+            "320d Sport",
+            "320d Sport Line",
+            "320d Standart",
+            "320d Techno Plus",
+            "320d Technology",
+            "320d Touring",
+            "320d xDrive Edition M Sport",
+            "320d xDrive GT Gran Tourismo",
+            "320d xDrive GT Luxury",
+            "320d xDrive GT M Sport",
+            "320d xDrive M Sport",
+            "320d xDrive Premium Line",
+            "320d xDrive Prestige",
+            "320d xDrive Sport Line",
+            "320d xDrive Standart",
+            "320d xDrive Techno Plus",
+            "320i",
+            "320i 50th Year M Edition",
+            "320i Cabrio",
+            "320i Coupe",
+            "320i ED 40th Year Edition",
+            "320i ED Joy",
+            "320i ED Luxury Line",
+            "320i ED Luxury Line Plus",
+            "320i ED Luxury M Plus",
+            "320i ED M Plus",
+            "320i ED M Sport",
+            "320i ED Modern Line",
+            "320i ED Modern Line Plus",
+            "320i ED Sport Line",
+            "320i ED Sport Plus",
+            "320i ED Standart",
+            "320i ED Techno Plus",
+            "320i Edition M Sport",
+            "320i Executive M Sport",
+            "320i First Edition Luxury Line",
+            "320i First Edition M Sport",
+            "320i First Edition Sport Line",
+            "320i Luxury Line",
+            "320i M Sport",
+            "320i Premium",
+            "320i Sport Line",
+            "320td Compact",
+            "320xd Techno Plus",
+            "323i",
+            "325Ci",
+            "325i Standart",
+            "325td",
+            "325xi Touring",
+            "328i M Sport",
+            "328i Standart",
+            "330Ci",
+            "330i Standart",
+            "330i xDrive Premium Line",
+            "335i Standart"
+          ]
+        },
+        {
+          "name": "4 Serisi",
+          "models": [
+            "418d M Plus",
+            "418i Gran Coupe Gran Coupe",
+            "418i Gran Coupe Luxury Line",
+            "418i Gran Coupe Luxury Plus",
+            "418i Gran Coupe M Sport",
+            "418i Gran Coupe Prestige",
+            "418i Gran Coupe Sport Line",
+            "418i Gran Coupe Ultimate M Sport",
+            "418i Joy",
+            "418i M Sport",
+            "418i Ultimate M Sport",
+            "420d Gran Coupe M Sport",
+            "420d Luxury Line",
+            "420d M Sport",
+            "420d Sport Line",
+            "420d xDrive Gran Coupe Gran Coupe",
+            "420d xDrive Gran Coupe M Sport",
+            "420d xDrive Gran Coupe Modern Line",
+            "420d xDrive M Sport",
+            "420i Edition M Sport",
+            "420i Gran Coupe 50th Year M Edition",
+            "420i Gran Coupe Edition M Sport",
+            "420i Gran Coupe M Sport",
+            "420i M Sport",
+            "428i xDrive Gran Coupe M Sport",
+            "428i xDrive M Sport",
+            "430i xDrive M Sport"
+          ]
+        },
+        {
+          "name": "5 Serisi",
+          "models": [
+            "518i Standart",
+            "518i Touring",
+            "520Li",
+            "520d Comfort",
+            "520d Dynamic",
+            "520d Exclusive",
+            "520d Executive M Sport",
+            "520d Gran Turismo Luxury Line",
+            "520d Gran Turismo M Sport",
+            "520d Luxury Line",
+            "520d M Sport",
+            "520d Premium",
+            "520d Prestige",
+            "520d Sport",
+            "520d Sport Line",
+            "520d Standart",
+            "520d Touring",
+            "520d xDrive Luxury Line",
+            "520d xDrive M Sport",
+            "520d xDrive Prestige",
+            "520d xDrive Pure",
+            "520d xDrive Special Edition Luxury Line",
+            "520d xDrive Special Edition M Sport",
+            "520i 50th Year M Edition",
+            "520i Comfort",
+            "520i Comfort Plus",
+            "520i Edition M Sport",
+            "520i Executive",
+            "520i Executive Luxury Line",
+            "520i Executive M Sport",
+            "520i Executive Plus",
+            "520i Executive Sport",
+            "520i Luxury Line",
+            "520i M Sport",
+            "520i Modern Line",
+            "520i Premium",
+            "520i Prestige",
+            "520i Special Edition Luxury",
+            "520i Special Edition Luxury Line",
+            "520i Special Edition M Sport",
+            "520i Sport Line",
+            "520i Standart",
+            "520i Touring",
+            "520i Ultimate Luxury",
+            "523i Standart",
+            "525d Standart",
+            "525d xDrive Comfort",
+            "525d xDrive Exclusive",
+            "525d xDrive Executive",
+            "525d xDrive Executive M Sport",
+            "525d xDrive Executive Plus",
+            "525d xDrive M Sport",
+            "525d xDrive Modern Line",
+            "525d xDrive Premium",
+            "525d xDrive xDrive",
+            "525i Standart",
+            "525i xDrive Standart",
+            "525tds Standart",
+            "528i Standart",
+            "530d Comfort",
+            "530d Exclusive",
+            "530d Gran Turismo",
+            "530d M Sport",
+            "530d Standart",
+            "530d xDrive M Sport",
+            "530i Executive Luxury",
+            "530i Executive M",
+            "530i Luxury Line",
+            "530i Standart",
+            "530i xDrive Executive Luxury",
+            "530i xDrive Executive M",
+            "530i xDrive Executive Prestige",
+            "530i xDrive Luxury Line",
+            "530i xDrive M Sport",
+            "530i xDrive Special Edition M Sport",
+            "530i xDrive Touring M Sport",
+            "530xi Standart",
+            "535d xDrive M Sport",
+            "535i",
+            "540i Standart",
+            "540i xDrive Executive M"
+          ]
+        },
+        {
+          "name": "6 Serisi",
+          "models": [
+            "630Ci",
+            "630i Gran Turismo M Sport",
+            "640d Gran Coupe",
+            "640d xDrive M Sport"
+          ]
+        },
+        {
+          "name": "7 Serisi",
+          "models": [
+            "725d Long Pure Excellence",
+            "725d M Excellence",
+            "725d Pure Excellence",
+            "730d Exclusive",
+            "730d Long Exclusive",
+            "730d Long Individual Edition",
+            "730d Long Standart",
+            "730d Standart",
+            "730d xDrive Long Executive Lounge",
+            "730d xDrive M Sport",
+            "730d xDrive Standart",
+            "730i Long Executive Lounge",
+            "730i Long Pure Excellence",
+            "730i M Excellence",
+            "735i Long",
+            "740d",
+            "740d xDrive Long M Excellence",
+            "740d xDrive M Excellence",
+            "740e xDrive Long Executive Lounge",
+            "740i",
+            "740i Long",
+            "745i",
+            "745i Long",
+            "750d xDrive Long Standart",
+            "760i"
+          ]
+        },
+        {
+          "name": "8 Serisi",
+          "models": [
+            "840Ci"
+          ]
+        },
+        {
+          "name": "M Serisi",
+          "models": [
+            "M235i xDrive",
+            "M3",
+            "M3 Cabrio",
+            "M3 Coupe",
+            "M4",
+            "M5",
+            "M5 Competition",
+            "M6"
+          ]
+        },
+        {
+          "name": "Z Serisi",
+          "models": [
+            "Z4 2.0",
+            "Z4 2.0i sDrive",
+            "Z4 3.0i sDrive"
+          ]
+        },
+        {
+          "name": "i Serisi",
+          "models": [
+            "i3",
+            "i4 M50",
+            "i4 eDrive40 Edition M Sport",
+            "i4 eDrive40 M Sport",
+            "i5 M60 xDrive",
+            "i5 eDrive30 M Sport",
+            "i5 xDrive40 Luxury Line",
+            "i5 xDrive40 M Sport",
+            "i7 M Excellence",
+            "i7 xDrive60 M Excellence",
+            "i8 Premium Techno"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "BYD",
+      "series": [
+        {
+          "name": "Dolphin",
+          "models": []
+        },
+        {
+          "name": "Han",
+          "models": []
+        },
+        {
+          "name": "Seal U",
+          "models": []
+        }
+      ]
+    },
+    {
+      "name": "Bentley",
+      "series": [
+        {
+          "name": "Continental",
+          "models": [
+            "Flying Spur",
+            "GT",
+            "GT Speed",
+            "GT Supersports",
+            "GTC"
+          ]
+        },
+        {
+          "name": "Flying Spur",
+          "models": [
+            "6.0"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Buick",
+      "series": [
+        {
+          "name": "Regal",
+          "models": [
+            "3.1"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Cadillac",
+      "series": [
+        {
+          "name": "DeVille",
+          "models": [
+            "4.6 Concours"
+          ]
+        },
+        {
+          "name": "Eldorado",
+          "models": [
+            "4.9 STD"
+          ]
+        },
+        {
+          "name": "Fleetwood",
+          "models": [
+            "5.7"
+          ]
+        },
+        {
+          "name": "Seville",
+          "models": [
+            "4.6 STS",
+            "4.9 STS"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Chery",
+      "series": [
+        {
+          "name": "Alia",
+          "models": [
+            "1.6 Acteco Forza",
+            "1.6 Acteco Lusso",
+            "1.6 Acteco Norma",
+            "1.6L Acteco Forza",
+            "1.6L Acteco Low Spec",
+            "1.6L Acteco Lusso"
+          ]
+        },
+        {
+          "name": "Chance",
+          "models": [
+            "1.6 Norma"
+          ]
+        },
+        {
+          "name": "Kimo",
+          "models": [
+            "1.3 Forza",
+            "1.3 Lusso"
+          ]
+        },
+        {
+          "name": "Niche",
+          "models": [
+            "2.0 Lusso"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Chevrolet",
+      "series": [
+        {
+          "name": "Aveo",
+          "models": [
+            "1.2 LS",
+            "1.2 S",
+            "1.2 SE",
+            "1.2 SX",
+            "1.3 D LS",
+            "1.3 D LT",
+            "1.3 D LTZ",
+            "1.4 LS",
+            "1.4 LT",
+            "1.4 LTZ",
+            "1.4 S",
+            "1.4 SE",
+            "1.4 SX",
+            "1.4 Sport"
+          ]
+        },
+        {
+          "name": "Camaro",
+          "models": [
+            "2.0",
+            "3.6",
+            "3.8",
+            "SS",
+            "Z28"
+          ]
+        },
+        {
+          "name": "Caprice",
+          "models": [
+            "3.6 LTZ"
+          ]
+        },
+        {
+          "name": "Cavalier",
+          "models": [
+            "2.2"
+          ]
+        },
+        {
+          "name": "Corvette",
+          "models": [
+            "C4",
+            "C5",
+            "C6",
+            "C7",
+            "C8",
+            "Z06"
+          ]
+        },
+        {
+          "name": "Cruze",
+          "models": [
+            "1.4 T LT",
+            "1.4 T LTZ",
+            "1.4 T Sport",
+            "1.4 T Sport Plus",
+            "1.6",
+            "1.6 Design Edition",
+            "1.6 Design Edition Plus",
+            "1.6 LS",
+            "1.6 LS Plus",
+            "1.6 LT",
+            "1.6 LT Plus",
+            "1.6 Sport",
+            "1.6 Sport Plus",
+            "1.6 WTCC Edition",
+            "1.6 WTCC Edition Plus",
+            "1.8 T LT",
+            "2.0 D LT",
+            "2.0 D LTZ"
+          ]
+        },
+        {
+          "name": "Epica",
+          "models": [
+            "D LT",
+            "LT"
+          ]
+        },
+        {
+          "name": "Evanda",
+          "models": [
+            "2.0 CDX"
+          ]
+        },
+        {
+          "name": "Kalos",
+          "models": [
+            "1.2 S",
+            "1.2 SE",
+            "1.4 SE",
+            "1.4 SX"
+          ]
+        },
+        {
+          "name": "Lacetti",
+          "models": [
+            "1.4 CDX",
+            "1.4 SE",
+            "1.4 SX",
+            "1.4 WTCC",
+            "1.6 CDX",
+            "1.6 SE",
+            "1.6 SX",
+            "1.6 WTCC",
+            "2.0 D Platinum"
+          ]
+        },
+        {
+          "name": "Lumina",
+          "models": [
+            "3.1"
+          ]
+        },
+        {
+          "name": "Rezzo",
+          "models": [
+            "1.6 SX Comfort"
+          ]
+        },
+        {
+          "name": "Spark",
+          "models": [
+            "0.8 S",
+            "0.8 SE",
+            "1.0",
+            "1.0 SE",
+            "1.2 LS",
+            "1.2 LT",
+            "1.2 LTZ"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Chrysler",
+      "series": [
+        {
+          "name": "300 C",
+          "models": [
+            "2.7",
+            "3.0 CRD",
+            "3.5",
+            "5.7",
+            "6.1 SRT"
+          ]
+        },
+        {
+          "name": "300 M",
+          "models": [
+            "2.7",
+            "3.5"
+          ]
+        },
+        {
+          "name": "Concorde",
+          "models": [
+            "3.5"
+          ]
+        },
+        {
+          "name": "LHS",
+          "models": [
+            "3.5"
+          ]
+        },
+        {
+          "name": "Le Baron",
+          "models": [
+            "3.0"
+          ]
+        },
+        {
+          "name": "Neon",
+          "models": [
+            "2.0 LE"
+          ]
+        },
+        {
+          "name": "PT Cruiser",
+          "models": [
+            "1.6 Classic",
+            "2.0 Limited",
+            "2.4 Limited"
+          ]
+        },
+        {
+          "name": "Sebring",
+          "models": [
+            "2.0 CRD Convertible",
+            "2.0 CRD Limited",
+            "2.7 LX",
+            "2.7 Limited"
+          ]
+        },
+        {
+          "name": "Stratus",
+          "models": [
+            "2.0 LE",
+            "2.0 LX",
+            "2.5 LX",
+            "2.5 Limited"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Citroen",
+      "series": [
+        {
+          "name": "AM?",
+          "models": [
+            "My Ami Pop"
+          ]
+        },
+        {
+          "name": "C-Elysee",
+          "models": [
+            "1.2 PureTech Live",
+            "1.2 VTi Attraction",
+            "1.2 VTi Comfort",
+            "1.2 VTi Exclusive",
+            "1.5 BlueHDi Feel",
+            "1.5 BlueHDi Feel Bold",
+            "1.5 BlueHDi Live",
+            "1.5 BlueHDi Shine",
+            "1.6 BlueHDi Feel",
+            "1.6 BlueHDi Live",
+            "1.6 BlueHDi Shine",
+            "1.6 HDi Attraction",
+            "1.6 HDi Confort",
+            "1.6 HDi Exclusive",
+            "1.6 HDi Feel",
+            "1.6 HDi Live",
+            "1.6 HDi Shine",
+            "1.6 VTi Exclusive"
+          ]
+        },
+        {
+          "name": "C1",
+          "models": [
+            "1.0 Confort",
+            "1.0 SX",
+            "1.0 SX Sensodrive",
+            "1.0 VTi Shine",
+            "1.4 HDi SX"
+          ]
+        },
+        {
+          "name": "C2",
+          "models": [
+            "1.4 HDi SX",
+            "1.4 SX",
+            "1.4 X Pack",
+            "1.6 GT",
+            "1.6 VTR",
+            "1.6 VTS"
+          ]
+        },
+        {
+          "name": "C3",
+          "models": [
+            "1.2 PureTech Elle",
+            "1.2 PureTech Feel",
+            "1.2 PureTech Feel Adventure",
+            "1.2 PureTech Feel Bold",
+            "1.2 PureTech Feel Business",
+            "1.2 PureTech Feel S Edition",
+            "1.2 PureTech Live",
+            "1.2 PureTech SX Edition",
+            "1.2 PureTech Selection",
+            "1.2 PureTech Shine",
+            "1.2 PureTech Shine Business",
+            "1.2 PureTech Shine S Edition",
+            "1.2 VTi Cool",
+            "1.4 Attraction",
+            "1.4 Comfort",
+            "1.4 HDi Attraction",
+            "1.4 HDi Collection",
+            "1.4 HDi Confort",
+            "1.4 HDi Exclusive",
+            "1.4 HDi SX",
+            "1.4 HDi X",
+            "1.4 HDi X Furio",
+            "1.4 SX",
+            "1.4 SensoDrive",
+            "1.4 VTi Collection",
+            "1.4 VTi Confort",
+            "1.4 X Furio",
+            "1.4 e-HDi Confort",
+            "1.5 BlueHDI Feel",
+            "1.6 BlueHDI Feel",
+            "1.6 BlueHDI Live",
+            "1.6 BlueHDI Shine",
+            "1.6 HDi Exclusive",
+            "1.6 HDi SX",
+            "1.6 Pluriel",
+            "1.6 SX",
+            "1.6 VTi Confort",
+            "1.6 VTi Exclusive",
+            "1.6 VTi Feel",
+            "1.6 VTi Shine"
+          ]
+        },
+        {
+          "name": "C3 Picasso",
+          "models": [
+            "1.6 HDi SX",
+            "1.6 e-HDi Confort"
+          ]
+        },
+        {
+          "name": "C4",
+          "models": [
+            "1.2 PureTech Confort",
+            "1.2 PureTech Feel",
+            "1.2 PureTech Feel Bold",
+            "1.2 PureTech Shine",
+            "1.2 PureTech Shine Bold",
+            "1.4 SX",
+            "1.4 VTi Attraction",
+            "1.5 BlueHDi Feel Bold",
+            "1.5 BlueHDi Shine Bold",
+            "1.6 BlueHDi Confort",
+            "1.6 BlueHDi Exclusive",
+            "1.6 BlueHDi Feel",
+            "1.6 Collection",
+            "1.6 HDi Attraction",
+            "1.6 HDi Confort",
+            "1.6 HDi Confort Plus",
+            "1.6 HDi Easy",
+            "1.6 HDi SX",
+            "1.6 HDi SX PK",
+            "1.6 HDi VTRPK",
+            "1.6 SX",
+            "1.6 SX PK",
+            "1.6 VTI Confort",
+            "1.6 VTR",
+            "1.6 VTRPK",
+            "1.6 e-HDi Confort",
+            "1.6 e-HDi Confort Plus",
+            "1.6 e-HDi Exclusive",
+            "2.0 VTS"
+          ]
+        },
+        {
+          "name": "C4 Grand Picasso",
+          "models": [
+            "1.6 BlueHDi Intensive",
+            "1.6 BlueHDi Shine",
+            "1.6 HDi Dynamic",
+            "1.6 HDi SXPK",
+            "1.6 HDi VTRPK",
+            "1.6 e-HDi Dynamic",
+            "1.6 e-HDi Intensive"
+          ]
+        },
+        {
+          "name": "C4 Picasso",
+          "models": [
+            "1.6 BlueHDi Feel",
+            "1.6 BlueHDi Intensive",
+            "1.6 BlueHDi Shine",
+            "1.6 HDi Dynamique",
+            "1.6 HDi SX PK",
+            "1.6 HDi VTR PK",
+            "1.6 THP Exclusive",
+            "1.6 e-HDi Dynamic",
+            "1.6 e-HDi Intensive"
+          ]
+        },
+        {
+          "name": "C4 X",
+          "models": [
+            "1.2 PureTech Feel",
+            "1.2 PureTech Feel Bold",
+            "1.2 PureTech Shine",
+            "1.2 PureTech Shine Bold",
+            "1.5 BlueHDi Feel Bold",
+            "1.5 BlueHDi Shine",
+            "1.5 BlueHDi Shine Bold"
+          ]
+        },
+        {
+          "name": "C5",
+          "models": [
+            "1.6 HDi Confort",
+            "1.6 HDi Dynamique",
+            "1.6 HDi Executive",
+            "1.6 HDi SX",
+            "1.6 HDi SX PK",
+            "1.6 THP Confort",
+            "1.6 THP Dynamique",
+            "1.6 THP Exclusive",
+            "1.6 e-HDi Confort",
+            "1.6 e-HDi Dynamique",
+            "1.6 e-HDi Executive",
+            "2.0 Exclusive",
+            "2.0 HDi Dynamique",
+            "2.0 HDi Exclusive",
+            "2.0 HDi SX",
+            "2.0 SX"
+          ]
+        },
+        {
+          "name": "C8",
+          "models": [
+            "2.0 X",
+            "3.0 SX"
+          ]
+        },
+        {
+          "name": "Evasion",
+          "models": [
+            "1.9 TD SX"
+          ]
+        },
+        {
+          "name": "Saxo",
+          "models": [
+            "1.4 SX",
+            "1.4 VSX",
+            "1.5D SX",
+            "1.5D X",
+            "1.6 SX",
+            "1.6 VTR",
+            "1.6 VTS"
+          ]
+        },
+        {
+          "name": "Xantia",
+          "models": [
+            "1.8 SX",
+            "1.9 TD SX",
+            "2.0 SX"
+          ]
+        },
+        {
+          "name": "Xsara",
+          "models": [
+            "1.4",
+            "1.4 HDi",
+            "1.6 SX",
+            "1.8 SX",
+            "2.0 HDi",
+            "Picasso 1.6 SX",
+            "Picasso 1.8 Exclusive",
+            "Picasso 2.0 HDi"
+          ]
+        },
+        {
+          "name": "ZX",
+          "models": [
+            "1.4 Avantage",
+            "1.4 X",
+            "1.8 SX"
+          ]
+        },
+        {
+          "name": "e-C4",
+          "models": [
+            "Shine Bold"
+          ]
+        },
+        {
+          "name": "e-C4 X",
+          "models": [
+            "1.2 PureTech Max",
+            "Max",
+            "Shine Bold"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Cupra",
+      "series": [
+        {
+          "name": "Born",
+          "models": [
+            "77 kW"
+          ]
+        },
+        {
+          "name": "Leon",
+          "models": [
+            "1.5 eTSI",
+            "2.0 TSI VZ"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "DS Automobiles",
+      "series": [
+        {
+          "name": "DS3",
+          "models": [
+            "1.2 PureTech",
+            "1.6 THP DSport",
+            "1.6 VTi DStyle",
+            "1.6 e-HDi DStyle"
+          ]
+        },
+        {
+          "name": "DS4",
+          "models": [
+            "1.2 PureTech Esprit de Voyage",
+            "1.2 PureTech Performance Line",
+            "1.5 BlueHDi Esprit de Voyage",
+            "1.5 BlueHDi Performance Line",
+            "1.5 BlueHDi Trocadero",
+            "1.6 BlueHDi Standart",
+            "1.6 PureTech Trocadero",
+            "1.6 THP D-Sport",
+            "1.6 VTi D-Style",
+            "1.6 e-HDi D-Sport",
+            "1.6 e-HDi D-Style"
+          ]
+        },
+        {
+          "name": "DS5",
+          "models": [
+            "1.6 BlueHDi So Chic",
+            "1.6 e-HDi DSport"
+          ]
+        },
+        {
+          "name": "DS9",
+          "models": [
+            "1.6 PureTech E-Tense",
+            "1.6 PureTech Opera",
+            "1.6 PureTech Performance Line",
+            "1.6 PureTech Rivoli"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Dacia",
+      "series": [
+        {
+          "name": "1310",
+          "models": [
+            "L"
+          ]
+        },
+        {
+          "name": "Jogger",
+          "models": [
+            "1.0 Eco-G Essential",
+            "1.0 Eco-G Expression",
+            "1.0 Eco-G Extreme",
+            "1.0 Eco-G Seri Limite Extreme",
+            "1.0 TCe Essential",
+            "1.0 TCe Expression",
+            "1.0 TCe Extreme",
+            "1.0 TCe Seri Limite Extreme",
+            "1.6 TCe Extreme"
+          ]
+        },
+        {
+          "name": "Lodgy",
+          "models": [
+            "1.3 TCE Ambiance",
+            "1.5 BlueDCI Ambiance",
+            "1.5 BlueDCI Laureate",
+            "1.5 BlueDCI Stepway",
+            "1.5 dCi Allroad",
+            "1.5 dCi Laureate",
+            "1.5 dCi Stepway",
+            "1.5 dCi Stepway Style",
+            "1.6 SCE Eco-G Ambiance"
+          ]
+        },
+        {
+          "name": "Logan",
+          "models": [
+            "0.9 Tce Ambiance",
+            "1.0 SCE Ambiance",
+            "1.2",
+            "1.2 Ambiance",
+            "1.4",
+            "1.4 Ambiance",
+            "1.4 Black Line",
+            "1.4 Laureate",
+            "1.5 BlueDCI Ambiance",
+            "1.5 dCi Ambiance",
+            "1.5 dCi Black Line",
+            "1.5 dCi Laureate",
+            "1.5 dCi MCV Ambiance",
+            "1.5 dCi MCV Black Line",
+            "1.5 dCi MCV Laureate",
+            "1.6 Ambiance",
+            "1.6 Laureate",
+            "1.6 MCV Ambiance",
+            "1.6 MCV Black Line",
+            "1.6 MCV Laureate",
+            "1.6 Prestige"
+          ]
+        },
+        {
+          "name": "Sandero",
+          "models": [
+            "0.9 ECO-G Turbo Stepway",
+            "0.9 TCe Stepway",
+            "0.9 TCe Stepway Ambiance",
+            "0.9 TCe Stepway Easy-R",
+            "0.9 TCe Stepway Style",
+            "0.9 TCe TechRoad",
+            "0.9 Turbo Stepway",
+            "1.0 Ambiance",
+            "1.0 Stepway",
+            "1.0 Tce Comfort",
+            "1.0 Tce Essential",
+            "1.0 Tce Extreme",
+            "1.0 Tce Prestige",
+            "1.0T ECO-G Comfort",
+            "1.2 Ambiance",
+            "1.2 Black Line",
+            "1.4 Ambiance",
+            "1.4 Black Line",
+            "1.4 Laureate",
+            "1.5 BlueDCI Ambiance",
+            "1.5 BlueDCI Stepway",
+            "1.5 dCi Ambiance",
+            "1.5 dCi Black Line",
+            "1.5 dCi Stepway",
+            "1.5 dCi Stepway Style",
+            "1.6 Laureate",
+            "1.6 Stepway"
+          ]
+        },
+        {
+          "name": "Solenza",
+          "models": [
+            "1.4 Comfort",
+            "1.4 Prima",
+            "1.4 Rapsodie",
+            "1.4 Scala"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Daewoo",
+      "series": [
+        {
+          "name": "Chairman",
+          "models": [
+            "600 L"
+          ]
+        },
+        {
+          "name": "Espero",
+          "models": [
+            "1.5i GL",
+            "1.8i",
+            "1.8i CD",
+            "2.0i"
+          ]
+        },
+        {
+          "name": "Lanos",
+          "models": [
+            "1.3 S",
+            "1.5 SE",
+            "1.5 SX",
+            "1.6 SX"
+          ]
+        },
+        {
+          "name": "Leganza",
+          "models": [
+            "2.0 CDX",
+            "2.0 SX"
+          ]
+        },
+        {
+          "name": "Matiz",
+          "models": [
+            "0.8 SE"
+          ]
+        },
+        {
+          "name": "Nexia",
+          "models": [
+            "1.5 GL",
+            "1.5 GLE",
+            "1.5 GLX",
+            "1.5 GTX"
+          ]
+        },
+        {
+          "name": "Nubira",
+          "models": [
+            "1.6 S",
+            "1.6 SX",
+            "2.0 CDX"
+          ]
+        },
+        {
+          "name": "Racer",
+          "models": [
+            "1.5i"
+          ]
+        },
+        {
+          "name": "Super Saloon",
+          "models": [
+            "2.0"
+          ]
+        },
+        {
+          "name": "Tico",
+          "models": [
+            "0.8 SL",
+            "0.8 SX"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Daihatsu",
+      "series": [
+        {
+          "name": "Applause",
+          "models": [
+            "1.6 Li",
+            "1.6 X",
+            "1.6 Xi"
+          ]
+        },
+        {
+          "name": "Charade",
+          "models": [
+            "1.3 1.3i",
+            "1.3 CX"
+          ]
+        },
+        {
+          "name": "Cuore",
+          "models": [
+            "0.9 GL",
+            "0.9 GLX",
+            "1.0 High Grade",
+            "1.0 Low Grade",
+            "1.0 Thrifty"
+          ]
+        },
+        {
+          "name": "Materia",
+          "models": [
+            "1.5 Gold"
+          ]
+        },
+        {
+          "name": "Move",
+          "models": [
+            "1.5 Gran Move"
+          ]
+        },
+        {
+          "name": "Sirion",
+          "models": [
+            "1.0",
+            "1.3",
+            "1.3 Sporty",
+            "1.3 Touring",
+            "1.5 Sporty"
+          ]
+        },
+        {
+          "name": "YRV",
+          "models": [
+            "1.3 Plus"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Dodge",
+      "series": [
+        {
+          "name": "Challenger",
+          "models": [
+            "SE",
+            "SRT8",
+            "SXT Plus"
+          ]
+        },
+        {
+          "name": "Charger",
+          "models": [
+            "3.6"
+          ]
+        },
+        {
+          "name": "Spirit",
+          "models": [
+            "2.2"
+          ]
+        },
+        {
+          "name": "Viper",
+          "models": [
+            "SRT-10"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Ferrari",
+      "series": [
+        {
+          "name": "348",
+          "models": [
+            "GTS"
+          ]
+        },
+        {
+          "name": "360",
+          "models": [
+            "Modena F1"
+          ]
+        },
+        {
+          "name": "430",
+          "models": [
+            "F430",
+            "F430 Spider"
+          ]
+        },
+        {
+          "name": "458",
+          "models": [
+            "Italia",
+            "Spider"
+          ]
+        },
+        {
+          "name": "599",
+          "models": [
+            "GTB"
+          ]
+        },
+        {
+          "name": "California",
+          "models": [
+            "4.3"
+          ]
+        },
+        {
+          "name": "F8",
+          "models": [
+            "Tributo"
+          ]
+        },
+        {
+          "name": "SF90",
+          "models": [
+            "Stradale 4.0"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Fiat",
+      "series": [
+        {
+          "name": "126 Bis",
+          "models": [
+            "126"
+          ]
+        },
+        {
+          "name": "500 Ailesi",
+          "models": [
+            "500 1.2 Lounge",
+            "500 1.2 Popstar",
+            "500C 1.2 Gucci",
+            "500E La Prima",
+            "500L 1.3 Mjet Beats Edition",
+            "500L 1.3 Mjet Lounge",
+            "500L 1.3 Mjet Panoramic Edition",
+            "500L 1.3 Mjet Pop",
+            "500L 1.3 Mjet PopStar",
+            "500L 1.3 Mjet RockStar",
+            "500L 1.4 Fire Mirror",
+            "500L 1.4 PopStar",
+            "500L 1.6 Mjet Lounge",
+            "500L 1.6 Mjet Panoramic Edition"
+          ]
+        },
+        {
+          "name": "Albea",
+          "models": [
+            "1.2 Active",
+            "1.2 Dynamic",
+            "1.2 EL",
+            "1.2 HL",
+            "1.2 SL",
+            "1.3 Multijet Active",
+            "1.3 Multijet Dynamic",
+            "1.3 Multijet EL",
+            "1.3 Multijet SL",
+            "1.4 Fire Active",
+            "1.4 Fire Dynamic",
+            "1.6 Dynamic",
+            "1.6 HL",
+            "Sole 1.3 Multijet Active",
+            "Sole 1.3 Multijet Active Plus",
+            "Sole 1.3 Multijet Dynamic",
+            "Sole 1.3 Multijet Dynamic Plus",
+            "Sole 1.3 Multijet Premio",
+            "Sole 1.3 Multijet Premio Plus",
+            "Sole 1.4 Fire Active",
+            "Sole 1.4 Fire Active Plus",
+            "Sole 1.4 Fire Dynamic",
+            "Sole 1.4 Fire Premio"
+          ]
+        },
+        {
+          "name": "Brava",
+          "models": [
+            "1.6 ELX",
+            "1.6 SX"
+          ]
+        },
+        {
+          "name": "Bravo",
+          "models": [
+            "1.4 Active Plus",
+            "1.4 T-Jet Active Plus",
+            "1.4 T-Jet Dynamic",
+            "1.4 T-Jet Dynamic Plus",
+            "1.6 Mjet Active Plus",
+            "1.6 Mjet Dynamic",
+            "1.6 Mjet Dynamic Plus",
+            "1.6 Mjet Sports Style",
+            "1.6 SX"
+          ]
+        },
+        {
+          "name": "Egea",
+          "models": [
+            "1.0 Firefly Lounge",
+            "1.0 Firefly Urban",
+            "1.3 Multijet Easy",
+            "1.3 Multijet Easy Plus",
+            "1.3 Multijet Easy Stil",
+            "1.3 Multijet Lounge",
+            "1.3 Multijet Street",
+            "1.3 Multijet Urban",
+            "1.3 Multijet Urban Plus",
+            "1.4 Fire Easy",
+            "1.4 Fire Easy Plus",
+            "1.4 Fire Easy Stil",
+            "1.4 Fire Limited",
+            "1.4 Fire Lounge",
+            "1.4 Fire Lounge Plus",
+            "1.4 Fire Mirror",
+            "1.4 Fire Street",
+            "1.4 Fire Urban",
+            "1.4 Fire Urban Plus",
+            "1.5 T4 Easy",
+            "1.6 E-Torq Easy",
+            "1.6 E-Torq Easy Plus",
+            "1.6 E-Torq Lounge",
+            "1.6 E-Torq Lounge Plus",
+            "1.6 E-Torq Street",
+            "1.6 E-Torq Urban",
+            "1.6 E-Torq Urban Plus",
+            "1.6 Multijet Comfort",
+            "1.6 Multijet Easy",
+            "1.6 Multijet Easy Plus",
+            "1.6 Multijet Limited",
+            "1.6 Multijet Lounge",
+            "1.6 Multijet Lounge Plus",
+            "1.6 Multijet Mirror",
+            "1.6 Multijet Street",
+            "1.6 Multijet Urban",
+            "1.6 Multijet Urban Plus"
+          ]
+        },
+        {
+          "name": "Idea",
+          "models": [
+            "1.3 Multijet Active",
+            "1.3 Multijet Dynamic",
+            "1.4 Active",
+            "1.4 Dynamic"
+          ]
+        },
+        {
+          "name": "Linea",
+          "models": [
+            "1.3 Multijet Active",
+            "1.3 Multijet Active Plus",
+            "1.3 Multijet Actual",
+            "1.3 Multijet Actual Plus",
+            "1.3 Multijet Dynamic",
+            "1.3 Multijet Easy",
+            "1.3 Multijet Emotion",
+            "1.3 Multijet Emotion Plus",
+            "1.3 Multijet Lounge",
+            "1.3 Multijet Pop",
+            "1.3 Multijet Urban",
+            "1.4 Fire Active",
+            "1.4 Fire Active Plus",
+            "1.4 Fire Actual",
+            "1.4 Fire Actual Plus",
+            "1.4 Fire Dynamic",
+            "1.4 Fire Easy",
+            "1.4 Fire Pop",
+            "1.4 Turbo Active Plus",
+            "1.4 Turbo Dynamic",
+            "1.4 Turbo Emotion",
+            "1.6 Multijet Active Plus",
+            "1.6 Multijet Dynamic",
+            "1.6 Multijet Dynamic Plus",
+            "1.6 Multijet Easy",
+            "1.6 Multijet Emotion",
+            "1.6 Multijet Emotion Plus",
+            "1.6 Multijet Lounge",
+            "1.6 Multijet Urban"
+          ]
+        },
+        {
+          "name": "Marea",
+          "models": [
+            "1.6 ELX",
+            "1.6 Exclusive",
+            "1.6 Liberty",
+            "1.6 SX",
+            "1.9 JTD",
+            "2.0 HLX"
+          ]
+        },
+        {
+          "name": "Palio",
+          "models": [
+            "1.2 Active",
+            "1.2 Dynamic",
+            "1.2 Dynamic Speedgear",
+            "1.2 EL",
+            "1.2 EL Speedgear",
+            "1.2 EL Weekend",
+            "1.2 Feel",
+            "1.2 Go",
+            "1.2 HL",
+            "1.2 S",
+            "1.2 S Weekend",
+            "1.2 SL",
+            "1.3 Multijet Active",
+            "1.3 Multijet Active Sole",
+            "1.3 Multijet Dynamic",
+            "1.3 Multijet EL",
+            "1.3 Multijet SL",
+            "1.4 EL",
+            "1.4 EL Weekend",
+            "1.4 Fire Active",
+            "1.4 Fire Active Sole",
+            "1.4 Fire Dynamic",
+            "1.4 Fire Premio Sole",
+            "1.4 HL",
+            "1.4 RT",
+            "1.6 HL",
+            "1.6 HL Weekend"
+          ]
+        },
+        {
+          "name": "Panda",
+          "models": [
+            "0.9 TwinAir Pop",
+            "1.2 Active",
+            "1.2 Dynamic"
+          ]
+        },
+        {
+          "name": "Punto",
+          "models": [
+            "1.2 Dynamic",
+            "1.2 Pop",
+            "1.3 Multijet Dynamic",
+            "1.3 Multijet Easy",
+            "1.3 Multijet Lounge",
+            "1.3 Multijet Pop",
+            "1.3 Multijet Popstar",
+            "1.3 Multijet Shine",
+            "1.4 Dynamic",
+            "1.4 Easy S&S",
+            "1.4 Lounge S&S",
+            "1.4 Mair Lounge S&S",
+            "1.4 Pop S&S",
+            "1.4 Popstar S&S",
+            "1.4 Shine",
+            "1.4 Urban S&S",
+            "EVO 1.2 Active",
+            "EVO 1.3 Multijet Active",
+            "EVO 1.3 Multijet Dynamic",
+            "EVO 1.3 Multijet My Life",
+            "EVO 1.4 Active",
+            "EVO 1.4 Dynamic",
+            "EVO 1.4 Fire Dynamic",
+            "Grande 1.3 Multijet 1.3 Multijet",
+            "Grande 1.3 Multijet Active",
+            "Grande 1.3 Multijet Dynamic",
+            "Grande 1.3 Multijet Emotion",
+            "Grande 1.3 Multijet Fun",
+            "Grande 1.4 Fire Active",
+            "Grande 1.4 Fire Dynamic",
+            "Grande 1.4 Fire Fun",
+            "Grande 1.4 Fire S&S",
+            "Grande 1.4 Starjet Fun"
+          ]
+        },
+        {
+          "name": "Siena",
+          "models": [
+            "1.2 EL",
+            "1.2 S",
+            "1.4 EL",
+            "1.6 HL"
+          ]
+        },
+        {
+          "name": "Stilo",
+          "models": [
+            "1.2 Active",
+            "1.4 Active",
+            "1.6 Actual",
+            "1.6 Dynamic",
+            "1.6 Dynamic MultiWagon",
+            "1.9 JTD Dynamic"
+          ]
+        },
+        {
+          "name": "Tempra",
+          "models": [
+            "1.6 S",
+            "1.6 SX",
+            "1.6 SX A",
+            "1.6 SX AK",
+            "1.6 SX AK SW",
+            "1.6 SX SW",
+            "1.6 ie",
+            "1.6 ie SLX",
+            "2.0 ie SW",
+            "2.0 ie SX"
+          ]
+        },
+        {
+          "name": "Tipo",
+          "models": [
+            "1.4 S",
+            "1.4 SX",
+            "1.4 SX ie",
+            "1.4 ie",
+            "1.4 ie S",
+            "1.6 CTX",
+            "1.6 S",
+            "1.6 SLX",
+            "1.6 SLX ie",
+            "1.6 SX",
+            "1.6 ie",
+            "2.0 ie"
+          ]
+        },
+        {
+          "name": "Topolino",
+          "models": []
+        },
+        {
+          "name": "Uno",
+          "models": [
+            "1.4 ie",
+            "1.4 ie Hobby",
+            "1.4 ie SX",
+            "60 S",
+            "70 S",
+            "70 SX",
+            "70 SXie"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Ford",
+      "series": [
+        {
+          "name": "B-Max",
+          "models": [
+            "1.4 Titanium",
+            "1.5 TDCi Titanium",
+            "1.5 TDCi Trend",
+            "1.6 TDCi Titanium",
+            "1.6 TDCi Trend",
+            "1.6 Titanium"
+          ]
+        },
+        {
+          "name": "C-Max",
+          "models": [
+            "1.5 TDCi Titanium",
+            "1.5 Titanium",
+            "1.6 Ghia",
+            "1.6 SCTi Titanium",
+            "1.6 SCTi Titanium Grand",
+            "1.6 TDCi Ghia",
+            "1.6 TDCi Titanium",
+            "1.6 TDCi Titanium Grand",
+            "1.6 TDCi Titanium X",
+            "1.6 TDCi Trend",
+            "1.6 Trend",
+            "1.8 TDCi Trend"
+          ]
+        },
+        {
+          "name": "Escort",
+          "models": [
+            "1.3 CL",
+            "1.6 CL",
+            "1.6 CLX",
+            "1.6 Ghia",
+            "1.8 CLX",
+            "1.8 Ghia",
+            "1.8 XR3i"
+          ]
+        },
+        {
+          "name": "Fiesta",
+          "models": [
+            "1.0 EcoBoost Hybrid Titanium",
+            "1.0 GTDi Titanium",
+            "1.0 GTDi Titanium X",
+            "1.0 Style",
+            "1.0 Titanium",
+            "1.0 Trend",
+            "1.1 Style",
+            "1.25 Flair",
+            "1.25 Fun",
+            "1.25 Ghia",
+            "1.25 My Fiesta",
+            "1.25 Trend",
+            "1.25 Trend X",
+            "1.4 Collection",
+            "1.4 Comfort",
+            "1.4 Cool",
+            "1.4 Fun",
+            "1.4 Ghia",
+            "1.4 My Fiesta",
+            "1.4 TDCi Collection",
+            "1.4 TDCi Comfort",
+            "1.4 TDCi Cool",
+            "1.4 TDCi My Fiesta",
+            "1.4 TDCi Sport",
+            "1.4 TDCi Titanium",
+            "1.4 TDCi Titanium X",
+            "1.4 TDCi Trend",
+            "1.4 Titanium",
+            "1.4 Titanium X",
+            "1.4 Trend",
+            "1.5 TDCi Titanium",
+            "1.5 TDCi Titanium X",
+            "1.5 TDCi Trend",
+            "1.5 TDCi Trend X",
+            "1.6 Collection",
+            "1.6 Comfort",
+            "1.6 Sport",
+            "1.6 TDCi Ghia",
+            "1.6 TDCi Titanium",
+            "1.6 Ti-VCT Titanium",
+            "1.6 Ti-VCT Trend X",
+            "1.6 Titanium",
+            "1.6 Trend",
+            "1.6 Trend X"
+          ]
+        },
+        {
+          "name": "Focus",
+          "models": [
+            "1.0 EcoBoost Active Stil",
+            "1.0 EcoBoost Active X",
+            "1.0 EcoBoost ST Line",
+            "1.0 EcoBoost Titanium Stil",
+            "1.0 EcoBoost Titanium X",
+            "1.0 GTDi Style",
+            "1.0 GTDi Titanium",
+            "1.0 GTDi Trend X",
+            "1.4 Comfort",
+            "1.5 TDCi Active",
+            "1.5 TDCi Active Stil",
+            "1.5 TDCi Active X",
+            "1.5 TDCi ST Line",
+            "1.5 TDCi Style",
+            "1.5 TDCi Titanium",
+            "1.5 TDCi Titanium Stil",
+            "1.5 TDCi Titanium X",
+            "1.5 TDCi Trend X",
+            "1.5 Ti-VCT Titanium",
+            "1.5 Ti-VCT Trend X",
+            "1.6 Ambiente",
+            "1.6 Collection",
+            "1.6 Comfort",
+            "1.6 Ghia",
+            "1.6 SCTi Titanium",
+            "1.6 TDCi Collection",
+            "1.6 TDCi Comfort",
+            "1.6 TDCi Ghia",
+            "1.6 TDCi Style",
+            "1.6 TDCi Titanium",
+            "1.6 TDCi Titanium X",
+            "1.6 TDCi Trend",
+            "1.6 TDCi Trend X",
+            "1.6 Ti-VCT Collection",
+            "1.6 Ti-VCT Style",
+            "1.6 Ti-VCT Style Plus",
+            "1.6 Ti-VCT Titanium",
+            "1.6 Ti-VCT Titanium X",
+            "1.6 Ti-VCT Trend",
+            "1.6 Ti-VCT Trend X",
+            "1.6 Titanium",
+            "1.6 Trend",
+            "1.6 Trend X",
+            "1.8 TDCi Comfort",
+            "1.8 TDCi Ghia",
+            "2.0 Ghia",
+            "2.0 Sport Trend",
+            "2.0 TDCi WRC"
+          ]
+        },
+        {
+          "name": "Fusion",
+          "models": [
+            "1.4 TDCi 5K",
+            "1.4 TDCi Collection",
+            "1.4 TDCi Comfort",
+            "1.4 TDCi Comfort ASM",
+            "1.6",
+            "1.6 Comfort",
+            "1.6 Lux",
+            "1.6 TDCi Lux"
+          ]
+        },
+        {
+          "name": "Galaxy",
+          "models": [
+            "1.9 TDI",
+            "2.0 TDCI Ghia"
+          ]
+        },
+        {
+          "name": "Grand C-Max",
+          "models": [
+            "1.6 TDCI Titanium"
+          ]
+        },
+        {
+          "name": "Ka",
+          "models": [
+            "1.2 Titanium",
+            "1.3",
+            "1.3 City",
+            "1.3 Collection"
+          ]
+        },
+        {
+          "name": "Mondeo",
+          "models": [
+            "1.5 Ecoboost Titanium",
+            "1.5 Style",
+            "1.5 Titanium",
+            "1.6 Ecoboost Selective",
+            "1.6 Selective",
+            "1.6 TDCi Style",
+            "1.6 TDCi Titanium",
+            "1.6 TDCi Trend",
+            "1.6 Titanium",
+            "1.6 Trend",
+            "2.0 EcoBoost Titanium",
+            "2.0 GLX",
+            "2.0 Ghia",
+            "2.0 Selective",
+            "2.0 TDCi Ghia",
+            "2.0 TDCi Selective",
+            "2.0 TDCi Titanium",
+            "2.0 TDCi Trend",
+            "2.0 Trend"
+          ]
+        },
+        {
+          "name": "Mustang",
+          "models": [
+            "2.3 Convertible",
+            "2.3 Fastback",
+            "3.8",
+            "4.6 GT"
+          ]
+        },
+        {
+          "name": "Probe",
+          "models": [
+            "3.0 V6"
+          ]
+        },
+        {
+          "name": "Scorpio",
+          "models": [
+            "2.0 GL"
+          ]
+        },
+        {
+          "name": "Sierra",
+          "models": [
+            "2.0 GL",
+            "2.0 GLS"
+          ]
+        },
+        {
+          "name": "Taunus",
+          "models": [
+            "1.3 L",
+            "1.6 GL",
+            "1.6 GT",
+            "1.6 GXL",
+            "1.6 S",
+            "2.0 GTS"
+          ]
+        },
+        {
+          "name": "Taurus",
+          "models": [
+            "3.0 V6 GL"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Geely",
+      "series": [
+        {
+          "name": "Echo",
+          "models": [
+            "1.3 Basic",
+            "1.3 Comfort"
+          ]
+        },
+        {
+          "name": "Emgrand",
+          "models": [
+            "1.5 GSL",
+            "1.5 GSL Basic",
+            "1.5 GSL Premium",
+            "1.5 GSL Premium SR"
+          ]
+        },
+        {
+          "name": "FC",
+          "models": [
+            "1.5 GSL"
+          ]
+        },
+        {
+          "name": "Familia",
+          "models": [
+            "1.5 Comfort"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Honda",
+      "series": [
+        {
+          "name": "Accord",
+          "models": [
+            "1.5 VTEC Executive",
+            "1.5 VTEC Executive Plus",
+            "1.6 LS",
+            "1.8 LS",
+            "2.0",
+            "2.0 ES",
+            "2.0 EX",
+            "2.0 Executive",
+            "2.0 LS",
+            "2.0 Sport",
+            "2.2 CTDi",
+            "2.4 Executive"
+          ]
+        },
+        {
+          "name": "CR-Z",
+          "models": [
+            "GT",
+            "Sport"
+          ]
+        },
+        {
+          "name": "CRX",
+          "models": [
+            "1.6 VTi"
+          ]
+        },
+        {
+          "name": "City",
+          "models": [
+            "1.4 Comfort",
+            "1.4 ES",
+            "1.4 Elite",
+            "1.4 LS",
+            "1.4 Sport",
+            "1.5 i-VTEC Elegance",
+            "1.5 i-VTEC Executive"
+          ]
+        },
+        {
+          "name": "Civic",
+          "models": [
+            "1.4 1.4i",
+            "1.4 Comfort",
+            "1.4 Hybrid",
+            "1.4 L",
+            "1.4 LS",
+            "1.4 S",
+            "1.4 Sport",
+            "1.4 i S",
+            "1.5 EL",
+            "1.5 EX",
+            "1.5 GL",
+            "1.5 i-VTEC Eco Elegance",
+            "1.5 i-VTEC Eco Elegance Plus",
+            "1.5 i-VTEC Eco Executive Plus",
+            "1.5 i-VTEC Eco Premium",
+            "1.5 i-VTEC Elegance",
+            "1.5 i-VTEC Executive Plus",
+            "1.5 i-VTEC RS",
+            "1.5 i-VTEC Sport",
+            "1.5 i-VTEC Sport Plus",
+            "1.6 1.6i",
+            "1.6 Dream",
+            "1.6 Elegance",
+            "1.6 LS",
+            "1.6 Premium",
+            "1.6 Si",
+            "1.6 Sport",
+            "1.6 VTi",
+            "1.6 i ES",
+            "1.6 i LS",
+            "1.6 i-DTEC Comfort",
+            "1.6 i-DTEC Elegance",
+            "1.6 i-DTEC Executive",
+            "1.6 i-DTEC Executive Plus",
+            "1.6 i-DTEC Sport",
+            "1.6 i-VTEC Black Edition",
+            "1.6 i-VTEC Dream",
+            "1.6 i-VTEC ECO Elegance",
+            "1.6 i-VTEC ES",
+            "1.6 i-VTEC Eco Executive",
+            "1.6 i-VTEC Eco Premium",
+            "1.6 i-VTEC Elegance",
+            "1.6 i-VTEC Executive",
+            "1.6 i-VTEC LS",
+            "1.6 i-VTEC LS Elegance",
+            "1.6 i-VTEC Premium",
+            "1.8 Executive",
+            "1.8 Sport",
+            "1.8 Type-S",
+            "2.0 Type-R"
+          ]
+        },
+        {
+          "name": "Integra",
+          "models": [
+            "1.6 VTi"
+          ]
+        },
+        {
+          "name": "Jazz",
+          "models": [
+            "1.3 Elegance",
+            "1.4 ES",
+            "1.4 ES Elite",
+            "1.4 Fun",
+            "1.4 Joy",
+            "1.4 LS",
+            "1.4 LS Sport",
+            "1.5 Dynamic",
+            "1.5 Hybrid Elegance"
+          ]
+        },
+        {
+          "name": "Legend",
+          "models": [
+            "2.7",
+            "3.5"
+          ]
+        },
+        {
+          "name": "Prelude",
+          "models": [
+            "2.0 2.0i",
+            "2.2 VTi"
+          ]
+        },
+        {
+          "name": "S2000",
+          "models": [
+            "2.0 Vtec"
+          ]
+        },
+        {
+          "name": "Shuttle",
+          "models": [
+            "2.2 ES"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Hyundai",
+      "series": [
+        {
+          "name": "Accent",
+          "models": [
+            "1.3 1.3i L",
+            "1.3 Admire",
+            "1.3 GL Active",
+            "1.3 GLS",
+            "1.3 GLS Active",
+            "1.3 LS",
+            "1.3 LX",
+            "1.3 LX Allegro",
+            "1.5 1.5i GL",
+            "1.5 1.5i GLS",
+            "1.5 CRDi Admire",
+            "1.5 CRDi GLS",
+            "1.5 CRDi LS",
+            "1.5 GL",
+            "1.5 GLS",
+            "1.5 GLX",
+            "1.5 GT",
+            "1.5 LS",
+            "1.6 Admire"
+          ]
+        },
+        {
+          "name": "Accent Blue",
+          "models": [
+            "1.4 CVVT Biz",
+            "1.4 CVVT Mode",
+            "1.4 CVVT Mode Plus",
+            "1.4 CVVT Prime",
+            "1.4 D-CVVT Biz",
+            "1.4 D-CVVT Mode",
+            "1.4 D-CVVT Mode Plus",
+            "1.4 D-CVVT Prime",
+            "1.6 CRDI Biz",
+            "1.6 CRDI Mode",
+            "1.6 CRDI Mode Plus",
+            "1.6 CRDI Prime"
+          ]
+        },
+        {
+          "name": "Accent Era",
+          "models": [
+            "1.4 Expo Gold",
+            "1.4 Mode",
+            "1.4 Select",
+            "1.4 Start",
+            "1.4 Team",
+            "1.5 CRDi Mode",
+            "1.5 CRDi Prime",
+            "1.5 CRDi Select",
+            "1.5 CRDi Start",
+            "1.5 CRDi Style",
+            "1.5 CRDi Team",
+            "1.5 CRDi-VGT Select",
+            "1.5 CRDi-VGT Start",
+            "1.5 CRDi-VGT Style",
+            "1.5 CRDi-VGT Team",
+            "1.6 Select",
+            "1.6 Style",
+            "1.6 Style Sport",
+            "1.6 Team"
+          ]
+        },
+        {
+          "name": "Atos",
+          "models": [
+            "1.0 GL",
+            "1.0 GLS",
+            "1.1 GLS"
+          ]
+        },
+        {
+          "name": "Coupe",
+          "models": [
+            "1.6 FX"
+          ]
+        },
+        {
+          "name": "Elantra",
+          "models": [
+            "1.6 CRDi Elite",
+            "1.6 CRDi Elite Plus",
+            "1.6 CRDi Style",
+            "1.6 CRDi Style Plus",
+            "1.6 D-CVVT Mode",
+            "1.6 D-CVVT Mode Plus",
+            "1.6 D-CVVT Prime Plus",
+            "1.6 D-CVVT Style",
+            "1.6 D-CVVT Tune",
+            "1.6 Elegance",
+            "1.6 GLS",
+            "1.6 MPI Elite",
+            "1.6 MPI Prime",
+            "1.6 MPI Smart",
+            "1.6 MPI Style",
+            "1.6 MPI Style Comfort",
+            "1.6 MPI Style Plus",
+            "1.8 GLS",
+            "1.8 GT",
+            "2.0 GLS"
+          ]
+        },
+        {
+          "name": "Excel",
+          "models": [
+            "1.5 GLS",
+            "1.5 LS"
+          ]
+        },
+        {
+          "name": "Genesis",
+          "models": [
+            "2.0L TCI"
+          ]
+        },
+        {
+          "name": "Getz",
+          "models": [
+            "1.3 GL",
+            "1.3 GL Active",
+            "1.3 GLS",
+            "1.3 GLS Style",
+            "1.4 DOHC AB AC",
+            "1.4 DOHC HY KLM",
+            "1.4 DOHC Start",
+            "1.5 CRDi Active",
+            "1.5 CRDi Classic",
+            "1.5 CRDi Comfort Plus",
+            "1.5 CRDi GL Active",
+            "1.5 CRDi GL Cool",
+            "1.5 CRDi GLS",
+            "1.5 CRDi Start",
+            "1.5 CRDi VGT",
+            "1.5 CRDi VGT Start",
+            "1.5 VGT HY KLM",
+            "1.5 VGT Start"
+          ]
+        },
+        {
+          "name": "Ioniq",
+          "models": [
+            "1.6 GDI Hybrid Elite Plus",
+            "1.6 GDI Hybrid Progressive",
+            "6"
+          ]
+        },
+        {
+          "name": "Matrix",
+          "models": [
+            "1.5 CRDi GLS",
+            "1.5 CRDi Select",
+            "1.5 CRDi Start",
+            "1.5 CRDi Style",
+            "1.5 CRDi Team",
+            "1.5 CRDi VGT GLS",
+            "1.6 GL",
+            "1.6 GLS",
+            "1.6 Select",
+            "1.6 Team"
+          ]
+        },
+        {
+          "name": "Sonata",
+          "models": [
+            "2.0 CRDi H-Matic",
+            "2.0 CRDi Style",
+            "2.0 CRDi Style Plus",
+            "2.0 GLS",
+            "2.4 GLS"
+          ]
+        },
+        {
+          "name": "i10",
+          "models": [
+            "1.0 D-CVVT Elite Navi",
+            "1.0 D-CVVT Jump",
+            "1.0 D-CVVT Style",
+            "1.1 Select",
+            "1.1 Team",
+            "1.2 D-CVVT Elite",
+            "1.2 MPI Elite",
+            "1.2 MPI Style"
+          ]
+        },
+        {
+          "name": "i20",
+          "models": [
+            "1.0 T-GDI Elite",
+            "1.0 T-GDI Elite Smart",
+            "1.0 T-GDI Jump",
+            "1.0 T-GDI Style",
+            "1.0 T-GDI Style Design Pack",
+            "1.0 T-GDI Style Plus",
+            "1.2 D-CVVT Jump",
+            "1.2 D-CVVT Sense",
+            "1.2 MPI Elite",
+            "1.2 MPI Jump",
+            "1.2 MPI Style",
+            "1.2 MPI Team",
+            "1.4 CRDi Elite",
+            "1.4 CRDi Elite Smart",
+            "1.4 CRDi Jump",
+            "1.4 CRDi Select",
+            "1.4 CRDi Sense",
+            "1.4 CRDi Style",
+            "1.4 CRDi Team",
+            "1.4 CVVT Elite",
+            "1.4 CVVT Jump",
+            "1.4 CVVT Select",
+            "1.4 CVVT Sense",
+            "1.4 CVVT Style",
+            "1.4 CVVT Team",
+            "1.4 MPI Elite",
+            "1.4 MPI Elite Plus",
+            "1.4 MPI Elite Smart",
+            "1.4 MPI Jump",
+            "1.4 MPI Style",
+            "1.4 MPI Style Plus"
+          ]
+        },
+        {
+          "name": "i20 Active",
+          "models": [
+            "1.4 MPi Elite"
+          ]
+        },
+        {
+          "name": "i20 N",
+          "models": [
+            "1.6 T-GDI"
+          ]
+        },
+        {
+          "name": "i20 Troy",
+          "models": [
+            "1.2 DOHC Mode",
+            "1.2 DOHC Team",
+            "1.2 Mode",
+            "1.4 CRDi Mode",
+            "1.4 CRDi Team",
+            "1.4 CVVT Mode",
+            "1.4 CVVT Prime",
+            "1.4 CVVT Prime Plus",
+            "1.4 CVVT Team"
+          ]
+        },
+        {
+          "name": "i30",
+          "models": [
+            "1.4 CVVT Team",
+            "1.6 CRDi Blue Drive",
+            "1.6 CRDi CW Elite",
+            "1.6 CRDi CW Team",
+            "1.6 CRDi Elite",
+            "1.6 CRDi Elite Plus",
+            "1.6 CRDi Mode",
+            "1.6 CRDi Prime",
+            "1.6 CRDi Style",
+            "1.6 CRDi Style Design Pack",
+            "1.6 CRDi Style Plus",
+            "1.6 CRDi Team",
+            "1.6 CVVT Mode",
+            "1.6 CVVT Select",
+            "1.6 DOHC CW Mode",
+            "1.6 DOHC CW Team",
+            "1.6 GDi Elite",
+            "1.6 GDi Style",
+            "1.6 GDi Style Design Pack",
+            "1.6 T-GDI Sport"
+          ]
+        },
+        {
+          "name": "i40",
+          "models": [
+            "1.6 GDI Prime"
+          ]
+        },
+        {
+          "name": "ix20",
+          "models": [
+            "1.4 Mode"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Ikco",
+      "series": [
+        {
+          "name": "Samand",
+          "models": [
+            "1.6 LX"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Infiniti",
+      "series": [
+        {
+          "name": "G",
+          "models": [
+            "G37 GT",
+            "G37 S"
+          ]
+        },
+        {
+          "name": "I30",
+          "models": [
+            "3.0"
+          ]
+        },
+        {
+          "name": "M",
+          "models": [
+            "M30d"
+          ]
+        },
+        {
+          "name": "Q30",
+          "models": [
+            "1.5 D",
+            "1.6"
+          ]
+        },
+        {
+          "name": "Q50",
+          "models": [
+            "2.0"
+          ]
+        },
+        {
+          "name": "Q60",
+          "models": [
+            "2.0"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Isuzu",
+      "series": [
+        {
+          "name": "Gemini",
+          "models": [
+            "1.8"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Jaguar",
+      "series": [
+        {
+          "name": "Daimler",
+          "models": [
+            "4.0"
+          ]
+        },
+        {
+          "name": "F-Type",
+          "models": [
+            "2.0",
+            "2.0i"
+          ]
+        },
+        {
+          "name": "S-Type",
+          "models": [
+            "2.5",
+            "2.7 D Executive",
+            "3.0",
+            "3.0 Classic",
+            "4.0"
+          ]
+        },
+        {
+          "name": "Sovereign",
+          "models": [
+            "4.0 Long"
+          ]
+        },
+        {
+          "name": "X-Type",
+          "models": [
+            "2.0 D Executive",
+            "2.0 D High",
+            "2.1 Executive",
+            "2.2 D Executive",
+            "2.5 Executive",
+            "2.5 Sport",
+            "3.0 Sport"
+          ]
+        },
+        {
+          "name": "XE",
+          "models": [
+            "2.0 D Prestige Plus",
+            "2.0 D R-Dynamic SE",
+            "2.0 D R-Sport Plus"
+          ]
+        },
+        {
+          "name": "XF",
+          "models": [
+            "2.0",
+            "2.0 Business",
+            "2.0 D Prestige Plus",
+            "2.0 D R-Sport Plus",
+            "2.0 Luxury",
+            "2.2 D",
+            "2.7 D Premium Luxury",
+            "3.0 D Luxury",
+            "3.0 D Premium Luxury",
+            "3.0 Luxury",
+            "3.0 Premium Luxury"
+          ]
+        },
+        {
+          "name": "XJ",
+          "models": [
+            "2.0 Premium Luxury",
+            "2.0i Premium Luxury",
+            "2.0i Premium Luxury Sport Plus",
+            "3.0 D Portfolio",
+            "XJ8 3.5",
+            "XJ8 4.2"
+          ]
+        },
+        {
+          "name": "XJS",
+          "models": [
+            "5.3"
+          ]
+        },
+        {
+          "name": "XKR",
+          "models": [
+            "4.0"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Joyce",
+      "series": [
+        {
+          "name": "One",
+          "models": []
+        }
+      ]
+    },
+    {
+      "name": "Kia",
+      "series": [
+        {
+          "name": "Capital",
+          "models": [
+            "1.5 GLX"
+          ]
+        },
+        {
+          "name": "Carens",
+          "models": [
+            "2.0 CRDi",
+            "2.0 CRDi EX",
+            "2.0 CRDi LX"
+          ]
+        },
+        {
+          "name": "Carnival",
+          "models": [
+            "2.9 CRDi EX",
+            "2.9 CRDi Premium",
+            "2.9 TD",
+            "2.9 TD LS"
+          ]
+        },
+        {
+          "name": "Ceed",
+          "models": [
+            "1.0 Cool Tekno",
+            "1.0 T-GDI Cool",
+            "1.4 Cool",
+            "1.4 Cool Plus",
+            "1.4 Cool Tekno",
+            "1.4 Live",
+            "1.4 MPI Live",
+            "1.5 T-GDI Cool",
+            "1.5 T-GDI Elegance",
+            "1.6 CRDi Comfort",
+            "1.6 CRDi Comfort SW",
+            "1.6 CRDi Concept",
+            "1.6 CRDi Concept Plus",
+            "1.6 CRDi Concept Plus SW",
+            "1.6 CRDi Concept SW",
+            "1.6 CRDi Cool",
+            "1.6 CRDi Cool SW",
+            "1.6 CRDi Elegance",
+            "1.6 CRDi Motion",
+            "1.6 CRDi Motion SW",
+            "1.6 CRDi Premium",
+            "1.6 CRDi Premium SW",
+            "1.6 Concept",
+            "1.6 GDI Comfort",
+            "1.6 Motion"
+          ]
+        },
+        {
+          "name": "Cerato",
+          "models": [
+            "1.5 CRDi Advance",
+            "1.5 CRDi EX",
+            "1.5 CRDi LX",
+            "1.6 CRDi Concept",
+            "1.6 CRDi Concept Plus",
+            "1.6 CRDi Concept Techno",
+            "1.6 CRDi EX",
+            "1.6 CRDi Prestige",
+            "1.6 EX",
+            "1.6 EX Advance",
+            "1.6 EX Comfort",
+            "1.6 EX Premium",
+            "1.6 GSL Comfort",
+            "1.6 GSL Concept",
+            "1.6 GSL Cool",
+            "1.6 GSL Core",
+            "1.6 GSL Premium",
+            "1.6 Koup",
+            "1.6 LX Base",
+            "1.6 LX Basic",
+            "1.6 MPI Comfort",
+            "1.6 MPI Elegance",
+            "2.0 CRDI EX Comfort"
+          ]
+        },
+        {
+          "name": "Clarus",
+          "models": [
+            "2.0 GLX"
+          ]
+        },
+        {
+          "name": "Magentis",
+          "models": [
+            "2.0 CRDi",
+            "2.0 LX",
+            "2.0 SE"
+          ]
+        },
+        {
+          "name": "Opirus",
+          "models": [
+            "3.5 V6"
+          ]
+        },
+        {
+          "name": "Optima",
+          "models": [
+            "1.7 CRDi"
+          ]
+        },
+        {
+          "name": "Picanto",
+          "models": [
+            "1.0 MPI",
+            "1.1 EX",
+            "1.1 Hiper",
+            "1.2 MPI Cool",
+            "1.2 MPI Feel",
+            "1.25 EX",
+            "1.25 MPI Cool"
+          ]
+        },
+        {
+          "name": "Pride",
+          "models": [
+            "1.3",
+            "1.3 DLX",
+            "1.3 GLXi"
+          ]
+        },
+        {
+          "name": "Pro Ceed",
+          "models": [
+            "1.6 CRDi Concept",
+            "1.6 CRDi Cool",
+            "1.6 CRDi Cool Plus",
+            "1.6 CRDi Premium",
+            "1.6 GDI GT"
+          ]
+        },
+        {
+          "name": "Rio",
+          "models": [
+            "1.0 T-GDI Cool",
+            "1.0 T-GDI Elegance Tekno",
+            "1.0 T-GDI Prestige",
+            "1.2 DPI Cool",
+            "1.2 MPI Cool",
+            "1.25 CVVT Comfort",
+            "1.25 CVVT Concept",
+            "1.25 CVVT Cool",
+            "1.25 CVVT Fancy",
+            "1.25 CVVT Natty",
+            "1.3 Comfort",
+            "1.3 Trend",
+            "1.4 CRDi Comfort",
+            "1.4 CRDi Concept",
+            "1.4 CRDi Concept Plus",
+            "1.4 CRDi Fancy",
+            "1.4 CRDi Natty",
+            "1.4 CRDi Sporty",
+            "1.4 CVVT Comfort",
+            "1.4 CVVT Concept",
+            "1.4 CVVT Cool",
+            "1.4 CVVT Cool Tekno",
+            "1.4 CVVT Elegance",
+            "1.4 CVVT Elegance Tekno",
+            "1.4 CVVT Fancy",
+            "1.4 CVVT Natty",
+            "1.4 EX Advance",
+            "1.4 EX Comfort",
+            "1.4 EX EX",
+            "1.4 EX Trend",
+            "1.4 GSL Basic",
+            "1.4 GSL Trend",
+            "1.4 WGT Cool",
+            "1.4 WGT Elegance",
+            "1.4 WGT Prestige",
+            "1.4L MPI Elegance",
+            "1.5 CRDi EX",
+            "1.5 CRDi EX Advance",
+            "1.5 CRDi EX Comfort",
+            "1.5 CRDi Trend",
+            "1.5 Comfort",
+            "1.5 Luxury",
+            "1.5 Trend"
+          ]
+        },
+        {
+          "name": "Sephia",
+          "models": [
+            "1.5 GTX",
+            "1.5 LS",
+            "1.5 LX",
+            "1.6 GTX"
+          ]
+        },
+        {
+          "name": "Shuma",
+          "models": [
+            "GS",
+            "LS",
+            "RS"
+          ]
+        },
+        {
+          "name": "Stinger",
+          "models": [
+            "2.0 GDI GT Line"
+          ]
+        },
+        {
+          "name": "Venga",
+          "models": [
+            "1.4 CRDi Active",
+            "1.4 CRDi EX",
+            "1.4 CRDi TX",
+            "1.6 CRDi EX",
+            "1.6 CRDi Panaroma Plus",
+            "1.6 Panaroma"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Kuba",
+      "series": [
+        {
+          "name": "City",
+          "models": []
+        }
+      ]
+    },
+    {
+      "name": "Lada",
+      "series": [
+        {
+          "name": "Kalina",
+          "models": [
+            "1.6"
+          ]
+        },
+        {
+          "name": "Nova",
+          "models": [
+            "1.4"
+          ]
+        },
+        {
+          "name": "Samara",
+          "models": [
+            "1.1",
+            "1.3",
+            "1.5"
+          ]
+        },
+        {
+          "name": "VAZ",
+          "models": [
+            "2105",
+            "2107",
+            "2110"
+          ]
+        },
+        {
+          "name": "Vega",
+          "models": [
+            "1.5",
+            "1.6"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Lamborghini",
+      "series": [
+        {
+          "name": "Gallardo",
+          "models": [
+            "LP 560-4"
+          ]
+        },
+        {
+          "name": "Huracan",
+          "models": [
+            "Evo",
+            "LP 580-2",
+            "LP 610-4"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Lancia",
+      "series": [
+        {
+          "name": "Delta",
+          "models": [
+            "1.4 T-Jet",
+            "1.6 MJet",
+            "1.9 TT Mjet"
+          ]
+        },
+        {
+          "name": "Thema",
+          "models": [
+            "3.0 CRD"
+          ]
+        },
+        {
+          "name": "Ypsilon",
+          "models": [
+            "0.9",
+            "1.2",
+            "1.3 Mjet",
+            "1.4"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Leapmotor",
+      "series": [
+        {
+          "name": "T03",
+          "models": [
+            "400"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Lexus",
+      "series": [
+        {
+          "name": "ES",
+          "models": [
+            "300h Business",
+            "300h Business Plus",
+            "300h Exclusive"
+          ]
+        },
+        {
+          "name": "GS",
+          "models": [
+            "200t F Sport",
+            "200t Luxury"
+          ]
+        },
+        {
+          "name": "IS",
+          "models": [
+            "200t Executive"
+          ]
+        },
+        {
+          "name": "LS",
+          "models": [
+            "500h Exclusive"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Lincoln",
+      "series": [
+        {
+          "name": "Town Car",
+          "models": [
+            "4.6"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Lotus",
+      "series": [
+        {
+          "name": "Emira",
+          "models": [
+            "2.0"
+          ]
+        },
+        {
+          "name": "Esprit",
+          "models": [
+            "GT3"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "MG",
+      "series": [
+        {
+          "name": "F",
+          "models": [
+            "1.8"
+          ]
+        },
+        {
+          "name": "MG4",
+          "models": []
+        }
+      ]
+    },
+    {
+      "name": "MINI",
+      "series": [
+        {
+          "name": "Cooper",
+          "models": [
+            "1.5 Cabrio",
+            "1.5 Chili",
+            "1.5 Classic",
+            "1.5 D Burberry Edition",
+            "1.5 D Chili",
+            "1.5 D Pepper",
+            "1.5 D Salt Pepper Chili",
+            "1.5 D T?rkiye Paketi",
+            "1.5 Favoured",
+            "1.5 Iconic",
+            "1.5 Pepper",
+            "1.5 Premium",
+            "1.5 Salt",
+            "1.5 Signature",
+            "1.5 Standart",
+            "1.5 T?rkiye Paketi",
+            "1.6",
+            "1.6 Bayswater",
+            "1.6 Cabrio",
+            "1.6 Roadster",
+            "1.6 T?rkiye Paketi",
+            "SE"
+          ]
+        },
+        {
+          "name": "Cooper Clubman",
+          "models": [
+            "1.5 Chili",
+            "1.5 D One Signature",
+            "1.5 Pepper",
+            "1.6",
+            "1.6 S"
+          ]
+        },
+        {
+          "name": "Cooper S",
+          "models": [
+            "1.6",
+            "1.6 Cabrio",
+            "1.6 Roadster",
+            "2.0"
+          ]
+        },
+        {
+          "name": "John Cooper",
+          "models": [
+            "1.6 Works",
+            "2.0 Works Iconic"
+          ]
+        },
+        {
+          "name": "One",
+          "models": [
+            "1.4",
+            "1.6"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Maserati",
+      "series": [
+        {
+          "name": "4 Serisi",
+          "models": [
+            "424"
+          ]
+        },
+        {
+          "name": "Ghibli",
+          "models": [
+            "2.0",
+            "3.0"
+          ]
+        },
+        {
+          "name": "GranCabrio",
+          "models": [
+            "4.7"
+          ]
+        },
+        {
+          "name": "GranTurismo",
+          "models": [
+            "4.2",
+            "4.7 S"
+          ]
+        },
+        {
+          "name": "MC20",
+          "models": [
+            "3.0"
+          ]
+        },
+        {
+          "name": "Quattroporte",
+          "models": [
+            "3.0",
+            "3.0 D",
+            "3.8 Trofeo",
+            "4.2 Duoselect",
+            "4.7"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Mazda",
+      "series": [
+        {
+          "name": "121",
+          "models": [
+            "1.3"
+          ]
+        },
+        {
+          "name": "2",
+          "models": [
+            "1.3 Go",
+            "1.3 High",
+            "1.3 Mid",
+            "1.5 Go",
+            "1.5 Play",
+            "1.5 Sky-G Power Sense"
+          ]
+        },
+        {
+          "name": "3",
+          "models": [
+            "1.5 SkyActive-D Motion",
+            "1.5 SkyActive-D Power",
+            "1.5 SkyActive-D Power Sense",
+            "1.5 SkyActive-G Motion",
+            "1.5 SkyActive-G Power",
+            "1.5 SkyActive-G Power Sense",
+            "1.5 SkyActive-G Reflex",
+            "1.6 90.Y?l",
+            "1.6 Base",
+            "1.6 Comfort",
+            "1.6 Dynamic",
+            "1.6 High",
+            "1.6 Impressive",
+            "1.6 Mid",
+            "1.6 Sport Comfort",
+            "1.6 Sport Dynamic",
+            "1.6 Touring"
+          ]
+        },
+        {
+          "name": "323",
+          "models": [
+            "1.5",
+            "1.5 Familia",
+            "1.5 GLX",
+            "1.5 Practica",
+            "1.5 i",
+            "1.6",
+            "1.6 F",
+            "1.6 Familia",
+            "1.6 GL",
+            "1.6 GLX",
+            "1.8",
+            "1.8 Familia",
+            "1.8 GLX",
+            "1.8 Turbo GT",
+            "2.0 DiTD"
+          ]
+        },
+        {
+          "name": "5",
+          "models": [
+            "1.6 Sport",
+            "2.0 CD"
+          ]
+        },
+        {
+          "name": "6",
+          "models": [
+            "2.0",
+            "2.0 Dynamic",
+            "2.0 Exclusive",
+            "2.0 Sky-G Power",
+            "2.0 Sport",
+            "2.0 TE",
+            "2.0i SKYACTIVE-G Power Sense",
+            "2.3 Sport"
+          ]
+        },
+        {
+          "name": "626",
+          "models": [
+            "1.6",
+            "1.9",
+            "2.0",
+            "2.0 Exclusive",
+            "2.0 GLE",
+            "2.0 GLX",
+            "2.0 GT",
+            "2.0 GTS",
+            "2.0 LX",
+            "2.0 S"
+          ]
+        },
+        {
+          "name": "929",
+          "models": [
+            "2.0 GLX"
+          ]
+        },
+        {
+          "name": "Lantis",
+          "models": [
+            "1.6",
+            "1.8"
+          ]
+        },
+        {
+          "name": "MPV",
+          "models": [
+            "2.0",
+            "2.3 TE"
+          ]
+        },
+        {
+          "name": "MX",
+          "models": [
+            "MX-5 1.5",
+            "MX-5 1.6",
+            "MX-5 2.0"
+          ]
+        },
+        {
+          "name": "Premacy",
+          "models": [
+            "2.0 DITD"
+          ]
+        },
+        {
+          "name": "Xedos",
+          "models": [
+            "9"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Mercedes - Benz",
+      "series": [
+        {
+          "name": "190",
+          "models": [
+            "190 D 2.0",
+            "190 E 1.8",
+            "190 E 2.0",
+            "190 E 2.3",
+            "190 E 2.6",
+            "2.0"
+          ]
+        },
+        {
+          "name": "200",
+          "models": [
+            "CE",
+            "D",
+            "E"
+          ]
+        },
+        {
+          "name": "230",
+          "models": [
+            "230.6",
+            "E"
+          ]
+        },
+        {
+          "name": "240",
+          "models": [
+            "240 D"
+          ]
+        },
+        {
+          "name": "250",
+          "models": [
+            "D"
+          ]
+        },
+        {
+          "name": "260",
+          "models": [
+            "E"
+          ]
+        },
+        {
+          "name": "280",
+          "models": [
+            "SE"
+          ]
+        },
+        {
+          "name": "300",
+          "models": [
+            "D",
+            "E",
+            "SD",
+            "SE",
+            "SEL",
+            "TD",
+            "TE"
+          ]
+        },
+        {
+          "name": "320",
+          "models": [
+            "CE"
+          ]
+        },
+        {
+          "name": "500",
+          "models": [
+            "SEC",
+            "SEL"
+          ]
+        },
+        {
+          "name": "560",
+          "models": [
+            "SEC"
+          ]
+        },
+        {
+          "name": "A",
+          "models": [
+            "A 140 Classic",
+            "A 150 Avantgarde",
+            "A 150 Elegance",
+            "A 150 Polarstar",
+            "A 160 Avantgarde",
+            "A 160 Elegance",
+            "A 170 CDI Classic",
+            "A 170 CDI Elegance",
+            "A 180 BlueEFFICIENCY AMG Sport",
+            "A 180 BlueEFFICIENCY Style",
+            "A 180 BlueEFFICIENCY Urban",
+            "A 180 CDI BlueEFFICIENCY AMG",
+            "A 180 CDI BlueEFFICIENCY AMG Sport",
+            "A 180 CDI BlueEFFICIENCY Prime",
+            "A 180 CDI BlueEFFICIENCY Style",
+            "A 180 CDI BlueEFFICIENCY Urban",
+            "A 180 CDI Elegance",
+            "A 180 Progressive",
+            "A 180 Style",
+            "A 180 d AMG",
+            "A 180 d Style",
+            "A 180 d Style BlackArt",
+            "A 180 d Urban",
+            "A 200 AMG",
+            "A 200 AMG+",
+            "A 200 BlueEFFICIENCY AMG Sport",
+            "A 200 BlueEFFICIENCY AMG WhiteArt",
+            "A 200 Progressive",
+            "A 200 Style"
+          ]
+        },
+        {
+          "name": "AMG GT",
+          "models": [
+            "4.0 R",
+            "4.0 S",
+            "43 4Matic",
+            "63 4Matic"
+          ]
+        },
+        {
+          "name": "B",
+          "models": [
+            "B 150 150",
+            "B 150 Boyut",
+            "B 150 Prestige",
+            "B 150 Special Edition",
+            "B 160 Boyut",
+            "B 160 Sport",
+            "B 170 Prestige",
+            "B 180 BlueEFFICIENCY Elite",
+            "B 180 BlueEFFICIENCY Prime",
+            "B 180 BlueEFFICIENCY Sport",
+            "B 180 BlueEFFICIENCY Style",
+            "B 180 BlueEFFICIENCY Urban",
+            "B 180 CDI 180 CDI",
+            "B 180 CDI BlueEFFICIENCY AMG",
+            "B 180 CDI BlueEFFICIENCY Sport",
+            "B 180 CDI BlueEFFICIENCY Style",
+            "B 180 CDI BlueEFFICIENCY Urban",
+            "B 180 Progressive",
+            "B 180 d Progressive",
+            "B 180 d Urban",
+            "B 200 200",
+            "B 200 BlueEFFICIENCY Sport",
+            "B 200 CDI Boyut"
+          ]
+        },
+        {
+          "name": "C",
+          "models": [
+            "C 180 AMG",
+            "C 180 AMG 9G-Tronic",
+            "C 180 Avantgarde",
+            "C 180 BlueEFFICIENCY AMG",
+            "C 180 BlueEFFICIENCY Avantgarde",
+            "C 180 BlueEFFICIENCY C-Edition",
+            "C 180 BlueEFFICIENCY Elegance",
+            "C 180 BlueEFFICIENCY Fascination",
+            "C 180 BlueEFFICIENCY Prime",
+            "C 180 BlueEFFICIENCY Selection Plus",
+            "C 180 Classic",
+            "C 180 Comfort 9G-Tronic",
+            "C 180 Elegance",
+            "C 180 Esprit",
+            "C 180 Exclusive",
+            "C 180 Fascination",
+            "C 180 Kompressor Avantgarde",
+            "C 180 Kompressor BlueEFFICIENCY AMG",
+            "C 180 Kompressor BlueEfficiency Avantgarde",
+            "C 180 Kompressor BlueEfficiency Diamond",
+            "C 180 Kompressor BlueEfficiency Fascination",
+            "C 180 Kompressor BlueEfficiency Luxury",
+            "C 180 Kompressor BlueEfficiency Prime",
+            "C 180 Kompressor Classic",
+            "C 180 Kompressor Elegance",
+            "C 180 Kompressor Sport Edition",
+            "C 180 Kompressor Sportcoupe",
+            "C 180 Sportcoupe",
+            "C 180 Style",
+            "C 200 AMG",
+            "C 200 All-Terrain",
+            "C 200 Avantgarde",
+            "C 200 BlueEFFICIENCY Avantgarde",
+            "C 200 BlueTEC AMG",
+            "C 200 BlueTEC Avantgarde",
+            "C 200 CDI Avantgarde",
+            "C 200 CDI Classic",
+            "C 200 D AMG",
+            "C 200 D Avantgarde",
+            "C 200 D Comfort",
+            "C 200 D Elegance",
+            "C 200 D Esprit",
+            "C 200 D Exclusive",
+            "C 200 Edition 1 AMG",
+            "C 200 Elegance",
+            "C 200 Exclusive",
+            "C 200 Kompressor Avantgarde",
+            "C 200 Kompressor Classic",
+            "C 200 Kompressor Elegance",
+            "C 200 Kompressor Sport",
+            "C 200 Kompressor Sportcoupe",
+            "C 200 Sport",
+            "C 200 d BlueTEC AMG",
+            "C 200 d BlueTEC Avantgarde",
+            "C 200 d BlueTEC Comfort",
+            "C 200 d BlueTEC Exclusive",
+            "C 200 d BlueTEC Fascination",
+            "C 200 d BlueTEC Style",
+            "C 220 CDI AMG",
+            "C 220 CDI Avantgarde",
+            "C 220 CDI BlueEFFICIENCY Fascination",
+            "C 220 CDI Classic",
+            "C 220 CDI Elegance",
+            "C 220 CDI Sportcoupe",
+            "C 220 D Elegance",
+            "C 230 Avantgarde",
+            "C 230 Kompressor Avantgarde",
+            "C 240 Classic",
+            "C 250 BlueEFFICIENCY AMG",
+            "C 250 CDI BlueEFFICIENCY AMG",
+            "C 250 CGI Fascination",
+            "C 270 CDI Avantgarde",
+            "C 280 Sport",
+            "C 43 AMG",
+            "C 63 AMG"
+          ]
+        },
+        {
+          "name": "CL",
+          "models": [
+            "500",
+            "63 AMG"
+          ]
+        },
+        {
+          "name": "CLA",
+          "models": [
+            "180 CDI AMG",
+            "180 CDI Urban",
+            "180 D AMG",
+            "180 D Comfort",
+            "180 D Urban",
+            "200 AMG",
+            "200 AMG 4Matic",
+            "200 AMG+ 4Matic",
+            "200 Comfort",
+            "200 Style",
+            "200 Urban",
+            "45 AMG",
+            "45 S AMG Performance"
+          ]
+        },
+        {
+          "name": "CLC",
+          "models": [
+            "160 Emotion",
+            "160 Grand Prix"
+          ]
+        },
+        {
+          "name": "CLE",
+          "models": [
+            "300 AMG"
+          ]
+        },
+        {
+          "name": "CLK",
+          "models": [
+            "CLK 200 Elegance",
+            "CLK 200 Kompressor",
+            "CLK 200 Kompressor Avantgarde",
+            "CLK 200 Kompressor Elegance",
+            "CLK 230 Kompressor",
+            "CLK 230 Kompressor Elegance",
+            "CLK 320 Avantgarde",
+            "CLK 320 CDI Elegance",
+            "CLK 320 Elegance"
+          ]
+        },
+        {
+          "name": "CLS",
+          "models": [
+            "250 CDI Sport",
+            "300 D AMG",
+            "320 CDI",
+            "350",
+            "350 BlueTEC AMG",
+            "350 CDI",
+            "350 CDI AMG",
+            "350 CDI BlueEFFICIENCY",
+            "350 CDI Innovation Sport",
+            "350 D AMG",
+            "400 D"
+          ]
+        },
+        {
+          "name": "E",
+          "models": [
+            "180 AMG",
+            "180 AMG Premium",
+            "180 Avantgarde",
+            "180 Edition",
+            "180 Edition E",
+            "180 Elite",
+            "180 Exclusive",
+            "180 Premium",
+            "180 Style",
+            "200",
+            "200 AMG",
+            "200 Avantgarde",
+            "200 CDI Classic",
+            "200 CDI Elegance",
+            "200 CGI AMG",
+            "200 CGI BlueEFFICIENCY Avantgarde",
+            "200 CGI BlueEFFICIENCY Elegance",
+            "200 CGI Prime",
+            "200 Classic",
+            "200 Elegance",
+            "200 Exclusive",
+            "200 Kompressor Avantgarde",
+            "200 Kompressor Classic",
+            "200 Kompressor Elegance",
+            "200 d AMG",
+            "200 d E 200 d",
+            "200 d Exclusive",
+            "220 CDI Avantgarde",
+            "220 CDI BlueEFFICIENCY",
+            "220 CDI Classic",
+            "220 CDI Elegance",
+            "220 CDI Start",
+            "220 Classic",
+            "220 D AMG",
+            "220 D Avantgarde",
+            "220 D Exclusive",
+            "230 Avantgarde",
+            "240 Avantgarde",
+            "240 Elegance",
+            "250 AMG",
+            "250 CDI AMG",
+            "250 CDI Avantgarde",
+            "250 CDI BlueEFFICIENCY Avantgarde",
+            "250 CDI Edition",
+            "250 CDI Elite",
+            "250 CDI Elite Avantgarde",
+            "250 CDI Premium",
+            "250 CGI",
+            "250 CGI AMG",
+            "250 CGI AMG Premium",
+            "250 CGI BlueEFFICIENCY Avantgarde",
+            "250 CGI BlueEFFICIENCY Dynamic",
+            "250 CGI BlueEFFICIENCY Elegance",
+            "250 CGI Dynamic",
+            "250 CGI Elite",
+            "250 EditionE",
+            "250 Elit",
+            "260",
+            "270 CDI Avantgarde",
+            "270 CDI Elegance",
+            "280",
+            "280 CDI Avantgarde",
+            "280 CDI Elegance",
+            "290 TD Avantgarde",
+            "300",
+            "300 300 D",
+            "300 AMG",
+            "300 CGI",
+            "300 D AMG",
+            "300 D Exclusive",
+            "320 Avantgarde",
+            "320 CDI Avantgarde",
+            "350 AMG",
+            "350 Avantgarde",
+            "350 BlueTEC Premium",
+            "350 CDI AMG Premium",
+            "350 CDI Avantgarde",
+            "350 CDI BlueEFFICIENCY Elegance",
+            "350 CDI BlueTEC Elite",
+            "350 CDI Premium",
+            "350 CGI AMG",
+            "400",
+            "400 CDI Avantgarde"
+          ]
+        },
+        {
+          "name": "EQE",
+          "models": [
+            "280 AMG",
+            "300 AMG",
+            "350+ AMG",
+            "53 4Matic+ AMG Performans"
+          ]
+        },
+        {
+          "name": "EQS",
+          "models": [
+            "350 AMG",
+            "450+",
+            "53 AMG Performance",
+            "580 Heritage Edition"
+          ]
+        },
+        {
+          "name": "Maybach S",
+          "models": [
+            "S 560",
+            "S 580 AMG",
+            "S 650",
+            "S 680"
+          ]
+        },
+        {
+          "name": "R",
+          "models": [
+            "R 320 320 CDI L"
+          ]
+        },
+        {
+          "name": "S",
+          "models": [
+            "55 AMG",
+            "63 AMG",
+            "S 300 300",
+            "S 320 320",
+            "S 320 320 CDI",
+            "S 320 320 CDI L",
+            "S 320 320 L",
+            "S 350 350 BlueTEC",
+            "S 350 350 CDI",
+            "S 350 350 CDI L",
+            "S 350 350 L",
+            "S 350 350 L BlueEFFICIENCY",
+            "S 350 350 L BlueTEC",
+            "S 350 BlueTEC 4Matic",
+            "S 400 400 d AMG",
+            "S 400 400d Long Inspiration",
+            "S 450 450 D Inspration",
+            "S 450 450 L",
+            "S 500 500",
+            "S 500 500 L",
+            "S 600 600 L"
+          ]
+        },
+        {
+          "name": "SL",
+          "models": [
+            "320",
+            "43 AMG",
+            "500"
+          ]
+        },
+        {
+          "name": "SLC",
+          "models": [
+            "180 AMG"
+          ]
+        },
+        {
+          "name": "SLK",
+          "models": [
+            "200",
+            "200 Kompressor"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Mercury",
+      "series": [
+        {
+          "name": "Cougar",
+          "models": [
+            "2.5"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Mitsubishi",
+      "series": [
+        {
+          "name": "Attrage",
+          "models": [
+            "1.2 Intense",
+            "1.2 Intense Plus"
+          ]
+        },
+        {
+          "name": "Carisma",
+          "models": [
+            "1.6 Avance",
+            "1.6 Classic",
+            "1.6 Comfort",
+            "1.6 GL",
+            "1.6 GLX",
+            "1.8 GDI Avance",
+            "1.8 GDI Classic",
+            "1.8 GDI Comfort",
+            "1.8 GDI Elegance",
+            "1.8 GDI L",
+            "1.8 GDI LX",
+            "1.9 DI-D Comfort"
+          ]
+        },
+        {
+          "name": "Colt",
+          "models": [
+            "1.1 Inform",
+            "1.3 Elegance",
+            "1.3 Inform",
+            "1.3 Invite",
+            "1.5 CZT",
+            "1.5 DI-D Inform",
+            "1.5 DI-D Invite",
+            "1.5 Instyle",
+            "1.5 Invite"
+          ]
+        },
+        {
+          "name": "Diamante",
+          "models": []
+        },
+        {
+          "name": "Galant",
+          "models": [
+            "1.6 GL",
+            "1.8 GLS"
+          ]
+        },
+        {
+          "name": "Grandis",
+          "models": [
+            "2.0 DI-D Inform",
+            "2.0 DI-D Instyle",
+            "2.0 DI-D Invite"
+          ]
+        },
+        {
+          "name": "Lancer",
+          "models": [
+            "1.3 Comfort",
+            "1.5 GLX",
+            "1.5 Inform",
+            "1.5 Invite",
+            "1.6 Comfort",
+            "1.6 GLX",
+            "1.6 Inform",
+            "1.6 Invite",
+            "1.8 GTi"
+          ]
+        },
+        {
+          "name": "Lancer Evolution",
+          "models": [
+            "VIII",
+            "X"
+          ]
+        },
+        {
+          "name": "Space Star",
+          "models": [
+            "1.2 CVT",
+            "1.2 Intense",
+            "1.2 Invite",
+            "1.2 MIVEC",
+            "1.3",
+            "1.6",
+            "1.9 DI-D"
+          ]
+        },
+        {
+          "name": "Space Wagon",
+          "models": []
+        }
+      ]
+    },
+    {
+      "name": "Nieve",
+      "series": [
+        {
+          "name": "Evzoom",
+          "models": []
+        }
+      ]
+    },
+    {
+      "name": "Nissan",
+      "series": [
+        {
+          "name": "100 NX",
+          "models": [
+            "NX"
+          ]
+        },
+        {
+          "name": "200 SX",
+          "models": [
+            "2.0 Turbo"
+          ]
+        },
+        {
+          "name": "350 Z",
+          "models": [
+            "Coupe",
+            "Roadster"
+          ]
+        },
+        {
+          "name": "Almera",
+          "models": [
+            "1.5 Comfort",
+            "1.5 Luxury",
+            "1.5 Mood",
+            "1.5 Tekna",
+            "1.5 Visia",
+            "1.6 SLX",
+            "1.8 Luxury",
+            "2.0 D GX",
+            "2.2"
+          ]
+        },
+        {
+          "name": "Bluebird",
+          "models": [
+            "2.0 GL"
+          ]
+        },
+        {
+          "name": "Laurel Altima",
+          "models": [
+            "2.0"
+          ]
+        },
+        {
+          "name": "Maxima",
+          "models": [
+            "2.0 QX"
+          ]
+        },
+        {
+          "name": "Micra",
+          "models": [
+            "1.0",
+            "1.0 IG-T Tekna",
+            "1.0 IG-T Visia",
+            "1.2 Desire",
+            "1.2 Match",
+            "1.2 Mood",
+            "1.2 Passion",
+            "1.2 Platinum",
+            "1.2 Punch",
+            "1.2 Puzzle",
+            "1.2 Sport",
+            "1.2 Street",
+            "1.2 Tekna",
+            "1.2 Tekna Pack",
+            "1.2 Visia",
+            "1.3 GX",
+            "1.3 LX",
+            "1.3 Magic",
+            "1.3 SLX",
+            "1.4 Comfort",
+            "1.4 Elegance",
+            "1.4 Tekna",
+            "1.5 dCi Mood",
+            "1.5 dCi Passion",
+            "1.5 dCi Visia"
+          ]
+        },
+        {
+          "name": "NX Coupe",
+          "models": [
+            "1.6"
+          ]
+        },
+        {
+          "name": "Note",
+          "models": [
+            "1.2 Tekna",
+            "1.2 Visia",
+            "1.4 Tekna",
+            "1.4 Visia",
+            "1.5 dCi Tekna",
+            "1.5 dCi Tekna Pack",
+            "1.5 dCi Visia",
+            "1.6 Tekna",
+            "1.6 Tekna Pack",
+            "1.6 Visia"
+          ]
+        },
+        {
+          "name": "Primera",
+          "models": [
+            "1.6",
+            "1.6 Comfort",
+            "1.6 GX",
+            "1.6 SLX",
+            "1.6 Special Edition",
+            "1.6 Tekna",
+            "1.6 Tekna Plus",
+            "1.6 Traveler",
+            "1.6 Visia",
+            "1.8 Luxury",
+            "1.9 DCI Visia",
+            "2.0 Elegance",
+            "2.0 GT",
+            "2.0 SE",
+            "2.0 TD Elegance",
+            "2.0 TD Luxe",
+            "2.0 Tekna"
+          ]
+        },
+        {
+          "name": "Pulsar",
+          "models": [
+            "1.2 N-Tec",
+            "1.2 Tekna",
+            "1.2 Visia",
+            "1.5 N-Tec",
+            "1.5 Tekna"
+          ]
+        },
+        {
+          "name": "Sunny",
+          "models": [
+            "1.6 EX",
+            "1.6 SLX"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Opel",
+      "series": [
+        {
+          "name": "Adam",
+          "models": [
+            "1.2 Jam",
+            "1.4 Glam"
+          ]
+        },
+        {
+          "name": "Agila",
+          "models": [
+            "1.2 Club"
+          ]
+        },
+        {
+          "name": "Ascona",
+          "models": [
+            "1.3 C LS"
+          ]
+        },
+        {
+          "name": "Astra",
+          "models": [
+            "1.2 T Edition",
+            "1.2 T Elegance",
+            "1.2 T GS",
+            "1.2 T GS Line",
+            "1.2 T Ultimate",
+            "1.3 CDTI Active",
+            "1.3 CDTI Business",
+            "1.3 CDTI Cosmo",
+            "1.3 CDTI Edition",
+            "1.3 CDTI Elegance",
+            "1.3 CDTI Enjoy",
+            "1.3 CDTI Enjoy 111.Y?l",
+            "1.3 CDTI Enjoy Active",
+            "1.3 CDTI Enjoy Elegance",
+            "1.3 CDTI Enjoy Plus",
+            "1.3 CDTI Essentia",
+            "1.3 CDTI Essentia Konfor",
+            "1.3 CDTI Sport",
+            "1.3 CDTI ecoFLEX Cosmo",
+            "1.3 CDTI ecoFLEX Enjoy",
+            "1.3 CDTI ecoFLEX Enjoy Plus",
+            "1.3 CDTI ecoFLEX Sport",
+            "1.4 Classic",
+            "1.4 Club",
+            "1.4 Comfort",
+            "1.4 Enjoy",
+            "1.4 Essentia",
+            "1.4 GL",
+            "1.4 GLS",
+            "1.4 Life",
+            "1.4 Start",
+            "1.4 T Business",
+            "1.4 T Cosmo",
+            "1.4 T Dynamic",
+            "1.4 T Edition Plus",
+            "1.4 T Enjoy",
+            "1.4 T Enjoy Active",
+            "1.4 T Enjoy Plus",
+            "1.4 T Excellence",
+            "1.4 T GTC Sport",
+            "1.4 T OPC Line Sport",
+            "1.4 T Sport",
+            "1.4 T Sport Still",
+            "1.5 D Edition",
+            "1.5 D Elegance",
+            "1.5 D GS Line",
+            "1.5 D Turbo Edition",
+            "1.6",
+            "1.6 Business",
+            "1.6 CD",
+            "1.6 CDTI Business",
+            "1.6 CDTI Cosmo",
+            "1.6 CDTI Design",
+            "1.6 CDTI Dynamic",
+            "1.6 CDTI Edition",
+            "1.6 CDTI Edition Plus",
+            "1.6 CDTI Elite",
+            "1.6 CDTI Enjoy",
+            "1.6 CDTI Enjoy Active",
+            "1.6 CDTI Excellence",
+            "1.6 CDTI Sport",
+            "1.6 CDX",
+            "1.6 Cabrio",
+            "1.6 Classic",
+            "1.6 Classic Twinport",
+            "1.6 Club",
+            "1.6 Comfort",
+            "1.6 Cosmo",
+            "1.6 Edition",
+            "1.6 Edition Plus",
+            "1.6 Elegance",
+            "1.6 Enjoy",
+            "1.6 Enjoy 111.Y?l",
+            "1.6 Enjoy Elegance",
+            "1.6 Enjoy Plus",
+            "1.6 Essentia",
+            "1.6 Essentia Konfor",
+            "1.6 GL",
+            "1.6 GLS",
+            "1.6 GTC Sport",
+            "1.6 Sport",
+            "1.6 Sportive",
+            "1.6 T Cosmo",
+            "1.6 T Enjoy",
+            "1.6 T GTC Sport",
+            "1.6 T Sport",
+            "1.7 CDTI Classic",
+            "1.7 CDTI Enjoy",
+            "1.8 GLS",
+            "2.0 DTI Comfort",
+            "2.0 GSi",
+            "2.0 Sport",
+            "2.2 Coupe",
+            "E Ultimate"
+          ]
+        },
+        {
+          "name": "Calibra",
+          "models": [
+            "2.0"
+          ]
+        },
+        {
+          "name": "Corsa",
+          "models": [
+            "1.0",
+            "1.0 Color Edition",
+            "1.0 Comfort",
+            "1.0 Eco Club",
+            "1.0 Enjoy",
+            "1.0 Essentia",
+            "1.2",
+            "1.2 Club",
+            "1.2 Comfort",
+            "1.2 Edition",
+            "1.2 Elegance",
+            "1.2 Enjoy",
+            "1.2 Enjoy in Touch",
+            "1.2 Essentia",
+            "1.2 Essential",
+            "1.2 Innovation",
+            "1.2 Silverline",
+            "1.2 Swing",
+            "1.2 T GS",
+            "1.2 Turbo Edition",
+            "1.2 Turbo Elegance",
+            "1.2 Turbo Ultimate",
+            "1.2 Twinport Active",
+            "1.2 Twinport Enjoy",
+            "1.2 Twinport Enjoy 111",
+            "1.2 Twinport Essentia",
+            "1.2 Ultimate",
+            "1.3 CDTI Active",
+            "1.3 CDTI Black&White",
+            "1.3 CDTI Color Edition",
+            "1.3 CDTI Cosmo",
+            "1.3 CDTI Enjoy",
+            "1.3 CDTI Enjoy 111",
+            "1.3 CDTI Essentia",
+            "1.3 CDTI Silverline",
+            "1.3 CDTI Sport",
+            "1.4 100.Y?l",
+            "1.4 Black&White",
+            "1.4 CD",
+            "1.4 Color Edition",
+            "1.4 Comfort",
+            "1.4 Design",
+            "1.4 Elegance",
+            "1.4 Enjoy",
+            "1.4 Essentia",
+            "1.4 GLS",
+            "1.4 Sport",
+            "1.4 Swing",
+            "1.4 Twinport Active",
+            "1.4 Twinport Color Edition",
+            "1.4 Twinport Enjoy",
+            "1.4 Twinport Enjoy 111",
+            "1.4 Twinport Essentia",
+            "1.4 Twinport Sport",
+            "1.5 CDTI Edition",
+            "1.5 TD",
+            "1.6 GSi",
+            "1.7 DTi Comfort"
+          ]
+        },
+        {
+          "name": "Corsa-e",
+          "models": [
+            "GS",
+            "Ultimate"
+          ]
+        },
+        {
+          "name": "Insignia",
+          "models": [
+            "1.4 T Edition",
+            "1.4 T Edition Elegance",
+            "1.5 T Grand Sport Edition ?zel Seri",
+            "1.5 T Grand Sport Elite",
+            "1.5 d Edition",
+            "1.5 d Elegance",
+            "1.5 d Exclusive",
+            "1.5 d Ultimate",
+            "1.6 CDTI Business",
+            "1.6 CDTI Cosmo",
+            "1.6 CDTI Design",
+            "1.6 CDTI Edition Elegance",
+            "1.6 CDTI Elite",
+            "1.6 CDTI Enjoy",
+            "1.6 CDTI Exclusive Grand Sport",
+            "1.6 CDTI Grand Sport Design",
+            "1.6 CDTI Grand Sport Edition ?zel Seri",
+            "1.6 CDTI Grand Sport Elite",
+            "1.6 CDTI Grand Sport Enjoy",
+            "1.6 CDTI Grand Sport Excellence",
+            "1.6 CDTI Sport",
+            "1.6 Cosmo",
+            "1.6 Cosmo Sports Tourer",
+            "1.6 Edition",
+            "1.6 T Cosmo",
+            "1.6 T Edition",
+            "1.6 T Edition Elegance",
+            "2.0 CDTI CDTi",
+            "2.0 CDTI Cosmo",
+            "2.0 CDTI Edition",
+            "2.0 CDTI Edition Elegance",
+            "2.0 T Cosmo"
+          ]
+        },
+        {
+          "name": "Kadett",
+          "models": [
+            "1.6"
+          ]
+        },
+        {
+          "name": "Meriva",
+          "models": [
+            "1.3 CDTI EcoFlex Enjoy",
+            "1.3 CDTI Enjoy",
+            "1.3 CDTI Essentia",
+            "1.3 DTI Essentia",
+            "1.4 T Cosmo",
+            "1.4 T Enjoy",
+            "1.6 Cosmo",
+            "1.6 Enjoy",
+            "1.6 Essentia",
+            "1.7 CDTI Enjoy"
+          ]
+        },
+        {
+          "name": "Omega",
+          "models": [
+            "2.0 CD",
+            "2.5 CD"
+          ]
+        },
+        {
+          "name": "Signum",
+          "models": [
+            "2.2 Cosmo"
+          ]
+        },
+        {
+          "name": "Tigra",
+          "models": [
+            "1.6"
+          ]
+        },
+        {
+          "name": "Vectra",
+          "models": [
+            "1.6",
+            "1.6 Comfort",
+            "1.6 Design Edition",
+            "1.6 Edition",
+            "1.6 Elegance",
+            "1.6 Essentia",
+            "1.6 GL",
+            "1.6 GLS",
+            "1.8 Elegance",
+            "1.8 GL",
+            "1.9 CDTI Elegance",
+            "2.0",
+            "2.0 100.Y?l",
+            "2.0 CD",
+            "2.0 CDX",
+            "2.0 DTI CD",
+            "2.0 DTI Comfort",
+            "2.0 GL",
+            "2.0 GLS",
+            "2.0 GT",
+            "2.2 DTI Elegance",
+            "2.5 CDX"
+          ]
+        },
+        {
+          "name": "Zafira",
+          "models": [
+            "1.4 Enjoy",
+            "1.6 Comfort",
+            "1.6 Cosmo",
+            "1.6 Elegance",
+            "1.6 Enjoy",
+            "1.6 GL",
+            "1.8 Comfort",
+            "1.8 Elegance",
+            "2.0 DTI Comfort",
+            "2.0 DTI Elegance",
+            "2.2 2.2 16V",
+            "2.2 DTi Elegance"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Peugeot",
+      "series": [
+        {
+          "name": "106",
+          "models": [
+            "GTI",
+            "Quicksilver",
+            "XN",
+            "XR",
+            "XS",
+            "XSi"
+          ]
+        },
+        {
+          "name": "107",
+          "models": [
+            "1.0 Trendy",
+            "1.0 Urban Move",
+            "1.4 HDi Trendy"
+          ]
+        },
+        {
+          "name": "205",
+          "models": [
+            "1.0 Junior",
+            "1.1 GL"
+          ]
+        },
+        {
+          "name": "206",
+          "models": [
+            "1.4 Color Line",
+            "1.4 Comfort",
+            "1.4 Desire",
+            "1.4 Executive",
+            "1.4 Feline",
+            "1.4 Fever",
+            "1.4 Generation",
+            "1.4 HDi Comfort",
+            "1.4 HDi Desire",
+            "1.4 HDi Feline",
+            "1.4 HDi Fever",
+            "1.4 HDi Generation",
+            "1.4 HDi Look",
+            "1.4 HDi Panoramic",
+            "1.4 HDi Premium",
+            "1.4 HDi Sporty",
+            "1.4 HDi Trendy",
+            "1.4 HDi X-Design",
+            "1.4 HDi X-line",
+            "1.4 HDi XR",
+            "1.4 HDi XT",
+            "1.4 Look",
+            "1.4 X-Design",
+            "1.4 X-Line",
+            "1.4 XR",
+            "1.4 XT",
+            "1.6 CC",
+            "1.6 Quicksilver",
+            "1.6 Riviera",
+            "1.6 Roland Garros",
+            "1.6 XS",
+            "1.6 XT",
+            "2.0 CC",
+            "2.0 GTI"
+          ]
+        },
+        {
+          "name": "206+",
+          "models": [
+            "1.4 Comfort",
+            "1.4 Envy",
+            "1.4 HDi Comfort",
+            "1.4 HDi Envy",
+            "1.4 HDi Sportium",
+            "1.4 HDi Urban Move",
+            "1.4 Urban Move"
+          ]
+        },
+        {
+          "name": "207",
+          "models": [
+            "1.4 Access",
+            "1.4 Comfort",
+            "1.4 Envy",
+            "1.4 HDi Active",
+            "1.4 HDi Comfort",
+            "1.4 HDi Dynamic",
+            "1.4 HDi Envy",
+            "1.4 HDi Millesim",
+            "1.4 HDi Premium",
+            "1.4 HDi Trendy",
+            "1.4 HDi Urban Move",
+            "1.4 Millesim",
+            "1.4 Premium",
+            "1.4 Trendy",
+            "1.4 VTi Active",
+            "1.4 VTi Trendy",
+            "1.6 HDi Active",
+            "1.6 HDi Dynamic",
+            "1.6 HDi Feline",
+            "1.6 HDi Outdoor",
+            "1.6 HDi Premium",
+            "1.6 HDi Trendy",
+            "1.6 THP GT",
+            "1.6 THP RC",
+            "1.6 VTi Active",
+            "1.6 VTi Dynamic",
+            "1.6 VTi Dynamic CC",
+            "1.6 VTi Feline CC",
+            "1.6 VTi Outdoor",
+            "1.6 VTi Outdoor Prime",
+            "1.6 VTi Premium",
+            "1.6 VTi Sportium"
+          ]
+        },
+        {
+          "name": "208",
+          "models": [
+            "1.0 VTi Access",
+            "1.2 PureTech Access",
+            "1.2 PureTech Active",
+            "1.2 PureTech Active Prime",
+            "1.2 PureTech Allure",
+            "1.2 PureTech Allure Selection",
+            "1.2 PureTech GT",
+            "1.2 PureTech GT Line",
+            "1.2 PureTech Prime",
+            "1.2 PureTech Prime Selection",
+            "1.2 PureTech Signature",
+            "1.2 VTi Access",
+            "1.2 VTi Active",
+            "1.4 HDi Access",
+            "1.4 HDi Active",
+            "1.5 BlueHDi Active",
+            "1.5 BlueHDi Active Dynamic",
+            "1.5 BlueHDi Allure",
+            "1.5 BlueHDi Signature",
+            "1.5 BlueHDi Signature Dynamic",
+            "1.6 BlueHDi Active",
+            "1.6 HDi Active",
+            "1.6 HDi Allure",
+            "1.6 THP Allure",
+            "1.6 VTi Active",
+            "1.6 e-HDI Allure"
+          ]
+        },
+        {
+          "name": "301",
+          "models": [
+            "1.2 PureTech Access",
+            "1.2 PureTech Active",
+            "1.2 VTi Access",
+            "1.2 VTi Active",
+            "1.5 BlueHDI Active",
+            "1.5 BlueHDI Allure",
+            "1.6 BlueHDI Access",
+            "1.6 BlueHDI Active",
+            "1.6 BlueHDI Allure",
+            "1.6 HDi Access",
+            "1.6 HDi Active",
+            "1.6 HDi Allure",
+            "1.6 VTi Active",
+            "1.6 VTi Allure"
+          ]
+        },
+        {
+          "name": "306",
+          "models": [
+            "1.4 XR",
+            "1.6 Diamond",
+            "1.6 Griffe",
+            "1.6 Platinum",
+            "1.6 XN",
+            "1.6 XR",
+            "1.6 XS",
+            "1.6 XT",
+            "1.8 ST",
+            "1.8 XR",
+            "1.8 XT",
+            "1.9 D XN",
+            "1.9 D XR",
+            "1.9 XND",
+            "2.0 GTi"
+          ]
+        },
+        {
+          "name": "307",
+          "models": [
+            "1.4 Comfort",
+            "1.4 HDi Envy",
+            "1.4 HDi Profil",
+            "1.4 HDi XR",
+            "1.4 Look",
+            "1.4 XR",
+            "1.6 Comfort",
+            "1.6 Envy",
+            "1.6 HDi Comfort",
+            "1.6 HDi Look",
+            "1.6 HDi Pack",
+            "1.6 HDi Premium",
+            "1.6 HDi Profil",
+            "1.6 HDi XS",
+            "1.6 HDi XT",
+            "1.6 Look",
+            "1.6 Pack",
+            "1.6 Premium",
+            "1.6 Profil",
+            "1.6 Technoplus",
+            "1.6 XR",
+            "1.6 XS",
+            "1.6 XT",
+            "2.0 HDi Premium",
+            "2.0 HDi XSi",
+            "2.0 HDi XT",
+            "2.0 Premium"
+          ]
+        },
+        {
+          "name": "308",
+          "models": [
+            "1.2 PureTech Access",
+            "1.2 PureTech Active",
+            "1.2 PureTech Active Prime",
+            "1.2 PureTech Allure",
+            "1.2 PureTech Allure Dynamic",
+            "1.2 PureTech Allure Sport",
+            "1.2 PureTech GT",
+            "1.2 PureTech Style",
+            "1.2 PureTech Style Tech",
+            "1.2 VTi Access",
+            "1.2 VTi Active",
+            "1.2 VTi Allure",
+            "1.5 BlueHDI Style",
+            "1.5 BlueHDI Style Tech",
+            "1.6 BlueHdi Active",
+            "1.6 BlueHdi Allure",
+            "1.6 BlueHdi Style",
+            "1.6 HDi Access",
+            "1.6 HDi Active",
+            "1.6 HDi Comfort",
+            "1.6 HDi Comfort Pack",
+            "1.6 HDi Envy",
+            "1.6 HDi Millesim",
+            "1.6 HDi Premium",
+            "1.6 HDi Premium Pack",
+            "1.6 HDi Premium Plus",
+            "1.6 THP Allure",
+            "1.6 THP Feeline",
+            "1.6 THP Feeline Plus",
+            "1.6 THP Premium Pack",
+            "1.6 VTi Access",
+            "1.6 VTi Comfort",
+            "1.6 VTi Comfort Pack",
+            "1.6 VTi Envy",
+            "1.6 VTi Millesim",
+            "1.6 VTi Premium",
+            "1.6 VTi Premium Plus",
+            "1.6 e-HDi Access",
+            "1.6 e-HDi Active",
+            "1.6 e-HDi Allure",
+            "1.6 e-HDi Classic Edition Plus",
+            "1.6 e-HDi Sportium"
+          ]
+        },
+        {
+          "name": "309",
+          "models": [
+            "1.9 XS"
+          ]
+        },
+        {
+          "name": "405",
+          "models": [
+            "1.6 GL",
+            "1.6 GLi",
+            "1.6 GR",
+            "1.8 GR"
+          ]
+        },
+        {
+          "name": "406",
+          "models": [
+            "2.0 Coupe",
+            "2.0 HDi ST",
+            "2.0 HDi SV",
+            "2.0 Premium",
+            "2.0 ST",
+            "2.0 SV"
+          ]
+        },
+        {
+          "name": "407",
+          "models": [
+            "1.6 HDi Comfort",
+            "1.6 HDi Executive",
+            "1.6 HDi Executive Black",
+            "1.6 HDi Millesim",
+            "2.0 Comfort",
+            "2.0 Executive",
+            "2.0 Executive Premium",
+            "2.0 HDi Comfort",
+            "2.0 HDi Dynamic Premium",
+            "2.0 HDi Executive",
+            "2.0 HDi Executive Premium",
+            "2.0 HDi GT Line",
+            "2.2 Executive"
+          ]
+        },
+        {
+          "name": "508",
+          "models": [
+            "1.5 BlueHDI Active",
+            "1.5 BlueHDI Allure",
+            "1.5 BlueHDI GT",
+            "1.5 BlueHDI GT Line",
+            "1.5 BlueHDI GT Selection",
+            "1.5 BlueHDI Prime",
+            "1.6 BlueHDi Access",
+            "1.6 BlueHDi Active",
+            "1.6 BlueHDi Allure",
+            "1.6 BlueHDi Business",
+            "1.6 HDi Access",
+            "1.6 HDi Active",
+            "1.6 HDi Allure",
+            "1.6 Puretech Allure",
+            "1.6 Puretech GT",
+            "1.6 Puretech Prime",
+            "1.6 THP Access",
+            "1.6 THP Active",
+            "1.6 THP Allure",
+            "1.6 VTi Access",
+            "1.6 e-HDi Access",
+            "1.6 e-HDi Active",
+            "1.6 e-HDi Allure",
+            "2.0 HDi Active",
+            "2.0 HDi Allure"
+          ]
+        },
+        {
+          "name": "605",
+          "models": [
+            "2.0 SRTi"
+          ]
+        },
+        {
+          "name": "607",
+          "models": [
+            "2.7 HDi Ivoire"
+          ]
+        },
+        {
+          "name": "807",
+          "models": [
+            "2.0 HDi"
+          ]
+        },
+        {
+          "name": "RCZ",
+          "models": [
+            "1.6 THP Asphalt",
+            "1.6 THP Carbon",
+            "1.6 THP Evolution",
+            "1.6 THP Yearling"
+          ]
+        },
+        {
+          "name": "e-208",
+          "models": [
+            "GT"
+          ]
+        },
+        {
+          "name": "e-308",
+          "models": [
+            "GT"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Pontiac",
+      "series": [
+        {
+          "name": "Firebird",
+          "models": [
+            "5.7 Trans Am",
+            "5.7 V8 Formula"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Porsche",
+      "series": [
+        {
+          "name": "718",
+          "models": [
+            "Boxster",
+            "Cayman 4.0 GT4",
+            "Cayman 4.0 GT4 RS"
+          ]
+        },
+        {
+          "name": "911",
+          "models": [
+            "Carrera",
+            "Carrera 4S",
+            "Carrera S",
+            "GT3",
+            "GT3 RS",
+            "Targa 4 GTS",
+            "Targa 4S",
+            "Turbo",
+            "Turbo S"
+          ]
+        },
+        {
+          "name": "Boxster",
+          "models": []
+        },
+        {
+          "name": "Cayman",
+          "models": [
+            "S"
+          ]
+        },
+        {
+          "name": "Panamera",
+          "models": [
+            "4",
+            "4 E-Hybrid",
+            "4S",
+            "Diesel",
+            "GTS",
+            "S",
+            "Turbo",
+            "Turbo S"
+          ]
+        },
+        {
+          "name": "Taycan",
+          "models": [
+            "4 Cross Turismo",
+            "4S",
+            "4S Performance",
+            "4S Performance Plus",
+            "Turbo",
+            "Turbo S",
+            "Turbo S Cross Turismo"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Proton",
+      "series": [
+        {
+          "name": "315",
+          "models": [
+            "GLS"
+          ]
+        },
+        {
+          "name": "413",
+          "models": [
+            "GLS"
+          ]
+        },
+        {
+          "name": "415",
+          "models": [
+            "GLS"
+          ]
+        },
+        {
+          "name": "416",
+          "models": [
+            "GLX"
+          ]
+        },
+        {
+          "name": "418",
+          "models": [
+            "GLX"
+          ]
+        },
+        {
+          "name": "420",
+          "models": [
+            "D GLS"
+          ]
+        },
+        {
+          "name": "Gen 2",
+          "models": [
+            "1.6 High Line",
+            "1.6 Low Line",
+            "1.6 Medium Line"
+          ]
+        },
+        {
+          "name": "Persona",
+          "models": [
+            "1.6"
+          ]
+        },
+        {
+          "name": "Saga",
+          "models": [
+            "1.6 Medium Line"
+          ]
+        },
+        {
+          "name": "Savvy",
+          "models": [
+            "1.2 Medium Line"
+          ]
+        },
+        {
+          "name": "Waja",
+          "models": [
+            "1.6 Medium Line",
+            "1.6 Premium"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "RKS",
+      "series": [
+        {
+          "name": "M5",
+          "models": []
+        },
+        {
+          "name": "MT3",
+          "models": []
+        }
+      ]
+    },
+    {
+      "name": "Regal Raptor",
+      "series": [
+        {
+          "name": "K4",
+          "models": []
+        },
+        {
+          "name": "K5 Long",
+          "models": []
+        }
+      ]
+    },
+    {
+      "name": "Renault",
+      "series": [
+        {
+          "name": "Clio",
+          "models": [
+            "0.9 TCe Icon",
+            "0.9 TCe Joy",
+            "0.9 TCe Sport Tourer Joy",
+            "0.9 TCe Sport Tourer Touch",
+            "0.9 TCe Touch",
+            "1.0 SCe Joy",
+            "1.0 TCe Equilibre",
+            "1.0 TCe Evolution",
+            "1.0 TCe Icon",
+            "1.0 TCe Joy",
+            "1.0 TCe RS Line",
+            "1.0 TCe Techno Esprit Alpine",
+            "1.0 TCe Touch",
+            "1.2 Authentique",
+            "1.2 Expression",
+            "1.2 Extreme",
+            "1.2 GT Line",
+            "1.2 Grandtour Dynamique",
+            "1.2 Icon",
+            "1.2 Joy",
+            "1.2 Night & Day",
+            "1.2 SportTourer Icon",
+            "1.2 SportTourer Joy",
+            "1.2 Touch",
+            "1.2 Turbo Joy",
+            "1.3 TCe Icon",
+            "1.3 TCe Touch",
+            "1.4",
+            "1.4 Alize",
+            "1.4 Authentique",
+            "1.4 Dynamique",
+            "1.4 Expression",
+            "1.4 Fidji",
+            "1.4 Privilege",
+            "1.4 RN",
+            "1.4 RNA",
+            "1.4 RT",
+            "1.4 RTA",
+            "1.4 RXT",
+            "1.5 BlueDCI Joy",
+            "1.5 dCi Alize",
+            "1.5 dCi Authentique",
+            "1.5 dCi Dynamique",
+            "1.5 dCi Expression",
+            "1.5 dCi Extreme",
+            "1.5 dCi Fidji",
+            "1.5 dCi GT Line",
+            "1.5 dCi Grandtour Authentique",
+            "1.5 dCi Grandtour Executive",
+            "1.5 dCi Grandtour Extreme",
+            "1.5 dCi Icon",
+            "1.5 dCi Joy",
+            "1.5 dCi SportTourer Icon",
+            "1.5 dCi SportTourer Joy",
+            "1.5 dCi SportTourer Touch",
+            "1.5 dCi Tom Tom Edition",
+            "1.5 dCi Touch",
+            "1.6 Dynamique",
+            "1.6 Executive",
+            "1.6 Extreme Edition",
+            "1.6 Grandtour Extreme",
+            "1.6 Grandtour Night & Day",
+            "1.6 RTE",
+            "1.6 RXT"
+          ]
+        },
+        {
+          "name": "Espace",
+          "models": [
+            "2.2 DT RXE"
+          ]
+        },
+        {
+          "name": "Fluence",
+          "models": [
+            "1.5 dCi Authentique",
+            "1.5 dCi Business",
+            "1.5 dCi Dynamique",
+            "1.5 dCi Expression",
+            "1.5 dCi Extreme",
+            "1.5 dCi Extreme Edition",
+            "1.5 dCi Icon",
+            "1.5 dCi Joy",
+            "1.5 dCi Privilege",
+            "1.5 dCi Touch",
+            "1.5 dCi Touch Plus",
+            "1.6 Business",
+            "1.6 Dynamique",
+            "1.6 Expression",
+            "1.6 Extreme",
+            "1.6 Icon",
+            "1.6 Privilege",
+            "1.6 Touch",
+            "1.6 dCi Icon"
+          ]
+        },
+        {
+          "name": "Grand Scenic",
+          "models": [
+            "1.5 dCi Expression",
+            "1.5 dCi Privilege"
+          ]
+        },
+        {
+          "name": "Laguna",
+          "models": [
+            "1.5 dCi Privilege",
+            "1.6 Authentique",
+            "1.6 Expression",
+            "1.6 Privilege",
+            "1.6 RXE",
+            "1.9 DTi RXT",
+            "1.9 dCi Authentique",
+            "2.0 RTI",
+            "2.0 RXE",
+            "2.0 RXT",
+            "2.0 dCi Executive"
+          ]
+        },
+        {
+          "name": "Latitude",
+          "models": [
+            "1.5 dCi Executive",
+            "1.5 dCi Expression",
+            "1.5 dCi Privilege",
+            "2.0 dCi Executive",
+            "2.0 dCi Privilege"
+          ]
+        },
+        {
+          "name": "Megane",
+          "models": [
+            "1.0 TCe Joy",
+            "1.2 TCe Touch",
+            "1.2 TCe Touchrome",
+            "1.3 TCe Icon",
+            "1.3 TCe Joy",
+            "1.3 TCe Joy Comfort",
+            "1.3 TCe Touch",
+            "1.4 Authentique",
+            "1.4 RNA",
+            "1.4 RTA",
+            "1.5 Blue DCI Icon",
+            "1.5 Blue DCI Joy",
+            "1.5 Blue DCI Joy Comfort",
+            "1.5 Blue DCI Touch",
+            "1.5 dCi Authentique",
+            "1.5 dCi Business",
+            "1.5 dCi Dynamique",
+            "1.5 dCi Exception",
+            "1.5 dCi Expression",
+            "1.5 dCi Expression Plus",
+            "1.5 dCi Extreme",
+            "1.5 dCi GT-Line",
+            "1.5 dCi Icon",
+            "1.5 dCi Joy",
+            "1.5 dCi Joy Plus",
+            "1.5 dCi Privilege",
+            "1.5 dCi Sport Edition",
+            "1.5 dCi Sport Tourer Expression",
+            "1.5 dCi Sport Tourer Privilege",
+            "1.5 dCi Sportway",
+            "1.5 dCi Touch",
+            "1.5 dCi Touch Plus",
+            "1.5 dCi Touchrome",
+            "1.6 Alize",
+            "1.6 Authentique",
+            "1.6 CC Dynamique",
+            "1.6 Coupe Privilege",
+            "1.6 Coupe RN",
+            "1.6 Dynamique",
+            "1.6 Exception",
+            "1.6 Expression",
+            "1.6 Extreme",
+            "1.6 Icon",
+            "1.6 Joy",
+            "1.6 Privilege",
+            "1.6 RNA",
+            "1.6 RTA",
+            "1.6 RTE",
+            "1.6 RXE",
+            "1.6 RXT",
+            "1.6 RXi",
+            "1.6 Sportway",
+            "1.6 TCe GT",
+            "1.6 Touch",
+            "1.6 Touch Plus",
+            "1.6 dCi GT-Line",
+            "1.6 dCi GT-Line Energy",
+            "1.6 dCi Icon",
+            "1.9 DTi Expression",
+            "1.9 DTi RTE",
+            "2.0 RXE",
+            "2.0 RXT"
+          ]
+        },
+        {
+          "name": "Megane E-Tech",
+          "models": [
+            "Iconic"
+          ]
+        },
+        {
+          "name": "Modus",
+          "models": [
+            "1.4 Authentique",
+            "1.4 Dynamique"
+          ]
+        },
+        {
+          "name": "R 11",
+          "models": [
+            "Flash",
+            "GTS",
+            "Rainbow",
+            "TX"
+          ]
+        },
+        {
+          "name": "R 12",
+          "models": [
+            "SW",
+            "TL",
+            "TS",
+            "TSW",
+            "TX",
+            "Toros"
+          ]
+        },
+        {
+          "name": "R 19",
+          "models": [
+            "1.4 1.4i",
+            "1.4 Beymen Club",
+            "1.4 Europa RL",
+            "1.4 Europa RN",
+            "1.4 Europa RNA",
+            "1.4 Europa RT",
+            "1.4 RN",
+            "1.6 Europa RL",
+            "1.6 Europa RNA",
+            "1.6 Europa RNE",
+            "1.6 Europa RT",
+            "1.6 Europa RTE",
+            "1.6 Europa iE",
+            "1.7 Europa RNE Alize",
+            "1.8 Europa RTI",
+            "1.9 Europa RN",
+            "1.9 Europa RNA TD"
+          ]
+        },
+        {
+          "name": "R 21",
+          "models": [
+            "1.7 GTS Manager",
+            "2.0 Concorde",
+            "2.0 GTD"
+          ]
+        },
+        {
+          "name": "R 25",
+          "models": [
+            "2.2 TX"
+          ]
+        },
+        {
+          "name": "R 9",
+          "models": [
+            "1.4 Broadway",
+            "1.4 Broadway GTE",
+            "1.4 Broadway RL",
+            "1.4 Broadway RN",
+            "1.4 Broadway RNi",
+            "1.4 GT",
+            "1.4 Spring",
+            "1.4 TSE",
+            "1.6 Fairway"
+          ]
+        },
+        {
+          "name": "Safrane",
+          "models": [
+            "2.0",
+            "2.0 RXE"
+          ]
+        },
+        {
+          "name": "Scenic",
+          "models": [
+            "1.5 dCi Privilege",
+            "1.5 dCi Sportway",
+            "1.6 Authentique",
+            "1.6 Dynamique",
+            "1.6 Exception",
+            "1.6 Privilege",
+            "1.6 RTE",
+            "1.6 RXE",
+            "1.6 RXT",
+            "1.9 dCi Dynamique",
+            "1.9 dCi Privilege",
+            "1.9 dCi RXT"
+          ]
+        },
+        {
+          "name": "Symbol",
+          "models": [
+            "0.9 Joy",
+            "0.9 TCe Joy",
+            "1.0 SCe Joy",
+            "1.0 SCe Touch",
+            "1.0 TCe Joy",
+            "1.2 Authentique",
+            "1.2 Authentique Edition",
+            "1.2 Expression",
+            "1.2 Expression Plus",
+            "1.2 Joy",
+            "1.2 SL Collect",
+            "1.2 Touch",
+            "1.4 Authentique",
+            "1.4 Expression",
+            "1.4 Expression Plus",
+            "1.5 dCi Authentique",
+            "1.5 dCi Dynamique",
+            "1.5 dCi Expression",
+            "1.5 dCi Expression Plus",
+            "1.5 dCi Extreme",
+            "1.5 dCi Joy",
+            "1.5 dCi Touch"
+          ]
+        },
+        {
+          "name": "Taliant",
+          "models": [
+            "1.0 Sce Joy",
+            "1.0 Tce Joy",
+            "1.0 Tce Touch"
+          ]
+        },
+        {
+          "name": "Talisman",
+          "models": [
+            "1.5 dCi Touch",
+            "1.6 dCi Icon",
+            "1.6 dCi Touch"
+          ]
+        },
+        {
+          "name": "Twingo",
+          "models": [
+            "1.2 Base",
+            "1.2 Dynamique",
+            "1.2 Wind"
+          ]
+        },
+        {
+          "name": "Twizy",
+          "models": []
+        },
+        {
+          "name": "Vel Satis",
+          "models": [
+            "2.0 T Expression"
+          ]
+        },
+        {
+          "name": "Zoe",
+          "models": []
+        }
+      ]
+    },
+    {
+      "name": "Rolls-Royce",
+      "series": [
+        {
+          "name": "Ghost",
+          "models": [
+            "6.6"
+          ]
+        },
+        {
+          "name": "Phantom",
+          "models": []
+        },
+        {
+          "name": "Silver",
+          "models": [
+            "Spur"
+          ]
+        },
+        {
+          "name": "Spectre",
+          "models": [
+            "Coupe"
+          ]
+        },
+        {
+          "name": "Wraith",
+          "models": [
+            "6.6 V12"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Rover",
+      "series": [
+        {
+          "name": "200",
+          "models": [
+            "Vi"
+          ]
+        },
+        {
+          "name": "214",
+          "models": [
+            "Si"
+          ]
+        },
+        {
+          "name": "216",
+          "models": [
+            "Cabrio",
+            "Coupe",
+            "GSi",
+            "SLi",
+            "Si"
+          ]
+        },
+        {
+          "name": "218",
+          "models": [
+            "Vi"
+          ]
+        },
+        {
+          "name": "220",
+          "models": [
+            "Turbo"
+          ]
+        },
+        {
+          "name": "25",
+          "models": [
+            "1.6 Club"
+          ]
+        },
+        {
+          "name": "414",
+          "models": [
+            "SLi",
+            "Si"
+          ]
+        },
+        {
+          "name": "416",
+          "models": [
+            "Si"
+          ]
+        },
+        {
+          "name": "420",
+          "models": [
+            "Si"
+          ]
+        },
+        {
+          "name": "45",
+          "models": [
+            "1.6 Classic",
+            "1.6 Club"
+          ]
+        },
+        {
+          "name": "620",
+          "models": [
+            "Si",
+            "Ti"
+          ]
+        },
+        {
+          "name": "623 Si",
+          "models": []
+        },
+        {
+          "name": "75",
+          "models": [
+            "1.8 Club",
+            "1.8 T",
+            "2.0 CDTi Club",
+            "2.0 Club"
+          ]
+        },
+        {
+          "name": "820",
+          "models": [
+            "Ti"
+          ]
+        },
+        {
+          "name": "Streetwise",
+          "models": [
+            "1.4"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Saab",
+      "series": [
+        {
+          "name": "9-3",
+          "models": [
+            "1.9 TiD Vector",
+            "2.0 TS Aero",
+            "2.0 Turbo Aero",
+            "2.0 Turbo SE",
+            "2.0 Turbo Vector"
+          ]
+        },
+        {
+          "name": "900",
+          "models": [
+            "2.0"
+          ]
+        },
+        {
+          "name": "9000",
+          "models": [
+            "2.0"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Seat",
+      "series": [
+        {
+          "name": "Alhambra",
+          "models": [
+            "1.4 TSI Style",
+            "1.9 TDI",
+            "2.0 TDI Style",
+            "2.0 TSI Style"
+          ]
+        },
+        {
+          "name": "Altea",
+          "models": [
+            "1.4 TSI Style XL",
+            "1.6 Reference",
+            "1.6 Stylance",
+            "1.6 TDI I-Tech XL",
+            "1.6 TDI Style XL",
+            "1.9 TDI Style"
+          ]
+        },
+        {
+          "name": "Cordoba",
+          "models": [
+            "1.4 Basic",
+            "1.4 Costa",
+            "1.4 Elegance",
+            "1.4 Reference",
+            "1.4 Signo",
+            "1.4 Sport",
+            "1.4 Stella",
+            "1.4 Stylance",
+            "1.4 TDI Basic",
+            "1.4 TDI Elegance",
+            "1.4 TDI Reference",
+            "1.4 TDI S-Rider",
+            "1.4 TDI Signo",
+            "1.4 TDI Stella",
+            "1.4 TDI Stylance",
+            "1.6 Latino",
+            "1.6 SE",
+            "1.6 SX",
+            "1.6 SXE",
+            "1.6 Signo",
+            "1.6 Stella",
+            "1.9 SDI Stella",
+            "1.9 TDI Signo",
+            "1.9 TDI Signo Vario",
+            "1.9 TDI Sport"
+          ]
+        },
+        {
+          "name": "Exeo",
+          "models": [
+            "1.6 Reference",
+            "1.6 Style"
+          ]
+        },
+        {
+          "name": "Ibiza",
+          "models": [
+            "1.0 EcoTSI FR",
+            "1.0 EcoTSI Style",
+            "1.0 EcoTSI Xcellence",
+            "1.0 MPI",
+            "1.0 Referance",
+            "1.0 Style",
+            "1.2 Elegance",
+            "1.2 GLX",
+            "1.2 Reference",
+            "1.2 Stella",
+            "1.2 TDI Reference",
+            "1.2 TSI Reference",
+            "1.2 TSI Sport Coupe FR",
+            "1.2 TSI Sport Coupe Sport",
+            "1.2 TSI Sport Tourer Reference",
+            "1.2 TSI Sport Tourer Style",
+            "1.2 TSI Style",
+            "1.3 GLX",
+            "1.4 Copa",
+            "1.4 Copa Plus",
+            "1.4 E",
+            "1.4 Elegance",
+            "1.4 Reference",
+            "1.4 Signo",
+            "1.4 Sport",
+            "1.4 Sport Coupe Reference",
+            "1.4 Sport Tourer Reference",
+            "1.4 Sport Tourer Style",
+            "1.4 Stella",
+            "1.4 Stylance",
+            "1.4 Style",
+            "1.4 TDI Elegance",
+            "1.4 TDI Reference",
+            "1.4 TDI Signo",
+            "1.4 TDI Sport",
+            "1.4 TDI Stella",
+            "1.4 TDI Stylance",
+            "1.4 TDI Style",
+            "1.4 TSI Sport Coupe Bocanegra",
+            "1.4 TSI Sport Coupe Cupra",
+            "1.4 TSI Sport Coupe FR",
+            "1.5 EcoTSI FR",
+            "1.5 GLX",
+            "1.6 Elegance",
+            "1.6 Latino",
+            "1.6 Reference",
+            "1.6 SE",
+            "1.6 SXE",
+            "1.6 Signo",
+            "1.6 Sport",
+            "1.6 Stella",
+            "1.6 Style",
+            "1.6 TDI CR Reference",
+            "1.6 TDI CR Style",
+            "1.6 TDI Style",
+            "1.8 GLX",
+            "1.9 TDI Cupra",
+            "1.9 TDI Stella"
+          ]
+        },
+        {
+          "name": "Leon",
+          "models": [
+            "1.0 EcoTSI Ecomotive Style",
+            "1.0 EcoTSI Ecomotive Style Visio",
+            "1.0 TSI Style",
+            "1.0 eTSI Style",
+            "1.0 eTSI Style Plus",
+            "1.2 TSI Reference",
+            "1.2 TSI Style",
+            "1.4 EcoTSI FR",
+            "1.4 EcoTSI Xcellence",
+            "1.4 TSI Copa Plus",
+            "1.4 TSI FR",
+            "1.4 TSI Reference",
+            "1.4 TSI Sport Coupe FR",
+            "1.4 TSI Stylance",
+            "1.4 TSI Style",
+            "1.5 EcoTSI FR",
+            "1.5 EcoTSI Style",
+            "1.5 EcoTSI Xcellence",
+            "1.5 TSI FR",
+            "1.5 eTSI FR",
+            "1.5 eTSI Xcellence",
+            "1.6 Reference",
+            "1.6 Signo",
+            "1.6 Spirit",
+            "1.6 Sport",
+            "1.6 Stella",
+            "1.6 Stylance",
+            "1.6 Style",
+            "1.6 TDI CR Style",
+            "1.6 TDI Copa Plus",
+            "1.6 TDI FR",
+            "1.6 TDI Sport Tourer Style",
+            "1.6 TDI Sport Tourer X-Perience",
+            "1.6 TDI Style",
+            "1.6 TDI Xcellence",
+            "1.8 Signo",
+            "1.8 T Cupra R",
+            "1.9 TDI FR",
+            "1.9 TDI Sport",
+            "1.9 TDI Stella",
+            "1.9 TDI Style",
+            "2.0 TDI Style",
+            "2.0 TFSI Cupra",
+            "2.0 TFSI FR",
+            "2.0 TFSI Sport Up"
+          ]
+        },
+        {
+          "name": "Malaga",
+          "models": [
+            "GLXi"
+          ]
+        },
+        {
+          "name": "Marbella",
+          "models": [
+            "1.0"
+          ]
+        },
+        {
+          "name": "Toledo",
+          "models": [
+            "1.2 TSI Reference",
+            "1.2 TSI Style",
+            "1.4 TDI Style",
+            "1.4 TSI Style",
+            "1.6 GL",
+            "1.6 Reference",
+            "1.6 Signo",
+            "1.6 Signo Plus",
+            "1.6 Signum",
+            "1.6 Spirit",
+            "1.6 Stella",
+            "1.6 Stella Plus",
+            "1.6 Style",
+            "1.6 TDI Reference",
+            "1.6 TDI Style",
+            "1.8 GLX",
+            "1.8 Signo",
+            "1.8 T Sport",
+            "1.9 TDI SXE",
+            "1.9 TDI Signo",
+            "2.0",
+            "2.0 TDI Stylance"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Skoda",
+      "series": [
+        {
+          "name": "Citigo",
+          "models": [
+            "1.0 Ambition",
+            "1.0 Elegance"
+          ]
+        },
+        {
+          "name": "Fabia",
+          "models": [
+            "1.0 GreenTec Ambition",
+            "1.0 GreenTec Style",
+            "1.0 Style",
+            "1.0 TSI Elite",
+            "1.0 TSI Premium",
+            "1.2 Ambiente",
+            "1.2 Ambiente Dynamic",
+            "1.2 Ambition",
+            "1.2 Choice",
+            "1.2 Classic",
+            "1.2 Comfort",
+            "1.2 Elegance",
+            "1.2 Optimal",
+            "1.2 TSI Ambiente",
+            "1.2 TSI Ambition",
+            "1.2 TSI Style",
+            "1.4 Ambiente",
+            "1.4 Ambiente Dynamic",
+            "1.4 Choice",
+            "1.4 Classic",
+            "1.4 Comfort",
+            "1.4 Elegance",
+            "1.4 Optimal",
+            "1.4 Scout",
+            "1.4 Special",
+            "1.4 TDI Ambiente",
+            "1.4 TDI Classic",
+            "1.4 TDI Comfort",
+            "1.4 TDI Elegance",
+            "1.4 TDI Special",
+            "1.4 TSI RS",
+            "1.5 TSI Monte Carlo",
+            "1.6 Classic",
+            "1.6 Elegance",
+            "1.6 TDI Ambiente",
+            "1.6 TDI Ambiente Dinamik",
+            "1.6 TDI Fabia 1.6 TDI Elegance",
+            "1.6 TDI Optimal",
+            "1.6 TDI Scout",
+            "1.9 SDI Classic"
+          ]
+        },
+        {
+          "name": "Favorit",
+          "models": [
+            "1.3 Black Line",
+            "1.3 GLX",
+            "1.3 LX",
+            "1.3 LXi",
+            "1.3 Silver Line",
+            "1.3 Sportline",
+            "135 L",
+            "135 LS",
+            "135 LX",
+            "136 L"
+          ]
+        },
+        {
+          "name": "Felicia",
+          "models": [
+            "1.3",
+            "1.3 GLX",
+            "1.3 GLXi",
+            "1.3 LX",
+            "1.3 LXi",
+            "1.6 GLXi",
+            "1.9 D",
+            "1.9 D GLX"
+          ]
+        },
+        {
+          "name": "Forman",
+          "models": [
+            "135 L",
+            "135 LS",
+            "GLX",
+            "LE",
+            "LX"
+          ]
+        },
+        {
+          "name": "Octavia",
+          "models": [
+            "1.0 TSI Ambition",
+            "1.0 TSI Optimal",
+            "1.0 TSI Style",
+            "1.0 e-Tec Elite",
+            "1.0 e-Tec Premium",
+            "1.2 TSI Ambition",
+            "1.2 TSI Optimal",
+            "1.2 TSI Style",
+            "1.4 TSI Ambiente",
+            "1.4 TSI Elegance",
+            "1.4 TSI Optimal",
+            "1.4 TSI Sport",
+            "1.4 TSI Style",
+            "1.5 Mhev Elite",
+            "1.5 Mhev Premium",
+            "1.5 Mhev Prestige",
+            "1.5 TSI Style",
+            "1.5 e-Tec Elite",
+            "1.5 e-Tec Premium",
+            "1.5 e-Tec Sportline",
+            "1.6 Ambiente",
+            "1.6 Ambiente Optimal",
+            "1.6 Ambition Optimal",
+            "1.6 Classic",
+            "1.6 Collection Plus",
+            "1.6 Elegance",
+            "1.6 FSI Ambiente",
+            "1.6 FSI Elegance",
+            "1.6 GLX",
+            "1.6 TDI Active",
+            "1.6 TDI Ambiente",
+            "1.6 TDI Ambition",
+            "1.6 TDI Ambition Optimal",
+            "1.6 TDI Classic",
+            "1.6 TDI Elegance",
+            "1.6 TDI Elegance CR",
+            "1.6 TDI Optimal",
+            "1.6 TDI Style",
+            "1.6 TDI Style CR",
+            "1.6 Tour",
+            "1.8 T Elegance",
+            "1.9 TDI",
+            "1.9 TDI Ambiente",
+            "1.9 TDI Classic",
+            "1.9 TDI Elegance",
+            "1.9 TDI Tour",
+            "2.0 TDI Elegance",
+            "2.0 TDI RS",
+            "2.0 TSI RS"
+          ]
+        },
+        {
+          "name": "Rapid",
+          "models": [
+            "1.0 TSI GreenTec Style",
+            "1.2 Active",
+            "1.2 Ambition",
+            "1.2 TSI Ambition",
+            "1.2 TSI Elegance",
+            "1.2 TSI GreenTec Ambition",
+            "1.2 TSI GreenTec Style",
+            "1.2 TSI Spaceback Ambition",
+            "1.2 TSI Spaceback Elegance",
+            "1.2 TSI Spaceback Style",
+            "1.4 TDI Ambition",
+            "1.4 TDI GreenTec Ambition",
+            "1.4 TDI GreenTec Style",
+            "1.4 TDI Spaceback Ambition",
+            "1.4 TDI Spaceback Style",
+            "1.4 TDI Style",
+            "1.4 TSI Ambition",
+            "1.6 TDI Ambition",
+            "1.6 TDI Elegance",
+            "1.6 TDI GreenTec Style",
+            "1.6 TDI Spaceback Ambition",
+            "1.6 TDI Spaceback Elegance"
+          ]
+        },
+        {
+          "name": "Roomster",
+          "models": [
+            "1.2",
+            "1.2 Active",
+            "1.2 Dinamik",
+            "1.2 Style",
+            "1.4",
+            "1.4 Comfort",
+            "1.4 Panaroma",
+            "1.4 TDI",
+            "1.4 TDI Comfort",
+            "1.4 TDI Style",
+            "1.6 Comfort",
+            "1.6 Style",
+            "1.6 TDI Active",
+            "1.6 TDI Comfort",
+            "1.6 TDI Style"
+          ]
+        },
+        {
+          "name": "Scala",
+          "models": [
+            "1.0 TSI Comfort",
+            "1.0 TSI Elite",
+            "1.0 TSI Premium",
+            "1.5 TSI Monte Carlo",
+            "1.5 TSI Premium",
+            "1.6 TDI Premium"
+          ]
+        },
+        {
+          "name": "SuperB",
+          "models": [
+            "1.4 TSI Active",
+            "1.4 TSI Ambition",
+            "1.4 TSI Comfort",
+            "1.4 TSI Elegance",
+            "1.4 TSI Prestige",
+            "1.4 TSI Style",
+            "1.5 TSI Comfort Plus",
+            "1.5 TSI Elite",
+            "1.5 TSI L&K Crystal",
+            "1.5 TSI Premium",
+            "1.5 TSI Prestige",
+            "1.5 TSI Scout",
+            "1.5 TSI Sportline",
+            "1.5 TSI Style",
+            "1.6 TDI Active",
+            "1.6 TDI Ambition",
+            "1.6 TDI Comfort",
+            "1.6 TDI Elegance",
+            "1.6 TDI Elite",
+            "1.6 TDI Premium",
+            "1.6 TDI Prestige",
+            "1.6 TDI Style",
+            "1.8 T Comfort",
+            "1.8 T Elegance",
+            "1.9 TDI Comfort",
+            "1.9 TDI Elegance",
+            "2.0 TDI Elegance",
+            "2.0 TDI Laurin&Klement",
+            "2.0 TDI Prestige",
+            "2.5 TDI Elegance"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Smart",
+      "series": [
+        {
+          "name": "ForFour",
+          "models": [
+            "0.9 Turbo Passion",
+            "1.0 Passion",
+            "1.1 Passion",
+            "1.5 CDI Passion",
+            "1.5 Passion"
+          ]
+        },
+        {
+          "name": "ForTwo",
+          "models": [
+            "0.7 Passion",
+            "0.7 Pulse",
+            "1.0 Passion",
+            "1.0 Pulse"
+          ]
+        },
+        {
+          "name": "Roadster",
+          "models": []
+        }
+      ]
+    },
+    {
+      "name": "Subaru",
+      "series": [
+        {
+          "name": "BRZ",
+          "models": [
+            "2.0R Premium"
+          ]
+        },
+        {
+          "name": "Impreza",
+          "models": [
+            "1.5 AWD",
+            "1.5 Active",
+            "1.5 Comfort",
+            "1.5 Elegance",
+            "1.5 FWD",
+            "1.6 GL",
+            "1.6 TS",
+            "2.0 Active",
+            "2.0 Comfort",
+            "2.0 WRX STI",
+            "2.5 WRX",
+            "2.5 WRX STi"
+          ]
+        },
+        {
+          "name": "Justy",
+          "models": [
+            "1.0",
+            "1.2 GLi"
+          ]
+        },
+        {
+          "name": "Legacy",
+          "models": [
+            "1.8",
+            "2.0",
+            "2.0 Business",
+            "2.0 GL",
+            "2.0 SportWagon",
+            "2.0 TD Premium",
+            "2.5 GT"
+          ]
+        },
+        {
+          "name": "Levorg",
+          "models": [
+            "1.6 GT-S CVT",
+            "1.6 Sport Plus"
+          ]
+        },
+        {
+          "name": "Vivio",
+          "models": [
+            "GL"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Suzuki",
+      "series": [
+        {
+          "name": "Alto",
+          "models": [
+            "0.8 GL",
+            "1.0 GL",
+            "1.1 GL",
+            "1.1 GLX"
+          ]
+        },
+        {
+          "name": "Baleno",
+          "models": [
+            "1.2",
+            "1.6",
+            "1.6 GLX"
+          ]
+        },
+        {
+          "name": "Liana",
+          "models": [
+            "1.6 GLX"
+          ]
+        },
+        {
+          "name": "Maruti",
+          "models": [
+            "800"
+          ]
+        },
+        {
+          "name": "SX4",
+          "models": [
+            "GL",
+            "GLX"
+          ]
+        },
+        {
+          "name": "Splash",
+          "models": [
+            "1.2 GA",
+            "1.2 GLS",
+            "1.3 DDiS"
+          ]
+        },
+        {
+          "name": "Swift",
+          "models": [
+            "1.0 GA",
+            "1.0 GL",
+            "1.2 GL",
+            "1.2 GLX",
+            "1.3 DDiS GL",
+            "1.3 GL",
+            "1.3 GLS",
+            "1.3 GLX",
+            "1.3 GTi",
+            "1.3 MT",
+            "1.3 MT 4X2",
+            "1.3 MT 4X4",
+            "1.5 AT",
+            "1.6",
+            "1.6 Sport"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Tata",
+      "series": [
+        {
+          "name": "Indica",
+          "models": [
+            "1.4 Basic",
+            "1.4 Comfort",
+            "1.4 DLX",
+            "1.4 TDI",
+            "1.4 TDI Comfort",
+            "1.4 TDI Limited",
+            "1.4 TDI Trend"
+          ]
+        },
+        {
+          "name": "Indigo",
+          "models": [
+            "1.4 MPFI Comfort",
+            "1.4 MPFI Trend",
+            "1.4 TDI Comfort",
+            "1.4 TDI Trend"
+          ]
+        },
+        {
+          "name": "Manza",
+          "models": [
+            "Aura 1.4 Safire",
+            "Ignis 1.4 Safire"
+          ]
+        },
+        {
+          "name": "Marina",
+          "models": [
+            "1.4 TDI Comfort",
+            "1.4 TDI Trend"
+          ]
+        },
+        {
+          "name": "Vista",
+          "models": [
+            "1.3 TDI Quadrojet",
+            "1.3 TDI Quadrojet Aura",
+            "1.4 Safire Aura"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Tesla",
+      "series": [
+        {
+          "name": "Model 3",
+          "models": [
+            "Long Range",
+            "Performance",
+            "Standart+"
+          ]
+        },
+        {
+          "name": "Model S",
+          "models": [
+            "100D",
+            "75D",
+            "P100D"
+          ]
+        },
+        {
+          "name": "Model Y",
+          "models": [
+            "Long Range AWD",
+            "Performance",
+            "Standart Range"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "The London Taxi",
+      "series": [
+        {
+          "name": "TX4",
+          "models": []
+        }
+      ]
+    },
+    {
+      "name": "Tofa?",
+      "series": [
+        {
+          "name": "?ahin",
+          "models": [
+            "1.4",
+            "1.4 ie",
+            "1.6",
+            "1.6 ie",
+            "?ahin 5 Vites",
+            "S"
+          ]
+        },
+        {
+          "name": "Do?an",
+          "models": [
+            "1.6 ie",
+            "L",
+            "S",
+            "SL",
+            "SLX",
+            "SLX ie"
+          ]
+        },
+        {
+          "name": "Kartal",
+          "models": [
+            "1.6",
+            "1.6 ie",
+            "Kartal 5 Vites",
+            "S",
+            "SL",
+            "SLX",
+            "SLX ie"
+          ]
+        },
+        {
+          "name": "Murat",
+          "models": [
+            "124",
+            "131"
+          ]
+        },
+        {
+          "name": "Ser?e",
+          "models": []
+        }
+      ]
+    },
+    {
+      "name": "Toyota",
+      "series": [
+        {
+          "name": "Auris",
+          "models": [
+            "1.33 Comfort",
+            "1.33 Life",
+            "1.4 D-4D Active",
+            "1.4 D-4D Active Skypack",
+            "1.4 D-4D Advance",
+            "1.4 D-4D Advance Skypack",
+            "1.4 D-4D Blue",
+            "1.4 D-4D Comfort",
+            "1.4 D-4D Comfort Extra",
+            "1.4 D-4D Comfort Plus",
+            "1.4 D-4D Elegant",
+            "1.4 D-4D Premium",
+            "1.4 D-4D Touring Sports Premium",
+            "1.6 Active",
+            "1.6 Active Skypack",
+            "1.6 Advance",
+            "1.6 Advance Skypack",
+            "1.6 Blue",
+            "1.6 Class",
+            "1.6 Comfort",
+            "1.6 Comfort Extra",
+            "1.6 Elegant",
+            "1.6 Premium",
+            "1.6 Sport",
+            "1.6 Touch",
+            "1.8 Hybrid Active Skypack",
+            "1.8 Hybrid Advance"
+          ]
+        },
+        {
+          "name": "Avensis",
+          "models": [
+            "1.6 Advance",
+            "1.6 Comfort",
+            "1.6 D-4D Advance",
+            "1.6 D-4D Premium",
+            "1.6 D-4D Premium Plus",
+            "1.6 Elegant",
+            "1.6 Elegant Extra",
+            "1.8 Elegant",
+            "1.8 Premium",
+            "2.0 Comfort",
+            "2.0 D-4D",
+            "2.0 D-4D Elegant",
+            "2.0 Elegant",
+            "2.0 Executive",
+            "2.0 Executive Elegant",
+            "2.0 Liftback",
+            "2.0 Sol",
+            "2.0 Sol Extra"
+          ]
+        },
+        {
+          "name": "Camry",
+          "models": [
+            "2.2 GL",
+            "2.4",
+            "3.0 GX"
+          ]
+        },
+        {
+          "name": "Carina",
+          "models": [
+            "2.0 GLi"
+          ]
+        },
+        {
+          "name": "Corolla",
+          "models": [
+            "1.2 Turbo Dream X-Pack",
+            "1.3 Base",
+            "1.3 ECO",
+            "1.3 L",
+            "1.3 Terra",
+            "1.3 XE",
+            "1.3 XL",
+            "1.3 XLi",
+            "1.33 Comfort",
+            "1.33 Life",
+            "1.4 D-4D Active",
+            "1.4 D-4D Advance",
+            "1.4 D-4D Class",
+            "1.4 D-4D Comfort",
+            "1.4 D-4D Comfort Extra",
+            "1.4 D-4D Elegant",
+            "1.4 D-4D Life",
+            "1.4 D-4D Luna",
+            "1.4 D-4D Plusline",
+            "1.4 D-4D Premium",
+            "1.4 D-4D Premium 50.Y?l",
+            "1.4 D-4D Sol",
+            "1.4 D-4D Terra",
+            "1.4 D-4D Touch",
+            "1.4 Linea Terra",
+            "1.4 Luna",
+            "1.4 Terra",
+            "1.4 Terra VVT-i",
+            "1.5 Dream",
+            "1.5 Dream X-Pack",
+            "1.5 Flame",
+            "1.5 Flame X-Pack",
+            "1.5 Passion X-Pack",
+            "1.5 Vision",
+            "1.5 Vision Plus",
+            "1.6",
+            "1.6 Active",
+            "1.6 Advance",
+            "1.6 Class",
+            "1.6 Comfort",
+            "1.6 Comfort Extra",
+            "1.6 Comfort Verso",
+            "1.6 Dream",
+            "1.6 Elegant",
+            "1.6 Elegant Verso",
+            "1.6 Flame",
+            "1.6 Flame X Pack",
+            "1.6 GL",
+            "1.6 GLi",
+            "1.6 GLi Liftback",
+            "1.6 GLi Special",
+            "1.6 Life",
+            "1.6 Linea",
+            "1.6 Linea Sol",
+            "1.6 Linea Terra",
+            "1.6 Luna",
+            "1.6 Luna Special",
+            "1.6 Passion X-Pack",
+            "1.6 Premium",
+            "1.6 Premium 50.Y?l",
+            "1.6 Sol",
+            "1.6 Sol Plus",
+            "1.6 Sol Special",
+            "1.6 Sol Special VVT-i",
+            "1.6 Sol VVT-i",
+            "1.6 Sport",
+            "1.6 Sport VVT-i",
+            "1.6 Terra",
+            "1.6 Terra Special",
+            "1.6 Terra Special VVT-i",
+            "1.6 Terra VVT-i",
+            "1.6 Touch",
+            "1.6 Verso",
+            "1.6 Vision",
+            "1.6 XE",
+            "1.6 XEi",
+            "1.6 XEi Special",
+            "1.6 XL",
+            "1.6 XLi",
+            "1.8 Hybrid Dream",
+            "1.8 Hybrid Dream X-Pack",
+            "1.8 Hybrid Flame",
+            "1.8 Hybrid Flame X-Pack",
+            "1.8 Hybrid Passion X-Pack",
+            "1.8 Hybrid Vision",
+            "2.0 D-4D Comfort Extra Verso"
+          ]
+        },
+        {
+          "name": "Corona",
+          "models": [
+            "2.0 GLi",
+            "2.0 XL"
+          ]
+        },
+        {
+          "name": "Cressida",
+          "models": [
+            "2.0 GLX"
+          ]
+        },
+        {
+          "name": "Starlet",
+          "models": [
+            "1.3",
+            "1.3 XLi",
+            "1.4 XLi"
+          ]
+        },
+        {
+          "name": "Urban Cruiser",
+          "models": [
+            "1.33 Elegant"
+          ]
+        },
+        {
+          "name": "Verso",
+          "models": [
+            "1.6 Comfort",
+            "1.6 Comfort Extra",
+            "1.6 D-4D Advance",
+            "1.6 D-4D Comfort Extra",
+            "1.6 D-4D Elegant",
+            "1.6 Elegant",
+            "1.6 Premium",
+            "2.0 D-4D"
+          ]
+        },
+        {
+          "name": "Yaris",
+          "models": [
+            "1.0 Life",
+            "1.0 Sol",
+            "1.0 Terra",
+            "1.0 Terra Plus",
+            "1.0 Terra Sporty",
+            "1.3 Luna",
+            "1.3 Sol",
+            "1.3 Sol Special",
+            "1.3 Terra",
+            "1.33 Cool",
+            "1.33 Cool Skypack",
+            "1.33 Fun",
+            "1.33 Fun Special",
+            "1.33 Fun Special Skypack",
+            "1.33 Style",
+            "1.33 Style Skypack",
+            "1.33 Style X-Trend",
+            "1.33 Terra",
+            "1.33 Terra Sporty",
+            "1.4 D-4D Fun",
+            "1.4 D-4D Sol",
+            "1.4 D-4D Sol Special",
+            "1.4 D-4D Terra",
+            "1.5 Dream",
+            "1.5 Dream Multidrive S",
+            "1.5 Flame Multidrive S",
+            "1.5 Fun Special",
+            "1.5 Hybrid Cool",
+            "1.5 Hybrid Spirit"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Volkswagen",
+      "series": [
+        {
+          "name": "Arteon",
+          "models": [
+            "1.5 TSI Elegance",
+            "1.5 TSI R Line",
+            "2.0 TDI Elegance",
+            "2.0 TDI R Line"
+          ]
+        },
+        {
+          "name": "Bora",
+          "models": [
+            "1.6",
+            "1.6 Basic",
+            "1.6 Comfortline",
+            "1.6 Comfortline Variant",
+            "1.6 Highline",
+            "1.6 Pacific",
+            "1.6 Primeline",
+            "1.6 Trendline",
+            "1.8 4Motion",
+            "1.9 TDi Comfortline"
+          ]
+        },
+        {
+          "name": "EOS",
+          "models": [
+            "1.6 FSi Comfortline"
+          ]
+        },
+        {
+          "name": "Golf",
+          "models": [
+            "1.0 TSi Comfortline",
+            "1.0 TSi Highline",
+            "1.0 TSi Impression",
+            "1.0 TSi Midline Plus",
+            "1.0 eTSI Life",
+            "1.0 eTSI R Line",
+            "1.0 eTSI Style",
+            "1.2 TSi Allstar",
+            "1.2 TSi Comfortline",
+            "1.2 TSi Midline Plus",
+            "1.3",
+            "1.4 CL",
+            "1.4 TSi Allstar",
+            "1.4 TSi Comfortline",
+            "1.4 TSi GT",
+            "1.4 TSi Highline",
+            "1.4 TSi Midline",
+            "1.4 TSi Tour",
+            "1.4 TSi Trendline",
+            "1.5 TSi Comfortline",
+            "1.5 TSi Impression",
+            "1.5 eTSI Life",
+            "1.5 eTSI R Line",
+            "1.5 eTSI Style",
+            "1.6",
+            "1.6 Basic",
+            "1.6 Comfortline",
+            "1.6 FSi Comfortline",
+            "1.6 FSi Goal",
+            "1.6 FSi Midline",
+            "1.6 FSi Midline Plus",
+            "1.6 FSi Sportline",
+            "1.6 GL",
+            "1.6 Goal",
+            "1.6 Midline",
+            "1.6 Midline Plus",
+            "1.6 Pacific",
+            "1.6 Premium",
+            "1.6 Primeline",
+            "1.6 Sport",
+            "1.6 Sportline",
+            "1.6 TDi BlueMotion",
+            "1.6 TDi BlueMotion Comfortline",
+            "1.6 TDi BlueMotion Highline",
+            "1.6 TDi BlueMotion Midline Plus",
+            "1.6 TDi Comfortline",
+            "1.6 TDi Highline",
+            "1.6 TDi Trendline",
+            "1.6 Tour",
+            "1.6 Trendline",
+            "1.8 CL",
+            "1.8 GL",
+            "1.8 Highline",
+            "1.9 TD",
+            "1.9 TDi",
+            "1.9 TDi Comfortline",
+            "1.9 TDi Midline",
+            "2.0 TSi R",
+            "2.0 TSi R 4Motion"
+          ]
+        },
+        {
+          "name": "Jetta",
+          "models": [
+            "1.2 TSi BlueMotion Comfortline",
+            "1.2 TSi BlueMotion Highline",
+            "1.2 TSi BlueMotion Trendline",
+            "1.2 TSi Comfortline",
+            "1.2 TSi Highline",
+            "1.2 TSi Trendline",
+            "1.4 TSi BlueMotion Comfortline",
+            "1.4 TSi BlueMotion Highline",
+            "1.4 TSi BlueMotion Trendline",
+            "1.4 TSi Comfortline",
+            "1.4 TSi Exclusive",
+            "1.4 TSi Highline",
+            "1.4 TSi Tour",
+            "1.4 TSi Trendline",
+            "1.6",
+            "1.6 Comfortline",
+            "1.6 FSi Comfortline",
+            "1.6 FSi Midline",
+            "1.6 Midline",
+            "1.6 Primeline",
+            "1.6 TDi Comfortline",
+            "1.6 TDi Exclusive",
+            "1.6 TDi Highline",
+            "1.6 TDi Primeline",
+            "1.6 TDi Trendline",
+            "1.9 TDi Midline",
+            "1.9 TDi Primeline",
+            "2.0 TDi Comfortline"
+          ]
+        },
+        {
+          "name": "New Beetle",
+          "models": [
+            "1.2 TSi Beetle",
+            "1.2 TSi Design",
+            "1.2 TSi Style",
+            "1.6 TDi Design",
+            "2.0 Diamond",
+            "2.0 Pearl"
+          ]
+        },
+        {
+          "name": "Passat",
+          "models": [
+            "1.4 TSi BlueMotion Comfortline",
+            "1.4 TSi BlueMotion Exclusive",
+            "1.4 TSi BlueMotion Highline",
+            "1.4 TSi BlueMotion Trendline",
+            "1.4 TSi Comfortline",
+            "1.4 TSi Trendline",
+            "1.5 TSi Business",
+            "1.5 TSi Elegance",
+            "1.5 TSi Impression",
+            "1.5 TSi R Line",
+            "1.6",
+            "1.6 CL",
+            "1.6 Comfortline",
+            "1.6 Exclusive",
+            "1.6 FSi Comfortline",
+            "1.6 FSi Trendline",
+            "1.6 TDi BlueMotion",
+            "1.6 TDi BlueMotion Business",
+            "1.6 TDi BlueMotion Comfortline",
+            "1.6 TDi BlueMotion Elegance",
+            "1.6 TDi BlueMotion Exclusive",
+            "1.6 TDi BlueMotion Highline",
+            "1.6 TDi BlueMotion Impression",
+            "1.6 TDi BlueMotion R Line",
+            "1.6 TDi BlueMotion Trendline",
+            "1.6 TDi Business",
+            "1.6 TDi Comfortline",
+            "1.6 Trendline",
+            "1.8",
+            "1.8 Basic",
+            "1.8 Comfortline",
+            "1.8 T Basic",
+            "1.8 T Comfortline",
+            "1.8 T Exclusive",
+            "1.8 T Highline",
+            "1.8 T Trendline",
+            "1.8 TSi Exclusive",
+            "1.9 TDi",
+            "1.9 TDi Comfortline",
+            "1.9 TDi Exclusive",
+            "1.9 TDi Highline",
+            "1.9 TDi Trendline",
+            "2.0 Comfortline",
+            "2.0 FSi Comfortline",
+            "2.0 FSi Highline",
+            "2.0 TDi BlueMotion Business",
+            "2.0 TDi BlueMotion Comfortline",
+            "2.0 TDi BlueMotion Elegance",
+            "2.0 TDi BlueMotion Highline",
+            "2.0 TDi Business",
+            "2.0 TDi Comfortline",
+            "2.0 TDi Elegance",
+            "2.0 TDi Highline"
+          ]
+        },
+        {
+          "name": "Passat Variant",
+          "models": [
+            "1.4 TSi BlueMotion Comfortline",
+            "1.4 TSi Comfortline",
+            "1.5 TSI Business",
+            "1.5 TSI Elegance",
+            "1.6 FSi Comfortline",
+            "1.6 TDi BlueMotion Business",
+            "1.6 TDi BlueMotion Comfortline",
+            "1.8 T Highline",
+            "2.0 TDi Comfortline",
+            "2.0 TDi Highline"
+          ]
+        },
+        {
+          "name": "Polo",
+          "models": [
+            "1.0 Highline",
+            "1.0 Impression",
+            "1.0 Life",
+            "1.0 TSi Comfortline",
+            "1.0 TSi Highline",
+            "1.0 TSi Life",
+            "1.0 Trendline",
+            "1.2 TDi BlueMotion",
+            "1.2 TDi Trendline",
+            "1.2 TSi Allstar",
+            "1.2 TSi Comfortline",
+            "1.2 TSi Lounge",
+            "1.2 Trendline",
+            "1.4",
+            "1.4 Basicline",
+            "1.4 Chrome Edition",
+            "1.4 Comfortline",
+            "1.4 Goal",
+            "1.4 Highline",
+            "1.4 Sportline",
+            "1.4 TDi",
+            "1.4 TDi Basicline",
+            "1.4 TDi Bluemotion",
+            "1.4 TDi Comfortline",
+            "1.4 TDi Goal",
+            "1.4 TDi Tour",
+            "1.4 TDi Trendline",
+            "1.4 TSi GTi",
+            "1.4 Tour",
+            "1.4 Trendline",
+            "1.6",
+            "1.6 Classic",
+            "1.6 Comfortline",
+            "1.6 Comfortline Classic",
+            "1.6 Indianapolis",
+            "1.6 TDi Comfortline",
+            "1.6 TDi Highline",
+            "1.6 TDi Trendline",
+            "1.9 SDi Comfortline"
+          ]
+        },
+        {
+          "name": "Scirocco",
+          "models": [
+            "1.4 TSi Allstar",
+            "1.4 TSi GTS",
+            "1.4 TSi Sportline"
+          ]
+        },
+        {
+          "name": "Sharan",
+          "models": [
+            "1.8 T Highline",
+            "1.9 TDI Comfortline"
+          ]
+        },
+        {
+          "name": "Touran",
+          "models": [
+            "1.4 TSi Comfortline",
+            "1.6 FSi Comfortline",
+            "1.6 FSi Highline",
+            "1.9 TDi Comfortline",
+            "2.0 TDi Highline"
+          ]
+        },
+        {
+          "name": "VW CC",
+          "models": [
+            "1.4 TSi",
+            "1.8 TFSi",
+            "2.0 TDi 2.0 TDI",
+            "2.0 TDi Exclusive"
+          ]
+        },
+        {
+          "name": "Vento",
+          "models": [
+            "1.6 GL"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Volta",
+      "series": [
+        {
+          "name": "EV1",
+          "models": []
+        }
+      ]
+    },
+    {
+      "name": "Volvo",
+      "series": [
+        {
+          "name": "460",
+          "models": [
+            "1.7"
+          ]
+        },
+        {
+          "name": "740",
+          "models": [
+            "GL TD"
+          ]
+        },
+        {
+          "name": "850",
+          "models": [
+            "2.0 T5",
+            "2.3 T5",
+            "GLE"
+          ]
+        },
+        {
+          "name": "940",
+          "models": [
+            "2.0 GL"
+          ]
+        },
+        {
+          "name": "960",
+          "models": [
+            "3.0"
+          ]
+        },
+        {
+          "name": "C30",
+          "models": [
+            "1.6 D",
+            "1.6 D Advance",
+            "1.6 D Premium",
+            "1.6 D R-Design",
+            "1.6 D Sports",
+            "1.6 Premium Edition",
+            "2.0 D Advance"
+          ]
+        },
+        {
+          "name": "C70",
+          "models": [
+            "2.0 T",
+            "2.4",
+            "2.5"
+          ]
+        },
+        {
+          "name": "S40",
+          "models": [
+            "1.6",
+            "1.6 D",
+            "1.6 D Drive",
+            "1.6 D Dynamic",
+            "1.6 D Premium",
+            "1.6 D Prime",
+            "1.6 Dynamic",
+            "1.6 Premium",
+            "1.8",
+            "1.9 T4",
+            "2.0",
+            "2.0 D",
+            "2.0 T",
+            "2.5 T5"
+          ]
+        },
+        {
+          "name": "S60",
+          "models": [
+            "1.5 T3 Advance",
+            "1.5 T3 Dynamic",
+            "1.5 T3 Premium",
+            "1.5 T3 R-Design",
+            "1.6 D",
+            "1.6 D Advance",
+            "1.6 D Premium",
+            "1.6 D R-Design",
+            "1.6 T4",
+            "1.6 T4 Advance",
+            "1.6 T4 Premium",
+            "1.6 T4 R-Design",
+            "2.0 B5 Inscription Plus",
+            "2.0 B5 Plus Bright",
+            "2.0 B5 Plus Dark",
+            "2.0 B5 Ultimate Bright",
+            "2.0 D",
+            "2.0 D Advance",
+            "2.0 D Premium",
+            "2.0 D R-Design",
+            "2.0 T",
+            "2.0 T Business",
+            "2.0 T Premium",
+            "2.0 T Sports",
+            "2.3 T5",
+            "2.4 D",
+            "2.4 D Premium",
+            "2.4 D R-Design",
+            "2.4 T5",
+            "2.5 T"
+          ]
+        },
+        {
+          "name": "S70",
+          "models": [
+            "2.0 T",
+            "2.0 T5"
+          ]
+        },
+        {
+          "name": "S80",
+          "models": [
+            "1.6 D",
+            "1.6 D Advance",
+            "1.6 D Premium",
+            "1.6 T4",
+            "1.6 T4 Advance",
+            "1.6 T4 Premium",
+            "2.0 D",
+            "2.0 D Advance",
+            "2.0 D Premium",
+            "2.0 T",
+            "2.0 T5",
+            "2.4",
+            "2.4 D5",
+            "2.4 D5 Premium",
+            "2.4 D5 VIP",
+            "2.5 T",
+            "2.8 T6",
+            "2.9 T6"
+          ]
+        },
+        {
+          "name": "S90",
+          "models": [
+            "2.0 D B5 Inscription",
+            "2.0 D B5 Plus Bright",
+            "2.0 D B5 Plus Dark",
+            "2.0 D4 Inscription",
+            "2.0 D4 Momentum",
+            "2.0 D5 Inscription",
+            "2.0 D5 Plus Dark",
+            "2.0 D5 R-Design",
+            "2.0 T8 Inscription",
+            "2.0 T8 Plus Dark"
+          ]
+        },
+        {
+          "name": "V40",
+          "models": [
+            "1.5 T3 Inscription",
+            "1.5 T3 Momentum",
+            "1.5 T3 Premium",
+            "1.5 T3 R-Design",
+            "1.6",
+            "1.6 D",
+            "1.6 D Advance",
+            "1.6 D Premium",
+            "1.6 D R-Design",
+            "1.6 T3 Advance",
+            "1.6 T4",
+            "1.6 T4 Premium",
+            "1.6 T4 R-Design",
+            "1.8",
+            "1.9 T4",
+            "2.0 T"
+          ]
+        },
+        {
+          "name": "V40 Cross Country",
+          "models": [
+            "1.5 T3 Advance",
+            "1.5 T3 Premium",
+            "1.6 D",
+            "1.6 D Advance",
+            "1.6 D Premium",
+            "1.6 T4 Premium"
+          ]
+        },
+        {
+          "name": "V50",
+          "models": [
+            "1.6 D",
+            "1.6 D Dynamic",
+            "1.6 D Premium"
+          ]
+        },
+        {
+          "name": "V60",
+          "models": [
+            "1.6 D Premium",
+            "1.6 T4 R-Design"
+          ]
+        },
+        {
+          "name": "V60 Cross Country",
+          "models": [
+            "2.0",
+            "2.0 D4 Advance"
+          ]
+        },
+        {
+          "name": "V70",
+          "models": [
+            "2.0 D3",
+            "2.3 T5",
+            "2.4 D5 Premium",
+            "2.4 T5"
+          ]
+        },
+        {
+          "name": "V90 Cross Country",
+          "models": [
+            "2.0 B5 Plus Bright",
+            "2.0 B5 Pro",
+            "2.0 B5 Ultimate Bright",
+            "2.0 B6 Ultimate Bright",
+            "2.0 D D5 Pro"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "XEV",
+      "series": [
+        {
+          "name": "Yoyo",
+          "models": []
+        }
+      ]
+    },
+    {
+      "name": "Yuki",
+      "series": [
+        {
+          "name": "Amy",
+          "models": []
+        }
+      ]
+    }
+  ]
+}
