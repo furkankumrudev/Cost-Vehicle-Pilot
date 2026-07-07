@@ -1,4 +1,4 @@
-﻿# Scraper Strategy
+# Scraper Strategy
 
 ## Goal
 
@@ -87,3 +87,16 @@ This architecture shows that Cost Vehicle Pilot is designed as a sustainable pro
 - The model can be retrained when enough new data is available.
 - Prediction outputs can stay closer to market changes.
 - The data source can be replaced without rewriting the ML and app layers.
+
+## Browser Path
+
+If Chrome is not installed or cannot be auto-detected, pass a browser executable explicitly:
+
+```bash
+python -m src.ingestion.sahibinden_scraper --query "Renault Clio" --max-pages 1 --browser-executable-path "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
+```
+## Local Test Result
+
+A controlled one-page headless test with Microsoft Edge reached the site but received an error/protection page instead of the normal homepage. Because of that, the search input was not available and no listings were collected in this environment.
+
+This confirms the risk described above: live scraping can be blocked or behave differently depending on environment, browser mode, network, and site protections. The ingestion layer remains useful as an architecture prototype, but production-grade use should rely on approved data access or an official/partner data feed.

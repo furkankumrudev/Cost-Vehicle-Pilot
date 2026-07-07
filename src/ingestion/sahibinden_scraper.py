@@ -35,7 +35,7 @@ class ScraperConfig:
     delay_max: float = 5.0
     db_path: str = str(DEFAULT_DB_PATH)
     headless: bool = False
-
+    browser_executable_path: str | None = None
 
 def clean_text(value: str | None) -> str | None:
     if value is None:
@@ -156,7 +156,7 @@ async def apply_filters(tab: object, config: ScraperConfig) -> None:
     if config.transmission:
         transmission = config.transmission.lower().strip()
         selector = None
-        if transmission in {"manuel", "manual", "duz", "dÃ¼z"}:
+        if transmission in {"manuel", "manual", "duz", "dÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¼z"}:
             selector = 'a[data-value="32467"].js-attribute.facetedCheckbox'
         elif transmission in {"otomatik", "automatic"}:
             selector = 'a[data-value="32466"].js-attribute.facetedCheckbox'
@@ -171,14 +171,14 @@ async def apply_filters(tab: object, config: ScraperConfig) -> None:
 async def run_scraper(config: ScraperConfig) -> int:
     import nodriver as uc
 
-    driver = await uc.start(headless=config.headless)
+    driver = await uc.start(headless=config.headless, browser_executable_path=config.browser_executable_path)
     saved_total = 0
     try:
         tab = await driver.get(BASE_URL)
         await polite_sleep(config)
 
         try:
-            cookie_button = await tab.find("TÃ¼m Ã‡erezleri Kabul Et", best_match=True)
+            cookie_button = await tab.find("TÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¼m ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¡erezleri Kabul Et", best_match=True)
             if cookie_button:
                 await cookie_button.click()
                 await polite_sleep(config)
@@ -242,6 +242,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--delay-max", type=float, default=5.0)
     parser.add_argument("--db-path", default=str(DEFAULT_DB_PATH))
     parser.add_argument("--headless", action="store_true")
+    parser.add_argument("--browser-executable-path", default=None, help="Optional Chrome/Edge executable path.")
     return parser
 
 
@@ -258,6 +259,7 @@ def main(argv: Iterable[str] | None = None) -> None:
         delay_max=args.delay_max,
         db_path=args.db_path,
         headless=args.headless,
+        browser_executable_path=args.browser_executable_path,
     )
     saved_total = asyncio.run(run_scraper(config))
     print(f"Saved or updated listings: {saved_total}")
