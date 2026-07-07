@@ -1,4 +1,4 @@
-﻿# Cost Vehicle Pilot
+# Cost Vehicle Pilot
 
 Cost Vehicle Pilot, ikinci el araç piyasasında alıcı ve satıcıların daha bilinçli fiyat kararları verebilmesi için geliştirilen yapay zeka destekli adil fiyat tahmin ve piyasa trend analiz platformudur.
 
@@ -97,6 +97,26 @@ Detaylar:
 - [Data README](data/README.md)
 - [Data Strategy](docs/data-strategy.md)
 - [Data Dictionary](docs/data-dictionary.md)
+
+## Güncel Veri Toplama Katmanı
+
+Cost Vehicle Pilot yalnızca statik bir veri setine bağlı kalmayacak şekilde tasarlanmaktadır. Projeye Sahibinden arama sonuçlarından güncel araç ilanlarını toplayabilecek bir veri toplama prototipi eklenmiştir.
+
+İlk prototip SQLite veritabanına yazar:
+
+```text
+data/runtime/vehicle_listings.sqlite3
+```
+
+Örnek komut:
+
+```bash
+python -m src.ingestion.sahibinden_scraper --query "Renault Clio" --year-min 2016 --year-max 2018 --max-pages 1
+```
+
+Bu katman, bootcamp MVP'sinde güncel veri akışı mimarisini göstermek için kullanılacaktır. Scraping işlemleri dikkatli, sınırlı ve kaynak sitenin kurallarına uygun şekilde ele alınmalıdır. Uzun vadede aynı mimari resmi API, izinli veri sağlayıcıları veya partner veri akışlarıyla çalışabilecek şekilde genişletilebilir.
+
+Detaylar: [Scraper Strategy](docs/scraper-strategy.md)
 ## Makine Öğrenmesi Yaklaşımı
 
 İlk MVP kapsamında regresyon modelleri ile araç fiyat tahmini yapılması planlanmaktadır.

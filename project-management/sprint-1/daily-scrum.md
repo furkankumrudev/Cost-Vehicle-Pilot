@@ -1,4 +1,4 @@
-﻿# Daily Scrum - Sprint 1
+# Daily Scrum - Sprint 1
 
 ## 04.07.2026
 
@@ -36,3 +36,21 @@
 ### Engel Var mı?
 
 - Türkiye odaklı ve güncel veri kaynağı henüz bulunmadı. İlk MVP için public dataset kullanılacak; mimari sonradan API veya Türkiye odaklı veriyle değiştirilebilir şekilde hazırlanacak.
+
+## 07.07.2026
+
+### Dün Ne Yapıldı?
+
+- Bootcamp kriterleri tekrar incelendi.
+- Statik veri seti yaklaşımının sürdürülebilirlik açısından sınırlı kalabileceği değerlendirildi.
+
+### Bugün Ne Yapıldı?
+
+- Sahibinden ilanlarından güncel veri toplayabilecek scraper mimarisi araştırıldı.
+- Projeye `src/ingestion` altında ilk scraper veri toplama katmanı eklendi.
+- SQLite tabanlı ilan kayıt şeması oluşturuldu.
+- Scraper stratejisi `docs/scraper-strategy.md` dosyasında belgelendi.
+
+### Engel Var mı?
+
+- Scraping işlemleri site kuralları, erişim engelleri ve sayfa yapısı değişiklikleri nedeniyle risk taşıyor. Bu nedenle MVP'de veri toplama katmanı kontrollü ve sınırlı kullanılacak; mimari izinli veri kaynaklarına uyarlanabilir şekilde geliştirilecek.

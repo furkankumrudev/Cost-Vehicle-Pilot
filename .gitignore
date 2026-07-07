@@ -216,3 +216,15 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+# Local environment
+.env
+
+# Scraper runtime data
+checkpoint.json
+data/runtime/
+*.sqlite
+*.sqlite3
+*.db
+
+# Editor-local settings
+.vscode/
