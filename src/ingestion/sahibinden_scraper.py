@@ -24,6 +24,99 @@ from .storage import DEFAULT_DB_PATH, ListingStore
 BASE_URL = "https://www.sahibinden.com"
 DEFAULT_DEBUG_HTML_PATH = Path("data") / "runtime" / "debug_sahibinden_home.html"
 DEFAULT_DEBUG_RESULTS_PATH = Path("data") / "runtime" / "debug_sahibinden_results.html"
+ACCESS_CHALLENGE_MARKERS = (
+    "bağlantınız kontrol ediliyor",
+    "baglantiniz kontrol ediliyor",
+    "basılı tut",
+    "basili tut",
+    "olağan dışı erişim",
+    "olagan disi erisim",
+    "cdn-cgi/challenge-platform",
+)
+
+TURKISH_CITY_NAMES = {
+    "Adana",
+    "Adıyaman",
+    "Afyonkarahisar",
+    "Ağrı",
+    "Aksaray",
+    "Amasya",
+    "Ankara",
+    "Antalya",
+    "Ardahan",
+    "Artvin",
+    "Aydın",
+    "Balıkesir",
+    "Bartın",
+    "Batman",
+    "Bayburt",
+    "Bilecik",
+    "Bingöl",
+    "Bitlis",
+    "Bolu",
+    "Burdur",
+    "Bursa",
+    "Çanakkale",
+    "Çankırı",
+    "Çorum",
+    "Denizli",
+    "Diyarbakır",
+    "Düzce",
+    "Edirne",
+    "Elazığ",
+    "Erzincan",
+    "Erzurum",
+    "Eskişehir",
+    "Gaziantep",
+    "Giresun",
+    "Gümüşhane",
+    "Hakkari",
+    "Hatay",
+    "Iğdır",
+    "Isparta",
+    "İstanbul",
+    "İzmir",
+    "Kahramanmaraş",
+    "Karabük",
+    "Karaman",
+    "Kars",
+    "Kastamonu",
+    "Kayseri",
+    "Kırıkkale",
+    "Kırklareli",
+    "Kırşehir",
+    "Kilis",
+    "Kocaeli",
+    "Konya",
+    "Kütahya",
+    "Malatya",
+    "Manisa",
+    "Mardin",
+    "Mersin",
+    "Muğla",
+    "Muş",
+    "Nevşehir",
+    "Niğde",
+    "Ordu",
+    "Osmaniye",
+    "Rize",
+    "Sakarya",
+    "Samsun",
+    "Siirt",
+    "Sinop",
+    "Sivas",
+    "Şanlıurfa",
+    "Şırnak",
+    "Tekirdağ",
+    "Tokat",
+    "Trabzon",
+    "Tunceli",
+    "Uşak",
+    "Van",
+    "Yalova",
+    "Yozgat",
+    "Zonguldak",
+}
 
 
 @dataclass(slots=True)
@@ -108,7 +201,15 @@ def split_location(value: str | None) -> tuple[str | None, str | None]:
     parts = [part for part in re.split(r"\s*/\s*|\s{2,}", value.strip()) if part]
     if len(parts) >= 2:
         return parts[0], parts[1]
-    return parts[0], None
+    compact_value = parts[0] if parts else value.strip()
+    for city in sorted(TURKISH_CITY_NAMES, key=len, reverse=True):
+        if compact_value.casefold() == city.casefold():
+            return city, None
+        prefix = f"{city} "
+        if compact_value.casefold().startswith(prefix.casefold()):
+            district = compact_value[len(prefix) :].strip() or None
+            return city, district
+    return compact_value, None
 
 
 def extract_listing(row: Tag) -> VehicleListing | None:
@@ -126,7 +227,8 @@ def extract_listing(row: Tag) -> VehicleListing | None:
     tag_values = [clean_text(tag.get_text(" ")) for tag in row.select("td.searchResultsTagAttributeValue")]
     brand = tag_values[0] if len(tag_values) > 0 else None
     series = tag_values[1] if len(tag_values) > 1 else None
-    engine = tag_values[2] if len(tag_values) > 2 else None
+    model = tag_values[2] if len(tag_values) > 2 else None
+    engine = tag_values[3] if len(tag_values) > 3 else None
 
     attr_values = [clean_text(tag.get_text(" ")) for tag in row.select("td.searchResultsAttributeValue")]
     year = parse_int(attr_values[0] if len(attr_values) > 0 else None) or infer_year_from_title(title)
@@ -153,7 +255,7 @@ def extract_listing(row: Tag) -> VehicleListing | None:
         title=title,
         brand=brand,
         series=series,
-        model=None,
+        model=model,
         year=year,
         mileage_km=mileage_km,
         transmission=None,
@@ -200,6 +302,31 @@ async def write_debug_html(tab: object, path: str) -> None:
     debug_path.write_text(html, encoding="utf-8")
 
 
+async def page_has_access_challenge(tab: object) -> bool:
+    html = (await tab.get_content()).casefold()
+    return any(marker.casefold() in html for marker in ACCESS_CHALLENGE_MARKERS)
+
+
+async def wait_for_manual_access_check(tab: object, config: ScraperConfig, context: str) -> None:
+    if config.manual_wait_seconds <= 0 or not await page_has_access_challenge(tab):
+        return
+
+    print(
+        f"Access check detected after {context}. "
+        "Please complete the visible Sahibinden 'Basılı Tut' check in the browser window.",
+        flush=True,
+    )
+    deadline = asyncio.get_running_loop().time() + config.manual_wait_seconds
+    while asyncio.get_running_loop().time() < deadline:
+        await asyncio.sleep(2)
+        if not await page_has_access_challenge(tab):
+            print("Access check completed; continuing.", flush=True)
+            await polite_sleep(config)
+            return
+
+    print("Access check is still visible; continuing with the current page state.", flush=True)
+
+
 async def click_if_exists(tab: object, selector: str) -> bool:
     element = await select_with_timeout(tab, selector, timeout=5)
     if not element:
@@ -233,89 +360,100 @@ async def apply_filters(tab: object, config: ScraperConfig) -> None:
         await apply_button.click()
 
 
-async def run_scraper(config: ScraperConfig) -> int:
+async def start_browser(config: ScraperConfig) -> object:
     import nodriver as uc
 
     user_data_dir = str(Path(config.user_data_dir).resolve()) if config.user_data_dir else None
     print("Starting browser...", flush=True)
-    driver = await uc.start(
+    return await uc.start(
         headless=config.headless,
         browser_executable_path=config.browser_executable_path,
         user_data_dir=user_data_dir,
         sandbox=config.sandbox,
     )
+
+
+async def scrape_with_driver(driver: object, config: ScraperConfig) -> int:
     saved_total = 0
+    print(f"Opening {BASE_URL}...", flush=True)
+    tab = await driver.get(BASE_URL)
+    await polite_sleep(config)
+    await wait_for_manual_access_check(tab, config, "opening home page")
+
     try:
-        print(f"Opening {BASE_URL}...", flush=True)
-        tab = await driver.get(BASE_URL)
-        await polite_sleep(config)
-        if config.manual_wait_seconds > 0:
-            print(
-                f"Manual wait: use the browser window if needed ({config.manual_wait_seconds:.0f}s)...",
-                flush=True,
-            )
-            await asyncio.sleep(config.manual_wait_seconds)
+        cookie_button = await asyncio.wait_for(tab.find("Kabul Et", best_match=True), timeout=5)
+        if cookie_button:
+            await cookie_button.click()
+            await polite_sleep(config)
+    except (Exception, TimeoutError):
+        pass
 
-        try:
-            cookie_button = await asyncio.wait_for(tab.find("Kabul Et", best_match=True), timeout=5)
-            if cookie_button:
-                await cookie_button.click()
-                await polite_sleep(config)
-        except (Exception, TimeoutError):
-            pass
-
-        print("Looking for search input...", flush=True)
+    print("Looking for search input...", flush=True)
+    search_box = await select_with_timeout(tab, "#searchText", timeout=10)
+    if not search_box:
+        await wait_for_manual_access_check(tab, config, "looking for search input")
         search_box = await select_with_timeout(tab, "#searchText", timeout=10)
-        if not search_box:
-            await write_debug_html(tab, config.debug_html_path)
-            raise RuntimeError(
-                "Search input could not be found. "
-                f"Saved received HTML to {config.debug_html_path}."
-            )
-        await search_box.send_keys(config.query)
-        await polite_sleep(config)
+    if not search_box:
+        await write_debug_html(tab, config.debug_html_path)
+        raise RuntimeError(
+            "Search input could not be found. "
+            f"Saved received HTML to {config.debug_html_path}."
+        )
+    await search_box.send_keys(config.query)
+    await polite_sleep(config)
 
-        search_button = await select_with_timeout(tab, 'button[type="submit"][value="Ara"]', timeout=10)
-        if not search_button:
-            raise RuntimeError("Search button could not be found.")
-        await search_button.click()
-        await polite_sleep(config)
+    search_button = await select_with_timeout(tab, 'button[type="submit"][value="Ara"]', timeout=10)
+    if not search_button:
+        raise RuntimeError("Search button could not be found.")
+    await search_button.click()
+    await polite_sleep(config)
+    await wait_for_manual_access_check(tab, config, "submitting search")
 
-        suggestion = await select_with_timeout(tab, "li.first-child.ui-menu-item a", timeout=5)
-        if suggestion:
-            await suggestion.click()
+    suggestion = await select_with_timeout(tab, "li.first-child.ui-menu-item a", timeout=5)
+    if suggestion:
+        await suggestion.click()
+        await polite_sleep(config)
+        await wait_for_manual_access_check(tab, config, "opening suggestion")
+
+    category = await select_with_timeout(tab, "#searchCategoryContainer div div ul li:first-child a", timeout=5)
+    if category:
+        await category.click()
+        await polite_sleep(config)
+        await wait_for_manual_access_check(tab, config, "opening category")
+
+    await click_if_exists(tab, 'a.paging-size.Limit50Passive[title="50"]')
+    await apply_filters(tab, config)
+    await polite_sleep(config)
+    await wait_for_manual_access_check(tab, config, "applying filters")
+
+    with ListingStore(config.db_path) as store:
+        for page_number in range(1, config.max_pages + 1):
+            await wait_for_manual_access_check(tab, config, f"reading page {page_number}")
+            html = await tab.get_content()
+            listings = apply_query_defaults(parse_search_results(html), config.query)
+            if not listings:
+                debug_path = Path(config.debug_results_path)
+                debug_path.parent.mkdir(parents=True, exist_ok=True)
+                debug_path.write_text(html, encoding="utf-8")
+            saved_total += store.upsert_many(listings)
+            print(f"page={page_number} parsed={len(listings)} stored_total={store.count()}", flush=True)
+
+            if page_number >= config.max_pages:
+                break
+            next_button = await select_with_timeout(tab, '.prevNextBut[title="Sonraki"]', timeout=5)
+            if not next_button:
+                break
+            await next_button.click()
             await polite_sleep(config)
+    return saved_total
 
-        category = await select_with_timeout(tab, "#searchCategoryContainer div div ul li:first-child a", timeout=5)
-        if category:
-            await category.click()
-            await polite_sleep(config)
 
-        await click_if_exists(tab, 'a.paging-size.Limit50Passive[title="50"]')
-        await apply_filters(tab, config)
-        await polite_sleep(config)
-
-        with ListingStore(config.db_path) as store:
-            for page_number in range(1, config.max_pages + 1):
-                html = await tab.get_content()
-                listings = apply_query_defaults(parse_search_results(html), config.query)
-                if not listings:
-                    debug_path = Path(config.debug_results_path)
-                    debug_path.parent.mkdir(parents=True, exist_ok=True)
-                    debug_path.write_text(html, encoding="utf-8")
-                saved_total += store.upsert_many(listings)
-                print(f"page={page_number} parsed={len(listings)} stored_total={store.count()}", flush=True)
-
-                if page_number >= config.max_pages:
-                    break
-                next_button = await select_with_timeout(tab, '.prevNextBut[title="Sonraki"]', timeout=5)
-                if not next_button:
-                    break
-                await next_button.click()
-                await polite_sleep(config)
+async def run_scraper(config: ScraperConfig) -> int:
+    driver = await start_browser(config)
+    try:
+        return await scrape_with_driver(driver, config)
     finally:
         driver.stop()
-    return saved_total
 
 
 def build_parser() -> argparse.ArgumentParser:

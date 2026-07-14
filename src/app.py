@@ -2,8 +2,10 @@
 
 from __future__ import annotations
 
-import sqlite3
 import json
+import re
+import sqlite3
+import unicodedata
 from pathlib import Path
 
 import pandas as pd
@@ -11,9 +13,16 @@ import plotly.express as px # type: ignore
 import plotly.graph_objects as go # type: ignore
 import streamlit as st
 
-DB_PATH = Path("data") / "runtime" / "vehicle_listings.sqlite3"
-CATALOG_PATH = Path("data") / "reference" / "vehicle_catalog.json"
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+DB_PATH = PROJECT_ROOT / "data" / "runtime" / "vehicle_listings.sqlite3"
+CATALOG_PATH = PROJECT_ROOT / "data" / "reference" / "vehicle_catalog.json"
+ALL_OPTION = "Tümü"
 MIN_SAMPLE_SIZE = 8
+
+BRAND_ALIASES = {
+    "mercedesbenz": "Mercedes-Benz",
+    "tofas": "Tofaş",
+}
 
 
 st.set_page_config(
@@ -192,42 +201,105 @@ def load_vehicle_catalog(path: str) -> dict[str, object]:
     return json.loads(catalog_path.read_text(encoding="utf-8"))
 
 
+def normalize_option_key(value: object) -> str:
+    text = str(value or "").strip().casefold()
+    text = unicodedata.normalize("NFKD", text).encode("ascii", "ignore").decode("ascii")
+    return re.sub(r"[^a-z0-9]+", "", text)
+
+
+def canonical_brand_name(value: object) -> str:
+    text = str(value or "").strip()
+    return BRAND_ALIASES.get(normalize_option_key(text), text)
+
+
+def canonical_series_name(value: object, brand: str) -> str:
+    text = str(value or "").strip()
+    if normalize_option_key(brand) == "mercedesbenz" and len(text) == 1 and text.isalpha():
+        return f"{text.upper()} Serisi"
+    return text
+
+
+def series_filter_values(series: str) -> list[str]:
+    values = [series]
+    if series.endswith(" Serisi"):
+        prefix = series.removesuffix(" Serisi").strip()
+        if len(prefix) == 1 and prefix.isalpha():
+            values.append(prefix)
+    elif len(series) == 1 and series.isalpha():
+        values.append(f"{series.upper()} Serisi")
+    return values
+
+
+def merge_options(*option_groups: list[str]) -> list[str]:
+    merged: list[str] = []
+    seen: set[str] = set()
+    for options in option_groups:
+        for option in options:
+            label = canonical_brand_name(option)
+            key = normalize_option_key(label)
+            if not label or key in seen:
+                continue
+            seen.add(key)
+            merged.append(label)
+    return merged
+
+
 def catalog_brand_options(catalog: dict[str, object]) -> list[str]:
     brands = catalog.get("brands", [])
     if not isinstance(brands, list):
         return []
-    return [str(item["name"]) for item in brands if isinstance(item, dict) and item.get("name")]
+    return merge_options([str(item["name"]) for item in brands if isinstance(item, dict) and item.get("name")])
+
+
+def find_catalog_brand(catalog: dict[str, object], brand: str) -> dict[str, object] | None:
+    brands = catalog.get("brands", [])
+    if not isinstance(brands, list):
+        return None
+
+    target_key = normalize_option_key(brand)
+    for item in brands:
+        if not isinstance(item, dict):
+            continue
+        item_name = item.get("name")
+        if normalize_option_key(canonical_brand_name(item_name)) == target_key:
+            return item
+    return None
 
 
 def catalog_series_options(catalog: dict[str, object], brand: str) -> list[str]:
-    brands = catalog.get("brands", [])
-    if not isinstance(brands, list) or brand == "Tümü":
+    if brand == ALL_OPTION:
         return []
-    for item in brands:
-        if isinstance(item, dict) and item.get("name") == brand:
-            series = item.get("series", [])
-            if not isinstance(series, list):
-                return []
-            return [str(series_item["name"]) for series_item in series if series_item.get("name")]
-    return []
+    item = find_catalog_brand(catalog, brand)
+    if item is None:
+        return []
+    series = item.get("series", [])
+    if not isinstance(series, list):
+        return []
+    return [
+        canonical_series_name(series_item["name"], brand)
+        for series_item in series
+        if isinstance(series_item, dict) and series_item.get("name")
+    ]
 
 
 def catalog_model_options(catalog: dict[str, object], brand: str, series: str) -> list[str]:
-    brands = catalog.get("brands", [])
-    if not isinstance(brands, list) or brand == "Tümü" or series == "Tümü":
+    if brand == ALL_OPTION or series == ALL_OPTION:
         return []
-    for item in brands:
-        if not isinstance(item, dict) or item.get("name") != brand:
+    item = find_catalog_brand(catalog, brand)
+    if item is None:
+        return []
+    series_items = item.get("series", [])
+    if not isinstance(series_items, list):
+        return []
+    for series_item in series_items:
+        if not isinstance(series_item, dict) or not series_item.get("name"):
             continue
-        series_items = item.get("series", [])
-        if not isinstance(series_items, list):
-            return []
-        for series_item in series_items:
-            if isinstance(series_item, dict) and series_item.get("name") == series:
-                models = series_item.get("models", [])
-                if not isinstance(models, list):
-                    return []
-                return [str(model) for model in models if model]
+        catalog_series_name = str(series_item["name"])
+        if catalog_series_name == series or canonical_series_name(catalog_series_name, brand) == series:
+            models = series_item.get("models", [])
+            if not isinstance(models, list):
+                return []
+            return [str(model) for model in models if model]
     return []
 
 
@@ -238,8 +310,16 @@ def load_listings(db_path: str) -> pd.DataFrame:
         return pd.DataFrame()
 
     with sqlite3.connect(path) as connection:
-        df = pd.read_sql_query(
+        table_exists = connection.execute(
             """
+            SELECT 1
+            FROM sqlite_master
+            WHERE type = 'table' AND name = 'vehicle_listings_clean'
+            """
+        ).fetchone()
+        table_name = "vehicle_listings_clean" if table_exists else "vehicle_listings"
+        df = pd.read_sql_query(
+            f"""
             SELECT
                 title,
                 brand,
@@ -259,7 +339,7 @@ def load_listings(db_path: str) -> pd.DataFrame:
                 listing_date,
                 listing_url,
                 scraped_at
-            FROM vehicle_listings
+            FROM {table_name}
             WHERE price IS NOT NULL
             """,
             connection,
@@ -291,14 +371,31 @@ def apply_filters(
         return df
 
     filtered = df.copy()
-    if brand != "Tümü":
-        filtered = filtered[filtered["brand"].fillna("").str.casefold() == brand.casefold()]
-    if series != "Tümü":
-        filtered = filtered[filtered["series"].fillna("").str.casefold() == series.casefold()]
-    if model != "Tümü":
-        model_mask = filtered["model"].fillna("").str.contains(model, case=False, na=False)
-        title_mask = filtered["title"].fillna("").str.contains(model, case=False, na=False)
-        filtered = filtered[model_mask | title_mask]
+    if brand != ALL_OPTION:
+        brand_key = normalize_option_key(brand)
+        filtered = filtered[filtered["brand"].fillna("").map(normalize_option_key) == brand_key]
+    if series != ALL_OPTION:
+        series_values = filtered["series"].fillna("")
+        series_values_folded = series_values.str.casefold()
+        series_values_to_match = series_filter_values(series)
+        series_mask = series_values_folded.isin([value.casefold() for value in series_values_to_match])
+        title_mask = pd.Series(False, index=filtered.index)
+        for value in series_values_to_match:
+            value = value.strip()
+            if not value:
+                continue
+            if len(value) == 1:
+                pattern = rf"(?<!\w){re.escape(value)}(?!\w)"
+                title_mask = title_mask | filtered["title"].fillna("").str.contains(pattern, case=False, na=False, regex=True)
+            else:
+                series_mask = series_mask | series_values.str.contains(value, case=False, na=False, regex=False)
+                title_mask = title_mask | filtered["title"].fillna("").str.contains(value, case=False, na=False, regex=False)
+        filtered = filtered[series_mask | title_mask]
+    if model != ALL_OPTION:
+        model_mask = filtered["model"].fillna("").str.contains(model, case=False, na=False, regex=False)
+        series_mask = filtered["series"].fillna("").str.contains(model, case=False, na=False, regex=False)
+        title_mask = filtered["title"].fillna("").str.contains(model, case=False, na=False, regex=False)
+        filtered = filtered[model_mask | series_mask | title_mask]
     min_year, max_year = year_range
     filtered = filtered[(filtered["year"].isna()) | (filtered["year"].between(min_year, max_year))]
     filtered = filtered[(filtered["mileage_km"].isna()) | (filtered["mileage_km"] <= mileage_max)]
@@ -449,16 +546,20 @@ def main() -> None:
         st.subheader("Araç Özellikleri")
 
         catalog_brands = catalog_brand_options(catalog)
-        brand_options = ["Tümü"] + (catalog_brands or unique_options(df, "brand"))
+        brand_options = [ALL_OPTION] + merge_options(catalog_brands, unique_options(df, "brand"))
         brand = st.selectbox("Marka", brand_options, index=0)
 
         catalog_series = catalog_series_options(catalog, brand)
-        series_source = df if brand == "Tümü" else df[df["brand"].fillna("").str.casefold() == brand.casefold()]
-        series_options = ["Tümü"] + (catalog_series or unique_options(series_source, "series"))
+        if brand == ALL_OPTION:
+            series_source = df
+        else:
+            brand_key = normalize_option_key(brand)
+            series_source = df[df["brand"].fillna("").map(normalize_option_key) == brand_key]
+        series_options = [ALL_OPTION] + (catalog_series or unique_options(series_source, "series"))
         series = st.selectbox("Seri / Model", series_options, index=0)
 
         catalog_models = catalog_model_options(catalog, brand, series)
-        model_options = ["Tümü"] + catalog_models
+        model_options = [ALL_OPTION] + catalog_models
         selected_model = st.selectbox("Model / Paket", model_options, index=0)
 
         year_values = df["year"].dropna() if not df.empty else pd.Series(dtype="float64")
@@ -471,13 +572,18 @@ def main() -> None:
         mileage_max = st.slider("Maksimum kilometre", 0, max_mileage, min(max_mileage, 250000), step=5000)
 
         st.divider()
-        analyze = st.button("Piyasa Analizini Göster", use_container_width=True)
+        analyze = st.button("Mevcut Veriden Analiz Et", use_container_width=True)
         st.caption(f"Veritabanı: {DB_PATH.as_posix()}")
         if catalog_brands:
             st.caption(
                 f"Katalog: {catalog.get('brand_count', len(catalog_brands))} marka, "
                 f"{catalog.get('series_count', 0)} seri"
             )
+
+    if analyze:
+        if brand == ALL_OPTION or series == ALL_OPTION:
+            st.warning("Analiz için önce marka ve seri seç.")
+            analyze = False
 
     if df.empty:
         render_empty_state()
@@ -491,19 +597,15 @@ def main() -> None:
             """
             <div class="cvp-panel">
                 <div class="cvp-kicker">Hazır</div>
-                <div class="cvp-range">Araç özelliklerini seç</div>
+                <div class="cvp-range">Piyasa aralığını öğren</div>
                 <div class="cvp-copy">
+                    Sol taraftan marka, seri, model yılı ve kilometre bilgisini seç.
                     Analiz başlatıldığında benzer ilanların fiyat yoğunluğu, medyan değeri ve önerilen piyasa aralığı hesaplanır.
                 </div>
             </div>
             """,
             unsafe_allow_html=True,
         )
-        col_a, col_b, col_c, col_d = st.columns(4)
-        col_a.metric("Toplam ilan", f"{len(df):,}".replace(",", "."))
-        col_b.metric("Marka sayısı", f"{df['brand'].nunique(dropna=True)}")
-        col_c.metric("Fiyat kaydı", f"{df['price'].notna().sum():,}".replace(",", "."))
-        col_d.metric("Son veri", pd.to_datetime(df["scraped_at"], errors="coerce").max().strftime("%d.%m.%Y"))
         return
 
     if not summary or len(filtered) < MIN_SAMPLE_SIZE:
