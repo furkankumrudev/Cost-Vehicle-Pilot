@@ -12,6 +12,16 @@ Kullanıcı araç özelliklerini seçer; uygulama SQLite veritabanındaki temizl
 - Katalog tabanlı marka, seri/model ve paket seçimleri
 - Günlük yeni ilan çekme ve katalog kapsama kontrolü
 
+## Kurulum
+
+Windows üzerinde sanal ortam oluşturup bağımlılıkları kurmak için:
+
+```bat
+py -m venv .venv
+.venv\Scripts\activate
+pip install -r requirements.txt
+```
+
 ## Çalıştırma
 
 Windows üzerinde:
@@ -63,6 +73,8 @@ Tek komutluk günlük akış için:
 ```bat
 scripts\run_daily_update.bat
 ```
+
+`run_daily_update.bat` bugünün en yeni ilanlarını çeker ve temizlik adımını otomatik çalıştırır. Daha geniş bir aralık için `run_recent_listings.bat --days N` kullanılabilir.
 
 ## Veri Temizleme
 
@@ -125,7 +137,9 @@ Cost-Vehicle-Pilot/
   src/
     app.py
     ingestion/
+      brand_segment_scraper.py
       category_page_scraper.py
+      city_segment_scraper.py
       recent_listing_scraper.py
       series_gap_scraper.py
       sahibinden_scraper.py
