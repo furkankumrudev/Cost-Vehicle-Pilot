@@ -20,6 +20,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
+from src.ingestion.city_segment_scraper import CITY_SEGMENTS
 from src.ingestion.storage import DEFAULT_DB_PATH
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
@@ -35,6 +36,17 @@ TEXT_FIXES = {
     "Tofaş": "Tofaş",
     "TofaÅŸ": "Tofaş",
     "TofaÅ£": "Tofaş",
+    "Tofaţ": "Tofaş",
+    "TofaÅ£": "Tofaş",
+    "Sahin": "Şahin",
+    "Şahin": "Şahin",
+    "Ţahin": "Şahin",
+    "Doğan": "Doğan",
+    "Dogan": "Doğan",
+    "Dođan": "Doğan",
+    "Serçe": "Serçe",
+    "Serce": "Serçe",
+    "Ser?e": "Serçe",
     "Mercedes - Benz": "Mercedes-Benz",
     "Mercedes Benz": "Mercedes-Benz",
     "Mercedes-Benz": "Mercedes-Benz",
@@ -112,12 +124,59 @@ class CleanResult:
     duplicate_total: int
     normalized_field_total: int
     corrected_brand_total: int
+    corrected_location_total: int
+    corrected_brand_page_field_total: int
 
 
 def normalize_key(value: object) -> str:
     text = str(value or "").strip().casefold()
     text = unicodedata.normalize("NFKD", text).encode("ascii", "ignore").decode("ascii")
     return re.sub(r"[^a-z0-9]+", "", text)
+
+
+PROVINCE_BY_KEY = {normalize_key(name): name for name, _ in CITY_SEGMENTS}
+PROVINCE_ALIASES = {
+    "afyon": "Afyonkarahisar",
+    "icel": "Mersin",
+    "maras": "Kahramanmaraş",
+}
+
+
+def split_province_prefix(value: object) -> tuple[str | None, str | None]:
+    """Return a canonical province and any district accidentally appended to it."""
+    text = clean_text(value)
+    if not text:
+        return None, None
+
+    parts = [part for part in re.split(r"[\s,/]+", text) if part]
+    if not parts:
+        return None, None
+
+    province = PROVINCE_BY_KEY.get(normalize_key(parts[0])) or PROVINCE_ALIASES.get(normalize_key(parts[0]))
+    if not province:
+        return None, text
+    district = " ".join(parts[1:]).strip() or None
+    return province, district
+
+
+def normalize_location(city: object, district: object) -> tuple[str | None, str | None]:
+    """Canonicalize province names and move a city suffix into the district column."""
+    city_text = clean_text(city)
+    district_text = clean_text(district)
+    canonical_city, city_suffix = split_province_prefix(city_text)
+    district_city, district_suffix = split_province_prefix(district_text)
+
+    normalized_city = canonical_city or city_text
+    if city_suffix:
+        normalized_district = city_suffix
+    elif district_suffix and (canonical_city is None or district_city == canonical_city):
+        normalized_district = district_suffix
+    else:
+        normalized_district = district_text
+
+    if normalized_city and normalized_district and normalize_key(normalized_city) == normalize_key(normalized_district):
+        normalized_district = None
+    return normalized_city, normalized_district
 
 
 def slugify(value: object) -> str:
@@ -278,7 +337,7 @@ def normalize_series(value: object, brand: str | None) -> str | None:
     return text
 
 
-def normalize_row(row: dict[str, Any], brand_map: dict[str, str]) -> tuple[dict[str, Any], int, bool]:
+def normalize_row(row: dict[str, Any], brand_map: dict[str, str]) -> tuple[dict[str, Any], int, bool, bool, bool]:
     normalized = dict(row)
     changed_fields = 0
 
@@ -288,11 +347,32 @@ def normalize_row(row: dict[str, Any], brand_map: dict[str, str]) -> tuple[dict[
             changed_fields += 1
         normalized[column] = value
 
-    brand, brand_changed = canonical_brand(normalized.get("brand"), normalized.get("listing_url"), brand_map)
+    raw_brand = clean_text(normalized.get("brand"))
+    raw_series = clean_text(normalized.get("series"))
+    raw_model = clean_text(normalized.get("model"))
+    raw_engine = clean_text(normalized.get("engine"))
+    url_brand = infer_brand_from_url(normalized.get("listing_url"), brand_map)
+    raw_brand_is_known = bool(
+        raw_brand
+        and (brand_map.get(normalize_key(raw_brand)) or brand_map.get(slugify(raw_brand)))
+    )
+    brand_page_fields_shifted = bool(
+        url_brand
+        and raw_brand
+        and normalize_key(raw_brand) != normalize_key(url_brand)
+        and not raw_brand_is_known
+    )
+
+    brand, brand_changed = canonical_brand(raw_brand, normalized.get("listing_url"), brand_map)
     set_field("brand", brand)
     set_field("title", clean_text(normalized.get("title")) or "")
-    set_field("series", normalize_series(normalized.get("series"), brand))
-    set_field("model", normalize_package(normalized.get("model")))
+    if brand_page_fields_shifted:
+        set_field("series", normalize_series(raw_brand, brand))
+        set_field("model", normalize_package(raw_series))
+        set_field("engine", raw_model or raw_engine)
+    else:
+        set_field("series", normalize_series(raw_series, brand))
+        set_field("model", normalize_package(raw_model))
     set_field("year", normalize_int(normalized.get("year")))
     set_field("mileage_km", normalize_int(normalized.get("mileage_km")))
     set_field("price", normalize_int(normalized.get("price")))
@@ -303,11 +383,18 @@ def normalize_row(row: dict[str, Any], brand_map: dict[str, str]) -> tuple[dict[
     set_field("color", normalize_color(normalized.get("color")))
     set_field("seller_type", normalize_choice(normalized.get("seller_type"), SELLER_MAP))
 
-    for column in ["engine", "city", "district", "listing_date", "listing_url", "image_url", "source_listing_id"]:
+    for column in ["engine", "listing_date", "listing_url", "image_url", "source_listing_id"]:
         if column in normalized:
             set_field(column, clean_text(normalized.get(column)))
 
-    return normalized, changed_fields, brand_changed
+    original_city = clean_text(row.get("city"))
+    original_district = clean_text(row.get("district"))
+    city, district = normalize_location(original_city, original_district)
+    set_field("city", city)
+    set_field("district", district)
+    location_changed = city != original_city or district != original_district
+
+    return normalized, changed_fields, brand_changed, location_changed, brand_page_fields_shifted
 
 
 def duplicate_keys(row: dict[str, Any]) -> list[tuple[str, ...]]:
@@ -461,15 +548,24 @@ def clean_database(db_path: Path, catalog_path: Path, rules: CleanRules) -> Clea
         duplicate_total = 0
         normalized_field_total = 0
         corrected_brand_total = 0
+        corrected_location_total = 0
+        corrected_brand_page_field_total = 0
 
         order_by = "datetime(scraped_at) DESC, id DESC" if "id" in raw_columns else "datetime(scraped_at) DESC"
         rows = connection.execute(f"SELECT * FROM {RAW_TABLE} ORDER BY {order_by}")
         for sqlite_row in rows:
             raw_total += 1
-            row, changed_fields, brand_changed = normalize_row(dict(sqlite_row), brand_map)
+            row, changed_fields, brand_changed, location_changed, brand_page_fields_shifted = normalize_row(
+                dict(sqlite_row),
+                brand_map,
+            )
             normalized_field_total += changed_fields
             if brand_changed:
                 corrected_brand_total += 1
+            if location_changed:
+                corrected_location_total += 1
+            if brand_page_fields_shifted:
+                corrected_brand_page_field_total += 1
 
             reason = reject_reason(row, rules, known_brand_keys, seen_keys)
             if reason:
@@ -491,6 +587,8 @@ def clean_database(db_path: Path, catalog_path: Path, rules: CleanRules) -> Clea
             "duplicate_total": duplicate_total,
             "normalized_field_total": normalized_field_total,
             "corrected_brand_total": corrected_brand_total,
+            "corrected_location_total": corrected_location_total,
+            "corrected_brand_page_field_total": corrected_brand_page_field_total,
         }
         metrics.update({f"rejected_{reason}": total for reason, total in rejection_counts.items()})
         metrics.update(
@@ -523,6 +621,8 @@ def clean_database(db_path: Path, catalog_path: Path, rules: CleanRules) -> Clea
         duplicate_total=duplicate_total,
         normalized_field_total=normalized_field_total,
         corrected_brand_total=corrected_brand_total,
+        corrected_location_total=corrected_location_total,
+        corrected_brand_page_field_total=corrected_brand_page_field_total,
     )
 
 
@@ -554,6 +654,8 @@ def main() -> None:
     print(f"duplicate_total={result.duplicate_total}")
     print(f"normalized_field_total={result.normalized_field_total}")
     print(f"corrected_brand_total={result.corrected_brand_total}")
+    print(f"corrected_location_total={result.corrected_location_total}")
+    print(f"corrected_brand_page_field_total={result.corrected_brand_page_field_total}")
 
 
 if __name__ == "__main__":

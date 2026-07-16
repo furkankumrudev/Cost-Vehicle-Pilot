@@ -8,6 +8,7 @@ import json
 import random
 import re
 import time
+import unicodedata
 from dataclasses import dataclass
 from pathlib import Path
 from urllib.error import HTTPError, URLError
@@ -162,6 +163,8 @@ def store_html_page(
     db_path: str,
     city_override: str | None = None,
     district_override: str | None = None,
+    brand_override: str | None = None,
+    series_override: str | None = None,
 ) -> PageResult:
     listings = parse_search_results(html)
     if not listings:
@@ -178,6 +181,47 @@ def store_html_page(
             listing.city = city_override
             if district_override and not listing.district:
                 listing.district = district_override
+
+    if brand_override:
+        def option_key(value: str | None) -> str:
+            return re.sub(
+                r"[^a-z0-9]+",
+                "",
+                unicodedata.normalize("NFKD", (value or "").casefold())
+                .encode("ascii", "ignore")
+                .decode("ascii"),
+            )
+
+        override_key = option_key(brand_override)
+        series_key = option_key(series_override)
+        for listing in listings:
+            raw_brand = listing.brand
+            raw_series = listing.series
+            raw_model = listing.model
+            raw_engine = listing.engine
+            listing_key = option_key(raw_brand)
+
+            if series_override:
+                if listing_key == override_key:
+                    if raw_series and option_key(raw_series) != series_key:
+                        # A series-filtered page retained the brand but omitted the series tag.
+                        listing.model = raw_series
+                        listing.engine = raw_model or raw_engine
+                elif listing_key == series_key:
+                    # The page omitted only the brand tag.
+                    listing.model = raw_series
+                    listing.engine = raw_model or raw_engine
+                else:
+                    # The page omitted both brand and series tags.
+                    listing.model = raw_brand
+                    listing.engine = raw_series or raw_model or raw_engine
+                listing.series = series_override
+            elif raw_brand and listing_key != override_key:
+                # Brand-filtered result pages omit the brand tag, shifting the remaining tags left.
+                listing.engine = raw_model or raw_engine
+                listing.model = raw_series
+                listing.series = raw_brand
+            listing.brand = brand_override
 
     with ListingStore(db_path) as store:
         previous_total = store.count()

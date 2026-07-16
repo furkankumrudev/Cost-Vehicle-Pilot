@@ -8,9 +8,10 @@ import sqlite3
 import unicodedata
 from pathlib import Path
 
+import numpy as np
 import pandas as pd
-import plotly.express as px # type: ignore
-import plotly.graph_objects as go # type: ignore
+import plotly.express as px  # type: ignore
+import plotly.graph_objects as go  # type: ignore
 import streamlit as st
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
@@ -21,7 +22,9 @@ MIN_SAMPLE_SIZE = 8
 
 BRAND_ALIASES = {
     "mercedesbenz": "Mercedes-Benz",
+    "tofa": "Tofaş",
     "tofas": "Tofaş",
+    "tofat": "Tofaş",
 }
 
 
@@ -194,7 +197,7 @@ def format_try(value: float | int | None) -> str:
 
 
 @st.cache_data(show_spinner=False)
-def load_vehicle_catalog(path: str) -> dict[str, object]:
+def load_vehicle_catalog(path: str, file_mtime: float | None = None) -> dict[str, object]:
     catalog_path = Path(path)
     if not catalog_path.exists():
         return {"brands": []}
@@ -303,47 +306,70 @@ def catalog_model_options(catalog: dict[str, object], brand: str, series: str) -
     return []
 
 
-@st.cache_data(show_spinner=False)
+@st.cache_data(show_spinner="İlan verileri yükleniyor...", ttl=300)
 def load_listings(db_path: str) -> pd.DataFrame:
+    """İlan verilerini SQLite'tan okur.
+
+    Sağlamlık notları:
+    - DB dosyası yoksa ya da beklenen tablolardan hiçbiri yoksa (ör. scraper
+      henüz hiç çalıştırılmadıysa) uygulamayı ÇÖKERTMEK yerine boş bir
+      DataFrame döner; arayüz bunu "veri bekleniyor" ekranıyla karşılar.
+    - ttl=300: arka planda scraper yeni veri eklediğinde, önbellek en fazla
+      5 dakika içinde otomatik yenilenir (uygulamayı yeniden başlatmaya
+      gerek kalmaz).
+    """
     path = Path(db_path)
     if not path.exists():
         return pd.DataFrame()
 
-    with sqlite3.connect(path) as connection:
-        table_exists = connection.execute(
-            """
-            SELECT 1
-            FROM sqlite_master
-            WHERE type = 'table' AND name = 'vehicle_listings_clean'
-            """
-        ).fetchone()
-        table_name = "vehicle_listings_clean" if table_exists else "vehicle_listings"
-        df = pd.read_sql_query(
-            f"""
-            SELECT
-                title,
-                brand,
-                series,
-                model,
-                year,
-                mileage_km,
-                transmission,
-                fuel_type,
-                body_type,
-                color,
-                city,
-                district,
-                seller_type,
-                price,
-                currency,
-                listing_date,
-                listing_url,
-                scraped_at
-            FROM {table_name}
-            WHERE price IS NOT NULL
-            """,
-            connection,
-        )
+    candidate_tables = ["vehicle_listings_clean", "vehicle_listings"]
+
+    try:
+        with sqlite3.connect(path) as connection:
+            existing_tables = {
+                row[0]
+                for row in connection.execute(
+                    "SELECT name FROM sqlite_master WHERE type = 'table'"
+                ).fetchall()
+            }
+            table_name = next((t for t in candidate_tables if t in existing_tables), None)
+            if table_name is None:
+                st.warning(
+                    "Veritabanında beklenen ilan tablosu bulunamadı "
+                    f"({' / '.join(candidate_tables)}). Scraper/ETL adımının "
+                    "çalıştırıldığından emin olun."
+                )
+                return pd.DataFrame()
+
+            df = pd.read_sql_query(
+                f"""
+                SELECT
+                    title,
+                    brand,
+                    series,
+                    model,
+                    year,
+                    mileage_km,
+                    transmission,
+                    fuel_type,
+                    body_type,
+                    color,
+                    city,
+                    district,
+                    seller_type,
+                    price,
+                    currency,
+                    listing_date,
+                    listing_url,
+                    scraped_at
+                FROM {table_name}
+                WHERE price IS NOT NULL
+                """,
+                connection,
+            )
+    except sqlite3.DatabaseError as exc:
+        st.error(f"Veritabanı okunurken hata oluştu: {exc}")
+        return pd.DataFrame()
 
     numeric_columns = ["year", "mileage_km", "price"]
     for column in numeric_columns:
@@ -357,6 +383,25 @@ def unique_options(df: pd.DataFrame, column: str) -> list[str]:
     values = df[column].dropna().astype(str).str.strip()
     values = values[values.ne("")]
     return sorted(values.unique().tolist())
+
+
+def filter_by_series(df: pd.DataFrame, series: str) -> pd.DataFrame:
+    if df.empty or series == ALL_OPTION:
+        return df
+
+    series_values = df["series"].fillna("")
+    series_values_folded = series_values.str.casefold()
+    series_values_to_match = series_filter_values(series)
+    series_mask = series_values_folded.isin([value.casefold() for value in series_values_to_match])
+    title_mask = pd.Series(False, index=df.index)
+    for value in series_values_to_match:
+        value = value.strip()
+        if not value:
+            continue
+        pattern = rf"(?<!\w){re.escape(value)}(?!\w)"
+        series_mask = series_mask | series_values.str.contains(pattern, case=False, na=False, regex=True)
+        title_mask = title_mask | df["title"].fillna("").str.contains(pattern, case=False, na=False, regex=True)
+    return df[series_mask | title_mask]
 
 
 def apply_filters(
@@ -374,23 +419,7 @@ def apply_filters(
     if brand != ALL_OPTION:
         brand_key = normalize_option_key(brand)
         filtered = filtered[filtered["brand"].fillna("").map(normalize_option_key) == brand_key]
-    if series != ALL_OPTION:
-        series_values = filtered["series"].fillna("")
-        series_values_folded = series_values.str.casefold()
-        series_values_to_match = series_filter_values(series)
-        series_mask = series_values_folded.isin([value.casefold() for value in series_values_to_match])
-        title_mask = pd.Series(False, index=filtered.index)
-        for value in series_values_to_match:
-            value = value.strip()
-            if not value:
-                continue
-            if len(value) == 1:
-                pattern = rf"(?<!\w){re.escape(value)}(?!\w)"
-                title_mask = title_mask | filtered["title"].fillna("").str.contains(pattern, case=False, na=False, regex=True)
-            else:
-                series_mask = series_mask | series_values.str.contains(value, case=False, na=False, regex=False)
-                title_mask = title_mask | filtered["title"].fillna("").str.contains(value, case=False, na=False, regex=False)
-        filtered = filtered[series_mask | title_mask]
+    filtered = filter_by_series(filtered, series)
     if model != ALL_OPTION:
         model_mask = filtered["model"].fillna("").str.contains(model, case=False, na=False, regex=False)
         series_mask = filtered["series"].fillna("").str.contains(model, case=False, na=False, regex=False)
@@ -463,7 +492,23 @@ def render_price_distribution(df: pd.DataFrame, summary: dict[str, float | int])
         xaxis_title="Fiyat (TL)",
         font=dict(color="#f4f7fb"),
     )
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, width="stretch")
+
+
+def compute_trend_line(x: pd.Series, y: pd.Series) -> tuple[np.ndarray, np.ndarray] | None:
+    """Basit doğrusal regresyon (en küçük kareler) ile trend çizgisi üretir.
+
+    statsmodels gibi ek bir bağımlılık gerektirmeden (numpy zaten pandas'ın
+    bağımlılığı olduğu için ekstra kurulum gerekmez) px.scatter(trendline="ols")
+    ile aynı işi görür.
+    """
+    valid = pd.DataFrame({"x": x, "y": y}).dropna()
+    if len(valid) < 3 or valid["x"].nunique() < 2:
+        return None
+    slope, intercept = np.polyfit(valid["x"], valid["y"], 1)
+    x_line = np.linspace(valid["x"].min(), valid["x"].max(), 50)
+    y_line = slope * x_line + intercept
+    return x_line, y_line
 
 
 def render_price_by_year(df: pd.DataFrame) -> None:
@@ -481,6 +526,21 @@ def render_price_by_year(df: pd.DataFrame) -> None:
         color_discrete_sequence=["#0f766e"],
         labels={"year": "Model yılı", "price": "Fiyat"},
     )
+
+    trend = compute_trend_line(plot_df["year"], plot_df["price"])
+    if trend is not None:
+        x_line, y_line = trend
+        fig.add_trace(
+            go.Scatter(
+                x=x_line,
+                y=y_line,
+                mode="lines",
+                name="Trend",
+                line=dict(color="#ff8a7a", width=2, dash="dot"),
+                hoverinfo="skip",
+            )
+        )
+
     fig.update_layout(
         height=330,
         margin=dict(l=10, r=10, t=20, b=10),
@@ -489,8 +549,59 @@ def render_price_by_year(df: pd.DataFrame) -> None:
         yaxis_title="Fiyat (TL)",
         xaxis_title="Model yılı",
         font=dict(color="#f4f7fb"),
+        showlegend=False,
     )
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, width="stretch")
+
+
+def render_price_by_mileage(df: pd.DataFrame) -> None:
+    """Kilometre arttıkça fiyatın nasıl azaldığını gösterir (amortisman eğrisi)."""
+    plot_df = df.dropna(subset=["mileage_km", "price"])
+    if plot_df.empty:
+        st.info("Kilometre bilgisi olan yeterli ilan bulunamadı.")
+        return
+
+    fig = px.scatter(
+        plot_df,
+        x="mileage_km",
+        y="price",
+        hover_data=["title", "year", "city"],
+        color_discrete_sequence=["#6ea8fe"],
+        labels={"mileage_km": "Kilometre", "price": "Fiyat"},
+    )
+
+    trend = compute_trend_line(plot_df["mileage_km"], plot_df["price"])
+    if trend is not None:
+        x_line, y_line = trend
+        fig.add_trace(
+            go.Scatter(
+                x=x_line,
+                y=y_line,
+                mode="lines",
+                name="Trend",
+                line=dict(color="#ff8a7a", width=2, dash="dot"),
+                hoverinfo="skip",
+            )
+        )
+        # Trend eğiminden "her 10.000 km'de ortalama fiyat kaybı" bilgisini çıkarıp gösterelim
+        slope = (y_line[-1] - y_line[0]) / (x_line[-1] - x_line[0]) if x_line[-1] != x_line[0] else 0
+        loss_per_10k = slope * 10000
+        if loss_per_10k < 0:
+            st.caption(f"Trend: Her 10.000 km'de ortalama **{format_try(abs(loss_per_10k))}** değer kaybı.")
+        else:
+            st.caption("Trend: Bu filtrelerde kilometre ile fiyat arasında belirgin bir düşüş görünmüyor.")
+
+    fig.update_layout(
+        height=330,
+        margin=dict(l=10, r=10, t=20, b=10),
+        paper_bgcolor="#161d27",
+        plot_bgcolor="#161d27",
+        yaxis_title="Fiyat (TL)",
+        xaxis_title="Kilometre",
+        font=dict(color="#f4f7fb"),
+        showlegend=False,
+    )
+    st.plotly_chart(fig, width="stretch")
 
 
 def render_market_gauge(summary: dict[str, float | int]) -> None:
@@ -521,14 +632,101 @@ def render_market_gauge(summary: dict[str, float | int]) -> None:
         paper_bgcolor="#161d27",
         font=dict(color="#f4f7fb"),
     )
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, width="stretch")
+
+
+def render_price_percentile_tool(df: pd.DataFrame, summary: dict[str, float | int]) -> None:
+    """Kullanıcının kendi aracının/ilanının fiyatını girmesini sağlar ve bunu
+    filtrelenmiş benzer ilanların fiyat dağılımıyla kıyaslar."""
+    prices = df["price"].dropna()
+    if prices.empty:
+        st.info("Kıyaslama için yeterli veri yok.")
+        return
+
+    default_value = int(summary.get("median", 0))
+    user_price = st.number_input(
+        "Aracınızın fiyatını girin (TL)",
+        min_value=0,
+        value=default_value,
+        step=10000,
+        help="Kendi aracınızın (ya da incelediğiniz ilanın) fiyatını girin; "
+             "bu, soldaki filtrelerle eşleşen ilanlarla karşılaştırılır.",
+    )
+
+    if user_price <= 0:
+        st.caption("Karşılaştırma için bir fiyat girin.")
+        return
+
+    percentile = float((prices < user_price).mean() * 100)
+    cheaper_count = int((prices < user_price).sum())
+
+    st.metric(
+        "Piyasa yüzdelik dilimi",
+        f"%{percentile:.0f}",
+        help=f"Benzer {len(prices)} ilanın %{percentile:.0f}'i bu fiyattan daha ucuz.",
+    )
+    st.caption(
+        f"Girdiğiniz {format_try(user_price)} fiyatı, {len(prices)} benzer ilanın "
+        f"{cheaper_count} tanesinden daha pahalı (yani ilanların %{percentile:.0f}'inden pahalı, "
+        f"%{100 - percentile:.0f}'inden ucuz)."
+    )
+
+    q1, q3, median = summary["q1"], summary["q3"], summary["median"]
+    if user_price < q1:
+        st.success(
+            f"Bu fiyat, önerilen piyasa aralığının ({format_try(q1)} - {format_try(q3)}) ALTINDA. "
+            "Alıcı için avantajlı olabilir, ancak bu denli düşükse aracın durumunu/kilometresini "
+            "tekrar kontrol etmekte fayda var."
+        )
+    elif user_price > q3:
+        st.warning(
+            f"Bu fiyat, önerilen piyasa aralığının ({format_try(q1)} - {format_try(q3)}) ÜZERİNDE. "
+            "Satıcı için avantajlı olabilir, alıcı için pazarlık payı olabilir."
+        )
+    else:
+        st.info(
+            f"Bu fiyat, önerilen piyasa aralığı ({format_try(q1)} - {format_try(q3)}) İÇİNDE — "
+            f"medyana ({format_try(median)}) göre gayet makul."
+        )
+
+
+def render_available_listings(filtered: pd.DataFrame) -> None:
+    """Show raw listings when the price-range sample is still too small."""
+    if filtered.empty:
+        return
+
+    listing_table = filtered[
+        ["title", "brand", "series", "year", "mileage_km", "city", "price", "listing_url"]
+    ].sort_values("price")
+    listing_table = listing_table.rename(
+        columns={
+            "title": "İlan",
+            "brand": "Marka",
+            "series": "Seri",
+            "year": "Yıl",
+            "mileage_km": "Kilometre",
+            "city": "Şehir",
+            "price": "Fiyat",
+            "listing_url": "Bağlantı",
+        }
+    )
+    st.dataframe(
+        listing_table,
+        width="stretch",
+        hide_index=True,
+        column_config={
+            "Fiyat": st.column_config.NumberColumn(format="%d TL"),
+            "Kilometre": st.column_config.NumberColumn(format="%d km"),
+            "Bağlantı": st.column_config.LinkColumn(display_text="İlana git"),
+        },
+    )
 
 
 def main() -> None:
     st.markdown(CUSTOM_CSS, unsafe_allow_html=True)
 
     df = load_listings(str(DB_PATH))
-    catalog = load_vehicle_catalog(str(CATALOG_PATH))
+    catalog = load_vehicle_catalog(str(CATALOG_PATH), CATALOG_PATH.stat().st_mtime if CATALOG_PATH.exists() else None)
 
     st.markdown(
         """
@@ -555,30 +753,52 @@ def main() -> None:
         else:
             brand_key = normalize_option_key(brand)
             series_source = df[df["brand"].fillna("").map(normalize_option_key) == brand_key]
-        series_options = [ALL_OPTION] + (catalog_series or unique_options(series_source, "series"))
+        series_options = [ALL_OPTION] + merge_options(catalog_series, unique_options(series_source, "series"))
         series = st.selectbox("Seri / Model", series_options, index=0)
 
         catalog_models = catalog_model_options(catalog, brand, series)
-        model_options = [ALL_OPTION] + catalog_models
+        model_source = filter_by_series(series_source, series)
+        database_models = unique_options(model_source, "model")
+        model_options = [ALL_OPTION] + (database_models or catalog_models)
         selected_model = st.selectbox("Model / Paket", model_options, index=0)
 
-        year_values = df["year"].dropna() if not df.empty else pd.Series(dtype="float64")
+        # A selected older series (for example Brera) should not be hidden by the
+        # generic 2015+ defaults used for the full marketplace view.
+        selection_source = model_source if series != ALL_OPTION and not model_source.empty else df
+        year_values = selection_source["year"].dropna() if not selection_source.empty else pd.Series(dtype="float64")
         min_year = int(year_values.min()) if not year_values.empty else 2000
         max_year = int(year_values.max()) if not year_values.empty else 2026
-        year_range = st.slider("Model yılı", min_year, max_year, (max(min_year, 2015), max_year))
+        default_min_year = min_year if series != ALL_OPTION else max(min_year, 2015)
+        slider_max_year = max_year if max_year > min_year else min_year + 1
+        year_range = st.slider("Model yılı", min_year, slider_max_year, (default_min_year, max_year))
 
-        mileage_values = df["mileage_km"].dropna() if not df.empty else pd.Series(dtype="float64")
+        mileage_values = (
+            selection_source["mileage_km"].dropna()
+            if not selection_source.empty
+            else pd.Series(dtype="float64")
+        )
         max_mileage = int(max(mileage_values.max(), 100000)) if not mileage_values.empty else 300000
-        mileage_max = st.slider("Maksimum kilometre", 0, max_mileage, min(max_mileage, 250000), step=5000)
+        default_mileage = max_mileage if series != ALL_OPTION else min(max_mileage, 250000)
+        mileage_max = st.slider("Maksimum kilometre", 0, max_mileage, default_mileage, step=5000)
 
         st.divider()
-        analyze = st.button("Mevcut Veriden Analiz Et", use_container_width=True)
+        analyze_clicked = st.button("Mevcut Veriden Analiz Et", width="stretch")
         st.caption(f"Veritabanı: {DB_PATH.as_posix()}")
         if catalog_brands:
             st.caption(
                 f"Katalog: {catalog.get('brand_count', len(catalog_brands))} marka, "
                 f"{catalog.get('series_count', 0)} seri"
             )
+
+    # session_state ile "analiz edildi" durumunu kalıcı tutuyoruz. Böylece
+    # kullanıcı butona bastıktan SONRA yıl/km slider'ını oynatsa bile sonuçlar
+    # tekrar gizlenmiyor; her filtre değişikliğinde otomatik güncelleniyor.
+    # Yeni bir analiz turu her zaman butona basarak başlatılır.
+    if "analyzed" not in st.session_state:
+        st.session_state["analyzed"] = False
+    if analyze_clicked:
+        st.session_state["analyzed"] = True
+    analyze = st.session_state["analyzed"]
 
     if analyze:
         if brand == ALL_OPTION or series == ALL_OPTION:
@@ -611,6 +831,13 @@ def main() -> None:
     if not summary or len(filtered) < MIN_SAMPLE_SIZE:
         st.warning("Bu filtrelerle yeterli benzer ilan bulunamadı. Filtreleri biraz genişlet.")
         st.metric("Eşleşen ilan", len(filtered))
+        if not filtered.empty:
+            st.caption(
+                f"Fiyat aralığı için en az {MIN_SAMPLE_SIZE} ilan gerekir; "
+                "bulunan ilanlar aşağıda gösteriliyor."
+            )
+            st.subheader("Bulunan İlanlar")
+            render_available_listings(filtered)
         return
 
     range_low = summary["q1"]
@@ -650,6 +877,11 @@ def main() -> None:
         st.subheader("Yıl ve Fiyat İlişkisi")
         render_price_by_year(filtered)
     with right:
+        st.subheader("Kilometre ve Fiyat İlişkisi")
+        render_price_by_mileage(filtered)
+
+    left, right = st.columns(2, gap="large")
+    with left:
         st.subheader("Şehir Yoğunluğu")
         city_counts = filtered["city"].fillna("Bilinmiyor").value_counts().head(10).reset_index()
         city_counts.columns = ["city", "count"]
@@ -669,7 +901,10 @@ def main() -> None:
             font=dict(color="#f4f7fb"),
             yaxis={"categoryorder": "total ascending"},
         )
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width="stretch")
+    with right:
+        st.subheader("Aracınızın Piyasadaki Yeri")
+        render_price_percentile_tool(filtered, summary)
 
     st.subheader("Benzer İlanlar")
     listing_table = filtered[
@@ -689,7 +924,7 @@ def main() -> None:
     )
     st.dataframe(
         listing_table,
-        use_container_width=True,
+        width="stretch",
         hide_index=True,
         column_config={
             "Fiyat": st.column_config.NumberColumn(format="%d TL"),

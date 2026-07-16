@@ -29,7 +29,8 @@ from src.ingestion.storage import DEFAULT_DB_PATH
 BASE_URL = "https://www.sahibinden.com/otomobil"
 CATALOG_PATH = Path("data") / "reference" / "vehicle_catalog.json"
 CHECKPOINT_PATH = Path("data") / "runtime" / "brand_segment_checkpoint.json"
-SCRAPER_PROFILE_PATH = Path("data") / "runtime" / "edge-profile-category"
+# Reuse the established city-scraper profile so brand jobs do not require a separate login.
+SCRAPER_PROFILE_PATH = Path("data") / "runtime" / "edge-profile-city"
 
 SLUG_OVERRIDES = {
     "mercedes - benz": "mercedes-benz",
@@ -137,11 +138,21 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--db-path", default=str(DEFAULT_DB_PATH))
     parser.add_argument("--checkpoint-path", default=str(CHECKPOINT_PATH))
     parser.add_argument("--reset-checkpoint", action="store_true")
+    parser.add_argument(
+        "--resume",
+        action="store_true",
+        help="Resume an explicit --brand or --brands run from its checkpoint.",
+    )
     parser.add_argument("--max-empty-pages", type=int, default=1)
     parser.add_argument("--max-low-change-pages", type=int, default=3, help="Use 0 to disable low-change stopping.")
     parser.add_argument("--max-repeated-pages", type=int, default=2, help="Use 0 to disable repeated-page stopping.")
     parser.add_argument("--stop-on-access", action="store_true")
     parser.add_argument("--skip-completed", action="store_true")
+    parser.add_argument(
+        "--continue-on-empty-brand",
+        action="store_true",
+        help="Mark a normally empty brand complete and continue to the next one. Access/login pages remain pending.",
+    )
     return parser
 
 
@@ -186,8 +197,9 @@ async def run(args: argparse.Namespace) -> None:
     if not brands:
         raise SystemExit("No brand matched the requested filters.")
 
-    brand_index = int(checkpoint.get("brand_index", 0)) if not (args.brand or args.brands) else 0
-    offset = int(checkpoint.get("offset", 0)) if not (args.brand or args.brands) else 0
+    use_checkpoint_position = args.resume or not (args.brand or args.brands)
+    brand_index = int(checkpoint.get("brand_index", 0)) if use_checkpoint_position else 0
+    offset = int(checkpoint.get("offset", 0)) if use_checkpoint_position else 0
     config = ScraperConfig(
         query="Otomobil",
         delay_min=args.delay_min,
@@ -244,6 +256,7 @@ async def run(args: argparse.Namespace) -> None:
             repeated_pages = 0
             previous_signature = None
             brand_had_data = False
+            access_blocked = False
             max_pages = args.pages_per_brand if args.pages_per_brand > 0 else 1_000_000
 
             print(f"\nBrand {absolute_index + 1}: {segment.name} ({segment.url_base})", flush=True)
@@ -257,11 +270,18 @@ async def run(args: argparse.Namespace) -> None:
                 signature = page_signature(html)
 
                 try:
-                    result = store_html_page(html, current_offset, args.page_size, args.db_path)
+                    result = store_html_page(
+                        html,
+                        current_offset,
+                        args.page_size,
+                        args.db_path,
+                        brand_override=segment.name,
+                    )
                 except RuntimeError as exc:
                     empty_pages += 1
                     print(f"EMPTY/STOP brand={segment.name} offset={current_offset} error={exc}", flush=True)
                     if has_login_page(html) or has_access_challenge(html):
+                        access_blocked = True
                         save_checkpoint(
                             checkpoint_path,
                             brand_index=absolute_index,
@@ -314,6 +334,15 @@ async def run(args: argparse.Namespace) -> None:
                 if page_index < max_pages:
                     time.sleep(random.uniform(args.delay_min, args.delay_max))
 
+            if access_blocked:
+                save_checkpoint(
+                    checkpoint_path,
+                    brand_index=absolute_index,
+                    offset=current_offset,
+                    completed=completed,
+                )
+                print(f"Brand {segment.name} is pending because access is blocked.", flush=True)
+                break
             if brand_had_data and segment.name not in completed:
                 completed.append(segment.name)
                 save_checkpoint(
@@ -322,6 +351,16 @@ async def run(args: argparse.Namespace) -> None:
                     offset=0,
                     completed=completed,
                 )
+            elif args.continue_on_empty_brand:
+                if segment.name not in completed:
+                    completed.append(segment.name)
+                save_checkpoint(
+                    checkpoint_path,
+                    brand_index=absolute_index + 1,
+                    offset=0,
+                    completed=completed,
+                )
+                print(f"Brand {segment.name} had no normal listing results; moving on.", flush=True)
             else:
                 save_checkpoint(
                     checkpoint_path,

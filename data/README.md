@@ -1,6 +1,6 @@
 # Data
 
-Bu klasör Cost Vehicle Pilot'un referans ve lokal çalışma verilerini tutar.
+Bu klasör Cost Vehicle Pilot'un referans ve yerel çalışma verilerini tutar.
 
 ## Klasörler
 
@@ -16,23 +16,23 @@ data/
 
 `data/reference/vehicle_catalog.json`, arayüzdeki marka, seri ve model/paket seçimlerini besleyen katalog dosyasıdır.
 
-Katalog mevcut Türkçe araç ilan verisinden türetilmiştir ve uygulamanın ilk seçim deneyimini hazır hale getirir.
+Bu dosya Git'e dahildir; çünkü uygulamanın dropdown seçenekleri için sabit referans veri gibi kullanılır.
 
 ## Runtime Data
 
-`data/runtime/vehicle_listings.sqlite3`, scraper tarafından toplanan güncel ilanların tutulduğu lokal SQLite veritabanıdır.
+`data/runtime/vehicle_listings.sqlite3`, scraper tarafından toplanan güncel ilanların tutulduğu yerel SQLite veritabanıdır.
 
-Bu klasör Git'e dahil edilmez. Çünkü içerik çalışma ortamına, deneme sorgularına ve canlı veri toplama sürecine göre değişir.
+Bu klasör Git'e dahil edilmez. İçinde SQLite veritabanı, checkpoint dosyaları, debug HTML çıktıları ve tarayıcı profili gibi makineye özel çalışma dosyaları bulunur.
 
 ## Veri Akışı
 
 ```text
-Kullanıcı araç özelliklerini seçer
-  -> scraper benzer ilanları toplar
-  -> SQLite'a kaydeder
-  -> Streamlit arayüzü fiyat dağılımını gösterir
+Scraper
+  -> yeni ilanları vehicle_listings tablosuna ekler
+  -> cleaning hattı vehicle_listings_clean tablosunu üretir
+  -> Streamlit arayüzü temiz tablodan piyasa analizini gösterir
 ```
 
 ## Not
 
-Eski public CSV veri seti proje yönünden çıkarılmıştır. Projenin ana yaklaşımı artık hazır statik dataset yerine dinamik ilan verisiyle piyasa aralığı üretmektir.
+Projenin ana yaklaşımı hazır statik fiyat dataset'i yerine güncel ilan verisiyle piyasa aralığı üretmektir.
