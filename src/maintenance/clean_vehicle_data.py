@@ -52,6 +52,15 @@ TEXT_FIXES = {
     "Mercedes-Benz": "Mercedes-Benz",
 }
 
+TOFAS_SERIES_BY_KEY = {
+    "sahin": "Şahin",
+    "ahin": "Şahin",
+    "dogan": "Doğan",
+    "kartal": "Kartal",
+    "murat": "Murat",
+    "serce": "Serçe",
+}
+
 TRANSMISSION_MAP = {
     "manuel": "Manuel",
     "duz": "Manuel",
@@ -337,6 +346,22 @@ def normalize_series(value: object, brand: str | None) -> str | None:
     return text
 
 
+def infer_tofas_series(*values: object) -> str | None:
+    haystack = " ".join(clean_text(value) or "" for value in values)
+    haystack_key = normalize_key(haystack)
+    for key, series in TOFAS_SERIES_BY_KEY.items():
+        if key and key in haystack_key:
+            return series
+    return None
+
+
+def normalize_tofas_series(series: object, *signals: object) -> str | None:
+    series_key = normalize_key(series)
+    if series_key in TOFAS_SERIES_BY_KEY:
+        return TOFAS_SERIES_BY_KEY[series_key]
+    return infer_tofas_series(*signals) or clean_text(series)
+
+
 def normalize_row(row: dict[str, Any], brand_map: dict[str, str]) -> tuple[dict[str, Any], int, bool, bool, bool]:
     normalized = dict(row)
     changed_fields = 0
@@ -373,6 +398,8 @@ def normalize_row(row: dict[str, Any], brand_map: dict[str, str]) -> tuple[dict[
     else:
         set_field("series", normalize_series(raw_series, brand))
         set_field("model", normalize_package(raw_model))
+    if normalize_key(brand) == "tofas":
+        set_field("series", normalize_tofas_series(normalized.get("series"), normalized.get("title"), raw_series, raw_model))
     set_field("year", normalize_int(normalized.get("year")))
     set_field("mileage_km", normalize_int(normalized.get("mileage_km")))
     set_field("price", normalize_int(normalized.get("price")))
@@ -487,6 +514,8 @@ def reject_reason(row: dict[str, Any], rules: CleanRules, known_brand_keys: set[
         return "mileage_too_high"
     if not brand or normalize_key(brand) not in known_brand_keys:
         return "unknown_brand"
+    if normalize_key(brand) == "tofas" and normalize_key(row.get("series")) not in TOFAS_SERIES_BY_KEY:
+        return "unknown_tofas_series"
     if not clean_text(row.get("title")):
         return "missing_title"
     return None

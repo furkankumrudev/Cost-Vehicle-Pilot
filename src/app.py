@@ -6,6 +6,7 @@ import json
 import re
 import sqlite3
 import unicodedata
+from datetime import date, timedelta
 from pathlib import Path
 
 import numpy as np
@@ -19,6 +20,27 @@ DB_PATH = PROJECT_ROOT / "data" / "runtime" / "vehicle_listings.sqlite3"
 CATALOG_PATH = PROJECT_ROOT / "data" / "reference" / "vehicle_catalog.json"
 ALL_OPTION = "Tümü"
 MIN_SAMPLE_SIZE = 8
+
+TURKISH_MONTHS = {
+    "ocak": 1,
+    "subat": 2,
+    "şubat": 2,
+    "mart": 3,
+    "nisan": 4,
+    "mayis": 5,
+    "mayıs": 5,
+    "haziran": 6,
+    "temmuz": 7,
+    "agustos": 8,
+    "ağustos": 8,
+    "eylul": 9,
+    "eylül": 9,
+    "ekim": 10,
+    "kasim": 11,
+    "kasım": 11,
+    "aralik": 12,
+    "aralık": 12,
+}
 
 BRAND_ALIASES = {
     "mercedesbenz": "Mercedes-Benz",
@@ -210,6 +232,36 @@ def normalize_option_key(value: object) -> str:
     return re.sub(r"[^a-z0-9]+", "", text)
 
 
+def parse_listing_date(value: object) -> pd.Timestamp | None:
+    text = str(value or "").strip()
+    if not text:
+        return None
+
+    folded = text.casefold()
+    today = date.today()
+    if folded in {"bugün", "bugun"}:
+        return pd.Timestamp(today)
+    if folded == "dün" or folded == "dun":
+        return pd.Timestamp(today - timedelta(days=1))
+
+    match = re.search(r"(\d{1,2})\s+([A-Za-zÇĞİÖŞÜçğıöşü]+)\s+(\d{4})", text)
+    if match:
+        day = int(match.group(1))
+        month_key = match.group(2).casefold()
+        month = TURKISH_MONTHS.get(month_key)
+        year = int(match.group(3))
+        if month:
+            try:
+                return pd.Timestamp(date(year, month, day))
+            except ValueError:
+                return None
+
+    parsed = pd.to_datetime(text, errors="coerce", dayfirst=True)
+    if pd.isna(parsed):
+        return None
+    return pd.Timestamp(parsed).normalize()
+
+
 def canonical_brand_name(value: object) -> str:
     text = str(value or "").strip()
     return BRAND_ALIASES.get(normalize_option_key(text), text)
@@ -390,6 +442,7 @@ def filter_by_series(df: pd.DataFrame, series: str) -> pd.DataFrame:
         return df
 
     series_values = df["series"].fillna("")
+    missing_series = series_values.str.strip().eq("")
     series_values_folded = series_values.str.casefold()
     series_values_to_match = series_filter_values(series)
     series_mask = series_values_folded.isin([value.casefold() for value in series_values_to_match])
@@ -401,7 +454,7 @@ def filter_by_series(df: pd.DataFrame, series: str) -> pd.DataFrame:
         pattern = rf"(?<!\w){re.escape(value)}(?!\w)"
         series_mask = series_mask | series_values.str.contains(pattern, case=False, na=False, regex=True)
         title_mask = title_mask | df["title"].fillna("").str.contains(pattern, case=False, na=False, regex=True)
-    return df[series_mask | title_mask]
+    return df[series_mask | (missing_series & title_mask)]
 
 
 def apply_filters(
@@ -635,59 +688,77 @@ def render_market_gauge(summary: dict[str, float | int]) -> None:
     st.plotly_chart(fig, width="stretch")
 
 
-def render_price_percentile_tool(df: pd.DataFrame, summary: dict[str, float | int]) -> None:
-    """Kullanıcının kendi aracının/ilanının fiyatını girmesini sağlar ve bunu
-    filtrelenmiş benzer ilanların fiyat dağılımıyla kıyaslar."""
-    prices = df["price"].dropna()
-    if prices.empty:
-        st.info("Kıyaslama için yeterli veri yok.")
+def render_listing_date_price_trend(df: pd.DataFrame) -> None:
+    trend_df = df.dropna(subset=["price"]).copy()
+    if trend_df.empty or "listing_date" not in trend_df:
+        st.info("Tarih bazlı fiyat trendi için yeterli veri yok.")
         return
 
-    default_value = int(summary.get("median", 0))
-    user_price = st.number_input(
-        "Aracınızın fiyatını girin (TL)",
-        min_value=0,
-        value=default_value,
-        step=10000,
-        help="Kendi aracınızın (ya da incelediğiniz ilanın) fiyatını girin; "
-             "bu, soldaki filtrelerle eşleşen ilanlarla karşılaştırılır.",
-    )
-
-    if user_price <= 0:
-        st.caption("Karşılaştırma için bir fiyat girin.")
+    trend_df["date"] = trend_df["listing_date"].map(parse_listing_date)
+    trend_df = trend_df.dropna(subset=["date"])
+    if trend_df["date"].nunique() < 2:
+        st.info("Fiyat trendi için en az iki farklı ilan tarihi gerekiyor.")
         return
 
-    percentile = float((prices < user_price).mean() * 100)
-    cheaper_count = int((prices < user_price).sum())
-
-    st.metric(
-        "Piyasa yüzdelik dilimi",
-        f"%{percentile:.0f}",
-        help=f"Benzer {len(prices)} ilanın %{percentile:.0f}'i bu fiyattan daha ucuz.",
+    daily = (
+        trend_df.groupby("date", as_index=False)
+        .agg(
+            median_price=("price", "median"),
+            mean_price=("price", "mean"),
+            listing_count=("price", "size"),
+        )
+        .sort_values("date")
     )
+    if len(daily) < 2:
+        st.info("Fiyat trendi için yeterli tarihli veri yok.")
+        return
+
+    first_price = float(daily["median_price"].iloc[0])
+    last_price = float(daily["median_price"].iloc[-1])
+    change = last_price - first_price
+    change_pct = (change / first_price * 100) if first_price else 0
+
+    fig = go.Figure()
+    fig.add_trace(
+        go.Scatter(
+            x=daily["date"],
+            y=daily["median_price"],
+            mode="lines+markers",
+            name="Medyan fiyat",
+            line=dict(color="#6ea8fe", width=3),
+            marker=dict(size=7),
+            hovertemplate="%{x|%d.%m.%Y}<br>Medyan: %{y:,.0f} TL<extra></extra>",
+        )
+    )
+    fig.add_trace(
+        go.Scatter(
+            x=daily["date"],
+            y=daily["mean_price"],
+            mode="lines",
+            name="Ortalama fiyat",
+            line=dict(color="#ff8a7a", width=2, dash="dot"),
+            hovertemplate="%{x|%d.%m.%Y}<br>Ortalama: %{y:,.0f} TL<extra></extra>",
+        )
+    )
+    fig.update_layout(
+        height=330,
+        margin=dict(l=10, r=10, t=20, b=10),
+        paper_bgcolor="#161d27",
+        plot_bgcolor="#161d27",
+        yaxis_title="Fiyat (TL)",
+        xaxis_title="İlan tarihi",
+        font=dict(color="#f4f7fb"),
+        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="left", x=0),
+    )
+    st.plotly_chart(fig, width="stretch")
+
+    direction = "artmış" if change > 0 else "azalmış" if change < 0 else "sabit kalmış"
     st.caption(
-        f"Girdiğiniz {format_try(user_price)} fiyatı, {len(prices)} benzer ilanın "
-        f"{cheaper_count} tanesinden daha pahalı (yani ilanların %{percentile:.0f}'inden pahalı, "
-        f"%{100 - percentile:.0f}'inden ucuz)."
+        f"{daily['date'].dt.strftime('%d.%m.%Y').iloc[0]} - "
+        f"{daily['date'].dt.strftime('%d.%m.%Y').iloc[-1]} arasında medyan fiyat "
+        f"{format_try(abs(change))} ({abs(change_pct):.1f}%) {direction}. "
+        f"Bu trend {int(daily['listing_count'].sum())} benzer ilan üzerinden hesaplandı."
     )
-
-    q1, q3, median = summary["q1"], summary["q3"], summary["median"]
-    if user_price < q1:
-        st.success(
-            f"Bu fiyat, önerilen piyasa aralığının ({format_try(q1)} - {format_try(q3)}) ALTINDA. "
-            "Alıcı için avantajlı olabilir, ancak bu denli düşükse aracın durumunu/kilometresini "
-            "tekrar kontrol etmekte fayda var."
-        )
-    elif user_price > q3:
-        st.warning(
-            f"Bu fiyat, önerilen piyasa aralığının ({format_try(q1)} - {format_try(q3)}) ÜZERİNDE. "
-            "Satıcı için avantajlı olabilir, alıcı için pazarlık payı olabilir."
-        )
-    else:
-        st.info(
-            f"Bu fiyat, önerilen piyasa aralığı ({format_try(q1)} - {format_try(q3)}) İÇİNDE — "
-            f"medyana ({format_try(median)}) göre gayet makul."
-        )
 
 
 def render_available_listings(filtered: pd.DataFrame) -> None:
@@ -903,8 +974,8 @@ def main() -> None:
         )
         st.plotly_chart(fig, width="stretch")
     with right:
-        st.subheader("Aracınızın Piyasadaki Yeri")
-        render_price_percentile_tool(filtered, summary)
+        st.subheader("Eklenme Tarihine Göre Fiyat Trendi")
+        render_listing_date_price_trend(filtered)
 
     st.subheader("Benzer İlanlar")
     listing_table = filtered[
