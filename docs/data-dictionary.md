@@ -46,6 +46,11 @@ Table: `vehicle_listings`
 | listing_date | İlan tarihi |
 | listing_url | İlan bağlantısı |
 | image_url | Görsel bağlantısı |
+| paint_status | Boya filtresi/başlık analizinden gelen durum (`Boyasız` gibi) |
+| changed_part_status | Değişen parça filtresi/başlık analizinden gelen durum (`Değişensiz` gibi) |
+| damage_status | Temiz/hasar iddiası sınıfı (`clean_claimed`, `clean_claimed_from_title`) |
+| is_clean_claimed | Temiz iddialı araç bayrağı; temizse `1`, değilse `0` |
+| scrape_segment | İlanın yakalandığı günlük segment (`clean_24h`, `general_24h`) |
 | scraped_at | Verinin toplandığı zaman |
 
 ## Analysis Output
@@ -60,3 +65,6 @@ Streamlit arayüzü bu kayıtlardan şu değerleri üretir:
 - 25. yüzdelik fiyat
 - 75. yüzdelik fiyat
 - önerilen piyasa fiyat aralığı
+- benzerlik skoruna göre ağırlıklı medyan
+- analiz güven seviyesi
+- uç fiyatlardan arındırılmış benzer ilan havuzu

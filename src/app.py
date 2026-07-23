@@ -1,4 +1,4 @@
-"""Streamlit interface for Cost Vehicle Pilot."""
+"""Streamlit interface for ArabamFiyat.com."""
 
 from __future__ import annotations
 
@@ -14,6 +14,8 @@ import pandas as pd
 import plotly.express as px  # type: ignore
 import plotly.graph_objects as go  # type: ignore
 import streamlit as st
+
+from src.analysis.market_engine import build_market_analysis
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DB_PATH = PROJECT_ROOT / "data" / "runtime" / "vehicle_listings.sqlite3"
@@ -51,8 +53,8 @@ BRAND_ALIASES = {
 
 
 st.set_page_config(
-    page_title="Cost Vehicle Pilot",
-    page_icon="CVP",
+    page_title="ArabamFiyat.com",
+    page_icon="AF",
     layout="wide",
     initial_sidebar_state="expanded",
 )
@@ -89,8 +91,10 @@ CUSTOM_CSS = """
     }
 
     .cvp-topbar {
-        border-bottom: 1px solid var(--cvp-line);
-        padding: 0 0 1rem 0;
+        border: 1px solid var(--cvp-line);
+        border-radius: 8px;
+        background: linear-gradient(135deg, #151d28 0%, #101722 58%, #17231f 100%);
+        padding: 1.1rem 1.2rem;
         margin-bottom: 1.25rem;
     }
 
@@ -426,6 +430,7 @@ def load_listings(db_path: str) -> pd.DataFrame:
     numeric_columns = ["year", "mileage_km", "price"]
     for column in numeric_columns:
         df[column] = pd.to_numeric(df[column], errors="coerce")
+    df["parsed_listing_date"] = df["listing_date"].map(parse_listing_date)
     return df
 
 
@@ -802,7 +807,7 @@ def main() -> None:
     st.markdown(
         """
         <div class="cvp-topbar">
-            <h1 class="cvp-title">Cost Vehicle Pilot</h1>
+            <h1 class="cvp-title">ArabamFiyat.com</h1>
             <div class="cvp-subtitle">
                 Güncel ilan verilerinden benzer araçları analiz eden fiyat aralığı ve piyasa dağılım ekranı.
             </div>
@@ -851,6 +856,13 @@ def main() -> None:
         max_mileage = int(max(mileage_values.max(), 100000)) if not mileage_values.empty else 300000
         default_mileage = max_mileage if series != ALL_OPTION else min(max_mileage, 250000)
         mileage_max = st.slider("Maksimum kilometre", 0, max_mileage, default_mileage, step=5000)
+        user_price = st.number_input(
+            "Aracınızın fiyatı (opsiyonel)",
+            min_value=0,
+            value=0,
+            step=10000,
+            format="%d",
+        )
 
         st.divider()
         analyze_clicked = st.button("Mevcut Veriden Analiz Et", width="stretch")
@@ -881,7 +893,18 @@ def main() -> None:
         return
 
     filtered = apply_filters(df, brand, series, selected_model, year_range, mileage_max)
-    summary = price_summary(filtered)
+    target_year = int(round((year_range[0] + year_range[1]) / 2))
+    analysis = build_market_analysis(
+        filtered,
+        target_year=target_year,
+        target_mileage=mileage_max,
+        selected_model=None if selected_model == ALL_OPTION else selected_model,
+        user_price=int(user_price) if user_price else None,
+    )
+    summary = analysis.get("summary", {})
+    market_df = analysis.get("used_listings", filtered)
+    if not isinstance(market_df, pd.DataFrame):
+        market_df = filtered
 
     if not analyze:
         st.markdown(
@@ -899,7 +922,7 @@ def main() -> None:
         )
         return
 
-    if not summary or len(filtered) < MIN_SAMPLE_SIZE:
+    if not summary or int(analysis.get("count", 0)) < MIN_SAMPLE_SIZE:
         st.warning("Bu filtrelerle yeterli benzer ilan bulunamadı. Filtreleri biraz genişlet.")
         st.metric("Eşleşen ilan", len(filtered))
         if not filtered.empty:
@@ -911,17 +934,31 @@ def main() -> None:
             render_available_listings(filtered)
         return
 
-    range_low = summary["q1"]
-    range_high = summary["q3"]
+    range_low = summary.get("weighted_q1", summary["q1"])
+    range_high = summary.get("weighted_q3", summary["q3"])
+    median_price = summary.get("weighted_median", summary["median"])
+    confidence = str(analysis.get("confidence", "-"))
+    outlier_count = int(analysis.get("outlier_count", 0))
+    total_match_count = len(filtered)
+    used_count = int(analysis.get("used_count", summary["count"]))
+    market_position = analysis.get("market_position")
+    price_delta_pct = analysis.get("price_delta_pct")
+    position_text = ""
+    if market_position and price_delta_pct is not None:
+        position_text = (
+            f" Girilen fiyat medyana gore %{abs(float(price_delta_pct)):.1f} "
+            f"{'yukarida' if float(price_delta_pct) > 0 else 'asagida'}; yorum: {market_position}."
+        )
 
     st.markdown(
         f"""
         <div class="cvp-panel">
-            <div class="cvp-kicker">Önerilen piyasa aralığı</div>
+            <div class="cvp-kicker">Akıllı piyasa aralığı</div>
             <div class="cvp-range">{format_try(range_low)} - {format_try(range_high)}</div>
             <div class="cvp-copy">
-                {summary["count"]} benzer ilanın fiyat dağılımına göre medyan piyasa değeri
-                {format_try(summary["median"])}.
+                Veritabanında {total_match_count:,} ilan eşleşti; fiyat hesabında en yakın {used_count} ilan
+                yıl/kilometre/model yakınlığına göre ağırlıklandırıldı. Ağırlıklı medyan piyasa değeri {format_try(median_price)}.
+                Güven seviyesi: {confidence}. {outlier_count} uç fiyat analiz dışı bırakıldı.{position_text}
             </div>
         </div>
         """,
@@ -929,32 +966,40 @@ def main() -> None:
     )
 
     metric_cols = st.columns(5)
-    metric_cols[0].metric("Benzer ilan", f"{summary['count']:,}".replace(",", "."))
-    metric_cols[1].metric("En düşük", format_try(summary["min"]))
-    metric_cols[2].metric("Medyan", format_try(summary["median"]))
-    metric_cols[3].metric("Ortalama", format_try(summary["mean"]))
-    metric_cols[4].metric("En yüksek", format_try(summary["max"]))
+    metric_cols[0].metric("Toplam eşleşen", f"{total_match_count:,}".replace(",", "."))
+    metric_cols[1].metric("Analizde kullanılan", f"{used_count:,}".replace(",", "."))
+    metric_cols[2].metric("Ağırlıklı medyan", format_try(median_price))
+    metric_cols[3].metric("Güven", confidence)
+    metric_cols[4].metric("Uç değer", str(outlier_count))
 
     left, right = st.columns([1.15, 0.85], gap="large")
     with left:
         st.subheader("Fiyat Dağılımı")
-        render_price_distribution(filtered, summary)
+        render_price_distribution(market_df, {"median": median_price})
     with right:
         st.subheader("Piyasa Göstergesi")
-        render_market_gauge(summary)
+        render_market_gauge(
+            {
+                "median": median_price,
+                "q1": range_low,
+                "q3": range_high,
+                "min": summary["min"],
+                "max": summary["max"],
+            }
+        )
 
     left, right = st.columns(2, gap="large")
     with left:
         st.subheader("Yıl ve Fiyat İlişkisi")
-        render_price_by_year(filtered)
+        render_price_by_year(market_df)
     with right:
         st.subheader("Kilometre ve Fiyat İlişkisi")
-        render_price_by_mileage(filtered)
+        render_price_by_mileage(market_df)
 
     left, right = st.columns(2, gap="large")
     with left:
         st.subheader("Şehir Yoğunluğu")
-        city_counts = filtered["city"].fillna("Bilinmiyor").value_counts().head(10).reset_index()
+        city_counts = market_df["city"].fillna("Bilinmiyor").value_counts().head(10).reset_index()
         city_counts.columns = ["city", "count"]
         fig = px.bar(
             city_counts,
@@ -975,9 +1020,12 @@ def main() -> None:
         st.plotly_chart(fig, width="stretch")
     with right:
         st.subheader("Eklenme Tarihine Göre Fiyat Trendi")
-        render_listing_date_price_trend(filtered)
+        render_listing_date_price_trend(market_df)
 
-    st.subheader("Benzer İlanlar")
+    st.subheader("Eşleşen İlanlar")
+    st.caption(
+        "Fiyat aralığı en yakın ilanlardan hesaplanır; bu tabloda filtreye uyan tüm kayıtlar gösterilir."
+    )
     listing_table = filtered[
         ["title", "brand", "series", "year", "mileage_km", "city", "price", "listing_url"]
     ].sort_values("price")

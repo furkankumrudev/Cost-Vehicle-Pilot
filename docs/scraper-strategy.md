@@ -2,7 +2,7 @@
 
 ## Goal
 
-Cost Vehicle Pilot should not depend only on a static dataset. The product architecture includes a data ingestion layer that can collect recent vehicle listing data, store it in a database, and feed the ML pipeline.
+ArabamFiyat.com should not depend only on a static dataset. The product architecture includes a data ingestion layer that can collect recent vehicle listing data, store it in a database, and feed the ML pipeline.
 
 ## Current Decision
 
@@ -32,17 +32,21 @@ Sahibinden search results
   -> prediction API / dashboard
 ```
 
-## First Prototype Command
+## Daily Commands
 
-```bash
-python -m src.ingestion.sahibinden_scraper --query "Renault Clio" --year-min 2016 --year-max 2018 --max-pages 1
+Genel son 24 saat ilanları:
+
+```bat
+scripts\run_daily_update.bat
 ```
 
-Optional filters:
+Boyasız/değişensiz filtreli temiz iddialı son 24 saat ilanları:
 
-```bash
-python -m src.ingestion.sahibinden_scraper --query "Volkswagen Golf" --year-min 2018 --transmission otomatik --max-pages 2
+```bat
+scripts\run_daily_clean_update.bat
 ```
+
+Her iki komut da fiyat bantlarına bölerek tarama yapar. Ortak scraper modülü `src/ingestion/recent_listing_scraper.py` dosyasıdır.
 
 ## Current Captured Fields
 
@@ -63,6 +67,11 @@ The search-result prototype captures the fields that are visible on listing resu
 - listing_date
 - listing_url
 - image_url
+- paint_status
+- changed_part_status
+- damage_status
+- is_clean_claimed
+- scrape_segment
 - scraped_at
 
 ## Next Improvements
@@ -81,7 +90,7 @@ These fields should be added in a second ingestion step only after the search-re
 
 ## Bootcamp Value
 
-This architecture shows that Cost Vehicle Pilot is designed as a sustainable product:
+This architecture shows that ArabamFiyat.com is designed as a sustainable product:
 
 - New listings can be collected over time.
 - The model can be retrained when enough new data is available.
@@ -95,8 +104,6 @@ If Chrome is not installed or cannot be auto-detected, pass a browser executable
 ```bash
 python -m src.ingestion.sahibinden_scraper --query "Renault Clio" --max-pages 1 --browser-executable-path "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
 ```
-## Local Test Result
+## Current Notes
 
-A controlled one-page headless test with Microsoft Edge reached the site but received an error/protection page instead of the normal homepage. Because of that, the search input was not available and no listings were collected in this environment.
-
-This confirms the risk described above: live scraping can be blocked or behave differently depending on environment, browser mode, network, and site protections. The ingestion layer remains useful as an architecture prototype, but production-grade use should rely on approved data access or an official/partner data feed.
+The local scraper uses a persistent Edge profile under `data/runtime/` so that manual login/access checks can be completed when required. Runtime files, SQLite databases, checkpoints, browser profiles, and debug HTML are local-only and are not committed to Git.

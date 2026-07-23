@@ -2,7 +2,7 @@
 
 ## Amaç
 
-Cost Vehicle Pilot'un veri stratejisi, kullanıcının seçtiği araç özelliklerine göre güncel ve benzer ilanları analiz ederek piyasa fiyat aralığı üretmektir.
+ArabamFiyat.com'un veri stratejisi, kullanıcının seçtiği araç özelliklerine göre güncel ve benzer ilanları analiz ederek piyasa fiyat aralığı üretmektir.
 
 ## Ana Karar
 

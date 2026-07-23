@@ -2,7 +2,7 @@
 
 ## Ana Hedef Kitle
 
-Cost Vehicle Pilot, ikinci el araç alım-satım sürecinde doğru fiyat bilgisine ihtiyaç duyan bireysel kullanıcılar için geliştirilmektedir.
+ArabamFiyat.com, ikinci el araç alım-satım sürecinde doğru fiyat bilgisine ihtiyaç duyan bireysel kullanıcılar için geliştirilmektedir.
 
 ## Kullanıcı Grupları
 
@@ -42,4 +42,4 @@ Birden fazla aracı takip eden ve fiyat trendlerini görmek isteyen küçük gal
 **Yaş:** 32  
 **Senaryo:** Mehmet aracını satmak istiyor ancak benzer ilanlarda fiyatların çok değiştiğini görüyor. Aracının kilometre, model yılı ve hasar durumuna göre hangi fiyat aralığında ilana koyulması gerektiğini öğrenmek istiyor.
 
-Cost Vehicle Pilot, Mehmet'e tahmini adil fiyat aralığı ve önerilen satış fiyatı sunarak karar sürecini kolaylaştırır.
+ArabamFiyat.com, Mehmet'e tahmini adil fiyat aralığı ve önerilen satış fiyatı sunarak karar sürecini kolaylaştırır.

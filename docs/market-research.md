@@ -17,7 +17,7 @@ Araç alıcıları ve satıcıları, yalnızca ilan listesi görmek yerine anlam
 
 ## Farklılaşma
 
-Cost Vehicle Pilot, yalnızca fiyat tahmini vermek yerine tahminin gerekçesini de açıklamayı hedefler:
+ArabamFiyat.com, yalnızca fiyat tahmini vermek yerine tahminin gerekçesini de açıklamayı hedefler:
 
 - Fiyatı etkileyen faktörler
 - Benzer araç karşılaştırması

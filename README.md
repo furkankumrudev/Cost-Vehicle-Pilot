@@ -1,6 +1,6 @@
-# Cost Vehicle Pilot
+# ArabamFiyat.com
 
-Cost Vehicle Pilot, ikinci el araç ilanlarından güncel piyasa fiyat aralığı çıkaran yerel bir MVP uygulamasıdır.
+ArabamFiyat.com, ikinci el araç ilanlarından güncel piyasa fiyat aralığı çıkaran yerel bir MVP uygulamasıdır.
 
 Kullanıcı araç özelliklerini seçer; uygulama SQLite veritabanındaki temizlenmiş Sahibinden ilanlarından benzer kayıtları bulur ve fiyat dağılımı, önerilen fiyat bandı, şehir dağılımı, kilometre/yıl ilişkisi ve benzer ilan listesini gösterir.
 
@@ -10,7 +10,8 @@ Kullanıcı araç özelliklerini seçer; uygulama SQLite veritabanındaki temizl
 - Sahibinden ilanlarını SQLite'a kaydeden scraper hattı
 - Ham veriden temiz analiz tablosu üreten data cleaning hattı
 - Katalog tabanlı marka, seri/model ve paket seçimleri
-- Günlük yeni ilan çekme ve katalog kapsama kontrolü
+- Günlük genel son 24 saat ve temiz iddialı ilan scraper komutları
+- Benzerlik skoru, uç fiyat temizleme ve güven seviyesi üreten piyasa analiz motoru
 
 ## Kurulum
 
@@ -36,6 +37,26 @@ Varsayılan adres:
 http://127.0.0.1:8501
 ```
 
+## Web Prototipi
+
+Streamlit disinda daha profesyonel bir web arayuzu prototipi de vardir:
+
+```text
+frontend/index.html
+```
+
+Dosyayi direkt tarayicida acabilir veya statik server ile calistirabilirsin:
+
+```bat
+scripts\run_web_frontend.bat
+```
+
+Varsayilan adres:
+
+```text
+http://127.0.0.1:5173
+```
+
 ## Veri
 
 Ana veritabanı:
@@ -56,25 +77,26 @@ Uygulama `vehicle_listings_clean` tablosu varsa onu kullanır. Temiz tablo yoksa
 
 ## Günlük Veri Güncelleme
 
-Son eklenen ilanları fiyat bantlarına bölerek çekmek için:
-
-```bat
-scripts\run_recent_listings.bat --days 1 --max-pages 0 --page-size 50 --delay-min 8 --delay-max 14 --manual-wait-seconds 180 --max-old-pages 5 --max-stale-pages 8 --max-repeated-pages 5 --stop-on-access --checkpoint-path data\runtime\recent_daily_checkpoint.json
-```
-
-Ardından temiz analiz tablosunu güncelle:
-
-```bat
-scripts\clean_vehicle_data.bat
-```
-
-Tek komutluk günlük akış için:
+Genel son 24 saat ilanlarını dar fiyat bantlarına bölerek çekmek ve ardından temiz tabloyu otomatik yenilemek için:
 
 ```bat
 scripts\run_daily_update.bat
 ```
 
-`run_daily_update.bat` bugünün en yeni ilanlarını çeker ve temizlik adımını otomatik çalıştırır. Daha geniş bir aralık için `run_recent_listings.bat --days N` kullanılabilir.
+Boyasız/değişensiz filtreli temiz iddialı son 24 saat ilanlarını ayrı toplamak için:
+
+```bat
+scripts\run_daily_clean_update.bat
+```
+
+İki komut da aynı 37 fiyat bandını kullanır. Genel komut `--filter-segments general`, temiz komut `--filter-segments clean` ile `recent_listing_scraper.py` modülünü çalıştırır. Temiz komutla yakalanan ilanlar `is_clean_claimed = 1`, `paint_status = Boyasız`, `changed_part_status = Değişensiz` ve `damage_status = clean_claimed` olarak işaretlenir.
+
+Daha geniş bir aralık çekmek istersen `run_recent_listings.bat` komutunu `--days N` ile çalıştırıp sonrasında temizlik komutunu elle çalıştırabilirsin:
+
+```bat
+scripts\run_recent_listings.bat --days 1 --filter-segments general --max-pages 0 --page-size 50 --delay-min 8 --delay-max 14 --manual-wait-seconds 180 --max-old-pages 5 --max-stale-pages 8 --max-repeated-pages 5 --stop-on-access --checkpoint-path data\runtime\recent_manual_checkpoint.json
+scripts\clean_vehicle_data.bat
+```
 
 ## Veri Temizleme
 
@@ -92,6 +114,7 @@ Temizlik hattı:
 - Marka/seri/model alanlarını standartlaştırır.
 - Şehir/ilçe alanlarını normalize eder.
 - Tekrarlayan ilanları temizler.
+- Başlıkta `boyasız` geçen eski ilanları `is_clean_claimed = 1` olarak işaretler.
 - Pasif işaretlenmiş ilanları analiz dışı bırakır.
 
 ## Kapsama Kontrolü
@@ -129,6 +152,7 @@ Cost-Vehicle-Pilot/
   scripts/
     run_app.bat
     run_daily_update.bat
+    run_daily_clean_update.bat
     run_recent_listings.bat
     run_series_gaps.bat
     audit_catalog_coverage.bat
@@ -136,6 +160,8 @@ Cost-Vehicle-Pilot/
     check_removed_listings.bat
   src/
     app.py
+    analysis/
+      market_engine.py
     ingestion/
       brand_segment_scraper.py
       category_page_scraper.py

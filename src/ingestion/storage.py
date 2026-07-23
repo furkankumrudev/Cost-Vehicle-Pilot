@@ -52,11 +52,30 @@ class ListingStore:
                 listing_date TEXT,
                 listing_url TEXT,
                 image_url TEXT,
+                paint_status TEXT,
+                changed_part_status TEXT,
+                damage_status TEXT,
+                is_clean_claimed INTEGER NOT NULL DEFAULT 0,
+                scrape_segment TEXT,
                 scraped_at TEXT NOT NULL,
                 UNIQUE(source, source_listing_id)
             )
             """
         )
+        for column in [
+            "paint_status TEXT",
+            "changed_part_status TEXT",
+            "damage_status TEXT",
+            "is_clean_claimed INTEGER NOT NULL DEFAULT 0",
+            "scrape_segment TEXT",
+        ]:
+            column_name = column.split()[0]
+            existing = {
+                str(row["name"])
+                for row in self.connection.execute("PRAGMA table_info(vehicle_listings)").fetchall()
+            }
+            if column_name not in existing:
+                self.connection.execute(f"ALTER TABLE vehicle_listings ADD COLUMN {column}")
         self.connection.commit()
 
     def upsert_listing(self, listing: VehicleListing) -> bool:
@@ -64,7 +83,17 @@ class ListingStore:
         columns = list(data)
         placeholders = ", ".join([":" + column for column in columns])
         update_columns = [column for column in columns if column not in {"source", "source_listing_id"}]
-        update_sql = ", ".join([f"{column}=excluded.{column}" for column in update_columns])
+        preserve_columns = {"paint_status", "changed_part_status", "damage_status"}
+        update_sql = ", ".join(
+            [
+                f"{column}=COALESCE(excluded.{column}, {column})"
+                if column in preserve_columns
+                else f"{column}=MAX(COALESCE(excluded.{column}, 0), COALESCE({column}, 0))"
+                if column == "is_clean_claimed"
+                else f"{column}=excluded.{column}"
+                for column in update_columns
+            ]
+        )
 
         before = self.connection.total_changes
         self.connection.execute(

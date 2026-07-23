@@ -243,6 +243,33 @@ def normalize_choice(value: object, mapping: dict[str, str]) -> str | None:
     return mapping.get(key, text)
 
 
+def normalize_bool_int(value: object) -> int:
+    if value is None:
+        return 0
+    if isinstance(value, bool):
+        return 1 if value else 0
+    if isinstance(value, (int, float)):
+        return 1 if int(value) == 1 else 0
+    key = normalize_key(value)
+    return 1 if key in {"1", "true", "yes", "evet"} else 0
+
+
+def infer_clean_claim_from_title(title: object) -> tuple[str | None, str | None, str | None]:
+    key = normalize_key(title)
+    has_boyasiz = "boyasiz" in key
+    has_degisensiz = "degisensiz" in key
+    has_tramersiz = "tramersiz" in key
+    if has_boyasiz:
+        return (
+            "Boyasız",
+            "Değişensiz" if has_degisensiz else None,
+            "clean_claimed_from_title",
+        )
+    if has_degisensiz and has_tramersiz:
+        return None, "Değişensiz", "clean_claimed_from_title"
+    return None, "Değişensiz" if has_degisensiz else None, None
+
+
 def normalize_color(value: object) -> str | None:
     text = clean_text(value)
     if not text:
@@ -409,6 +436,17 @@ def normalize_row(row: dict[str, Any], brand_map: dict[str, str]) -> tuple[dict[
     set_field("body_type", normalize_choice(normalized.get("body_type"), BODY_MAP))
     set_field("color", normalize_color(normalized.get("color")))
     set_field("seller_type", normalize_choice(normalized.get("seller_type"), SELLER_MAP))
+    existing_paint_status = clean_text(normalized.get("paint_status"))
+    existing_changed_status = clean_text(normalized.get("changed_part_status"))
+    existing_damage_status = clean_text(normalized.get("damage_status"))
+    existing_is_clean_claimed = normalize_bool_int(normalized.get("is_clean_claimed"))
+    title_paint_status, title_changed_status, title_damage_status = infer_clean_claim_from_title(normalized.get("title"))
+    set_field("paint_status", existing_paint_status or title_paint_status)
+    set_field("changed_part_status", existing_changed_status or title_changed_status)
+    set_field("damage_status", existing_damage_status or title_damage_status)
+    set_field("is_clean_claimed", 1 if existing_is_clean_claimed or title_damage_status else 0)
+    if "scrape_segment" in normalized:
+        set_field("scrape_segment", clean_text(normalized.get("scrape_segment")))
 
     for column in ["engine", "listing_date", "listing_url", "image_url", "source_listing_id"]:
         if column in normalized:

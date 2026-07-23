@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ArabamFiyat.com</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <a class="brand" href="#">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 44 44" role="img">
+              <path class="mark-road" d="M7 30c8-9 20-9 30 0" />
+              <path class="mark-line" d="M18 30l4-18 4 18" />
+              <path class="mark-car" d="M13 28h18l3 4H10l3-4Z" />
+              <circle cx="15" cy="33" r="2.5" />
+              <circle cx="29" cy="33" r="2.5" />
+            </svg>
+          </span>
+          <span>
+            <strong>ArabamFiyat.com</strong>
+            <small>Akilli ikinci el arac fiyat analizi</small>
+          </span>
+        </a>
+        <nav class="nav">
+          <a href="#analysis">Analiz</a>
+          <a href="#market">Piyasa</a>
+          <a href="#listings">Ilanlar</a>
+        </nav>
+      </header>
+
+      <main>
+        <section class="hero" id="analysis">
+          <div class="hero-copy">
+            <span class="eyebrow">ArabamFiyat.com piyasa zekasi</span>
+            <h1>Aracinizin gercek piyasa araligini saniyeler icinde okuyun.</h1>
+            <p>
+              Guncel ilan verilerinden benzer araclari ayristirin; fiyat bandi,
+              guven seviyesi, trend ve karsilastirilabilir ilanlari tek ekranda gorun.
+            </p>
+            <div class="hero-insights" aria-label="Analiz ozellikleri">
+              <span><strong>01</strong> Benzer ilan skoru</span>
+              <span><strong>02</strong> Uc fiyat temizleme</span>
+              <span><strong>03</strong> Piyasa yorumu</span>
+            </div>
+            <div class="hero-actions">
+              <a class="primary-link" href="#market">Piyasa analizine gec</a>
+              <span class="status-pill">192.469 temiz kayit ile demo</span>
+            </div>
+          </div>
+
+          <form class="search-panel" id="vehicleForm">
+            <div class="panel-heading">
+              <span>Arac bilgileri</span>
+              <strong>Canli demo formu</strong>
+            </div>
+
+            <label>
+              Marka
+              <select id="brandSelect"></select>
+            </label>
+
+            <label>
+              Seri / Model
+              <select id="seriesSelect"></select>
+            </label>
+
+            <label>
+              Model / Paket
+              <select id="modelSelect"></select>
+            </label>
+
+            <div class="form-grid">
+              <label>
+                Model yili
+                <input id="yearInput" type="number" min="1980" max="2026" value="2020" />
+              </label>
+              <label>
+                Kilometre
+                <input id="mileageInput" type="number" min="0" step="5000" value="120000" />
+              </label>
+            </div>
+
+            <label>
+              Arac fiyatiniz
+              <input id="priceInput" type="number" min="0" step="10000" value="1000000" />
+            </label>
+
+            <label class="check-row">
+              <input id="cleanOnlyInput" type="checkbox" />
+              <span>Sadece temiz iddiali ilanlari kullan</span>
+            </label>
+
+            <button type="submit">Piyasa analizini olustur</button>
+          </form>
+        </section>
+
+        <section class="summary-grid" aria-label="Veri ozeti">
+          <article>
+            <i class="metric-icon metric-blue"></i>
+            <span>Temiz veri</span>
+            <strong>192.469</strong>
+          </article>
+          <article>
+            <i class="metric-icon metric-green"></i>
+            <span>Temiz iddiali</span>
+            <strong>25.085</strong>
+          </article>
+          <article>
+            <i class="metric-icon metric-amber"></i>
+            <span>Marka</span>
+            <strong>76</strong>
+          </article>
+          <article>
+            <i class="metric-icon metric-red"></i>
+            <span>Son 24 saat</span>
+            <strong>9.342</strong>
+          </article>
+        </section>
+
+        <section class="market-layout" id="market">
+          <article class="result-card">
+            <span class="eyebrow">Akilli piyasa araligi</span>
+            <h2 id="priceRange">-</h2>
+            <p id="marketComment"></p>
+            <div class="range-meter" aria-hidden="true">
+              <span></span>
+            </div>
+            <div class="result-tags">
+              <span id="confidenceTag">Guven: -</span>
+              <span id="sampleTag">Orneklem: -</span>
+              <span id="positionTag">Piyasa: -</span>
+            </div>
+          </article>
+
+          <article class="chart-card">
+            <div class="card-title">
+              <span>Fiyat trendi</span>
+              <strong>Eklenme tarihine gore</strong>
+            </div>
+            <canvas id="trendCanvas" height="180"></canvas>
+          </article>
+
+          <article class="chart-card">
+            <div class="card-title">
+              <span>Fiyat dagilimi</span>
+              <strong>Benzer ilan yogunlugu</strong>
+            </div>
+            <div class="bars" id="distributionBars"></div>
+          </article>
+
+          <article class="chart-card">
+            <div class="card-title">
+              <span>Sehir yogunlugu</span>
+              <strong>Ilana gore ilk sehirler</strong>
+            </div>
+            <div class="city-list" id="cityList"></div>
+          </article>
+        </section>
+
+        <section class="listings-section" id="listings">
+          <div class="section-heading">
+            <span>Benzer ilanlar</span>
+            <h2>Analizde kullanilan ornek kayitlar</h2>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Ilan</th>
+                  <th>Yil</th>
+                  <th>KM</th>
+                  <th>Sehir</th>
+                  <th>Fiyat</th>
+                </tr>
+              </thead>
+              <tbody id="listingRows"></tbody>
+            </table>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="./app.js"></script>
+  </body>
+</html>

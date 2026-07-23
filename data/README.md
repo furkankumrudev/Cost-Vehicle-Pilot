@@ -1,6 +1,6 @@
 # Data
 
-Bu klasör Cost Vehicle Pilot'un referans ve yerel çalışma verilerini tutar.
+Bu klasör ArabamFiyat.com'un referans ve yerel çalışma verilerini tutar.
 
 ## Klasörler
 

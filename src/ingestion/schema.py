@@ -32,6 +32,11 @@ class VehicleListing:
     listing_date: str | None
     listing_url: str | None
     image_url: str | None
+    paint_status: str | None
+    changed_part_status: str | None
+    damage_status: str | None
+    is_clean_claimed: int
+    scrape_segment: str | None
     scraped_at: str
 
     @classmethod
@@ -59,6 +64,11 @@ class VehicleListing:
         listing_date: str | None = None,
         listing_url: str | None = None,
         image_url: str | None = None,
+        paint_status: str | None = None,
+        changed_part_status: str | None = None,
+        damage_status: str | None = None,
+        is_clean_claimed: int = 0,
+        scrape_segment: str | None = None,
     ) -> "VehicleListing":
         return cls(
             source=source,
@@ -82,6 +92,11 @@ class VehicleListing:
             listing_date=listing_date,
             listing_url=listing_url,
             image_url=image_url,
+            paint_status=paint_status,
+            changed_part_status=changed_part_status,
+            damage_status=damage_status,
+            is_clean_claimed=is_clean_claimed,
+            scrape_segment=scrape_segment,
             scraped_at=datetime.now(timezone.utc).isoformat(),
         )
 
