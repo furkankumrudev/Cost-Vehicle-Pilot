@@ -228,3 +228,7 @@ data/runtime/
 
 # Editor-local settings
 .vscode/
+
+# React/Vite local output
+web/node_modules/
+web/dist/

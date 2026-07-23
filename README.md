@@ -1,5 +1,64 @@
 # ArabamFiyat.com
 
+## Yeni Web Uygulamasi (FastAPI + React)
+
+Proje iki arayuzu birlikte korur:
+
+- `src/app.py`: mevcut Streamlit analizi; yerel/legacy arayuz olarak kullanilabilir.
+- `web/`: yeni, gercek SQLite verisine baglanan React + TypeScript web uygulamasi.
+
+Yeni mimari:
+
+```text
+React + Vite (web/)  ->  FastAPI (src/api/)  ->  SQLite
+                                        ->  src/analysis/market_engine.py
+```
+
+### Web uygulamasini calistirma
+
+Ilk kurulumda Python paketlerini ve web paketlerini kurun:
+
+```bat
+.venv\Scripts\activate
+pip install -r requirements.txt
+cd web
+npm install
+cd ..
+```
+
+Iki ayri terminal acin:
+
+```bat
+scripts\run_api.bat
+scripts\run_web_app.bat
+```
+
+Adresler:
+
+```text
+Web:      http://127.0.0.1:5173
+API:      http://127.0.0.1:8000
+API docs: http://127.0.0.1:8000/docs
+```
+
+Yeni web uygulamasi, `vehicle_listings_clean` tablosunu tercih eder; tablo yoksa `vehicle_listings` ham tablosunu kullanir. `data/runtime/vehicle_listings.sqlite3` bulunmuyorsa API guvenli bir "veritabani henuz bulunamadi" durumu dondurur.
+
+### Gercek tarihsel fiyat takibi
+
+Trend grafigi, yalnizca ilan kayitlarindaki gercek ilan tarihlerini kullanir ve "Ilan tarihine gore medyan fiyat" olarak etiketlenir. 30/90 gun ve yillik degisim oranlari, ancak farkli gunlerde kaydedilmis gercek snapshotlar biriktiginde gorunur. Eksik gecmis veri icin sahte oran veya duz cizgi uretilmez.
+
+Gunun piyasa ozetini gelecekteki karsilastirmalar icin kaydetmek uzere, gunluk scraper ve cleaning adimindan sonra su komut calistirilabilir:
+
+```bat
+scripts\save_market_snapshot.bat
+```
+
+Bu komut `market_price_snapshots` tablosunu gerekirse olusturur ve yalnizca calistirildigi gunun gercek ozetini yazar; gecmisi uydurarak doldurmaz.
+
+### Ekran goruntuleri
+
+`docs/screenshots/` altina web ana sayfa, piyasa trendleri ve arac degerleme ekran goruntuleri eklenebilir.
+
 ArabamFiyat.com, ikinci el araç ilanlarından güncel piyasa fiyat aralığı çıkaran yerel bir MVP uygulamasıdır.
 
 Kullanıcı araç özelliklerini seçer; uygulama SQLite veritabanındaki temizlenmiş Sahibinden ilanlarından benzer kayıtları bulur ve fiyat dağılımı, önerilen fiyat bandı, şehir dağılımı, kilometre/yıl ilişkisi ve benzer ilan listesini gösterir.
@@ -51,10 +110,10 @@ Dosyayi direkt tarayicida acabilir veya statik server ile calistirabilirsin:
 scripts\run_web_frontend.bat
 ```
 
-Varsayilan adres:
+Bu eski statik prototiptir. Ana urun arayuzu `web/` klasorundedir. Varsayilan legacy adres:
 
 ```text
-http://127.0.0.1:5173
+http://127.0.0.1:5174
 ```
 
 ## Veri
