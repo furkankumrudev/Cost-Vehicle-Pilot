@@ -552,17 +552,21 @@ async def run_recent_listings(args: argparse.Namespace) -> None:
                             f"offset={current_offset} error={exc}",
                             flush=True,
                         )
+                        if "No listings parsed" in str(exc) and not (has_login_page(html) or has_access_challenge(html)):
+                            print("No more listings were returned for this price band; moving to the next band.", flush=True)
+                            break
+                        checkpoint_manager.save(
+                            segment_index=absolute_segment_index,
+                            band_index=absolute_band_index,
+                            offset=current_offset,
+                            completed=completed,
+                        )
                         if has_login_page(html) or has_access_challenge(html):
-                            checkpoint_manager.save(
-                                segment_index=absolute_segment_index,
-                                band_index=absolute_band_index,
-                                offset=current_offset,
-                                completed=completed,
-                            )
                             print("Access/login page detected for recent scraper; keeping current offset.", flush=True)
                             if args.stop_on_access:
                                 return
-                        break
+                        print("Current price band was not marked complete; rerun without reset to continue safely.", flush=True)
+                        return
 
                     next_offset = current_offset + args.page_size
                     checkpoint_manager.save(

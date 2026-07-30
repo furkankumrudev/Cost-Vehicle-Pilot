@@ -10,8 +10,9 @@ from typing import Any
 
 import pandas as pd
 
-PROJECT_ROOT = Path(__file__).resolve().parents[2]
-DEFAULT_DB_PATH = PROJECT_ROOT / "data" / "runtime" / "vehicle_listings.sqlite3"
+from .settings import PROJECT_ROOT, sqlite_db_path
+
+DEFAULT_DB_PATH = sqlite_db_path()
 
 LISTING_TABLES = ("vehicle_listings_clean", "vehicle_listings")
 SNAPSHOT_TABLE = "market_price_snapshots"
@@ -44,9 +45,20 @@ class ListingRepository:
                 "SELECT name FROM sqlite_master WHERE type = 'table'"
             ).fetchall()
             tables = {str(row[0]) for row in rows}
+            empty_table: str | None = None
             for table in LISTING_TABLES:
                 if table in tables:
-                    return table
+                    has_rows = connection.execute(
+                        f"SELECT 1 FROM {table} LIMIT 1"
+                    ).fetchone()
+                    if has_rows is not None:
+                        return table
+                    empty_table = empty_table or table
+
+            # A cleaning run rebuilds the derived table from scratch. If it is
+            # interrupted, keep the application usable with the raw records.
+            if empty_table:
+                return empty_table
         finally:
             if owns_connection:
                 connection.close()
@@ -84,7 +96,7 @@ class ListingRepository:
                     for column in [
                         "id", "title", "brand", "series", "model", "year", "mileage_km",
                         "transmission", "fuel_type", "body_type", "city", "district", "price",
-                        "currency", "listing_date", "listing_url", "image_url", "scraped_at",
+                        "currency", "listing_date", "listing_url", "image_url", "is_clean_claimed", "scraped_at",
                     ]
                     if column in columns
                 ]

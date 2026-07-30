@@ -30,8 +30,31 @@ export type TrendPoint = {
   median_price: number;
   average_price: number;
   listing_count: number;
+  clean_median_price?: number | null;
+  clean_average_price?: number | null;
+  clean_listing_count?: number | null;
 };
-export type TrendResponse = { available: boolean; label: string; points: TrendPoint[]; message?: string | null };
+export type TrendResponse = { available: boolean; label: string; points: TrendPoint[]; clean_available: boolean; clean_listing_count: number; message?: string | null };
+
+export type PriceRelationshipPoint = {
+  label: string;
+  median_price: number;
+  average_price: number;
+  listing_count: number;
+};
+export type PriceRelationshipsResponse = {
+  listing_count: number;
+  clean_listing_count: number;
+  year_available: boolean;
+  mileage_available: boolean;
+  clean_year_available: boolean;
+  clean_mileage_available: boolean;
+  year_points: PriceRelationshipPoint[];
+  mileage_points: PriceRelationshipPoint[];
+  clean_year_points: PriceRelationshipPoint[];
+  clean_mileage_points: PriceRelationshipPoint[];
+  message?: string | null;
+};
 
 export type MarketTableRow = {
   label: string;
@@ -68,7 +91,19 @@ export type SimilarListing = {
   similarity_score: number | null;
 };
 
-export type ValuationRequest = Filters & { year?: number; mileage_km?: number; asking_price?: number };
+export type ComparisonSummary = {
+  used_listing_count: number;
+  median_year: number | null;
+  median_mileage_km: number | null;
+};
+
+export type ValuationRequest = Filters & {
+  year?: number;
+  mileage_km?: number;
+  asking_price?: number;
+  changed_parts?: number;
+  painted_parts?: number;
+};
 export type ValuationResponse = {
   status: string;
   estimated_market_value: number | null;
@@ -80,5 +115,7 @@ export type ValuationResponse = {
   price_assessment: string | null;
   asking_price_delta_percent: number | null;
   explanation: string;
-  similar_listings: SimilarListing[];
+  comparison_summary: ComparisonSummary | null;
+  condition_adjustment_percent: number | null;
+  condition_adjustment_note: string | null;
 };

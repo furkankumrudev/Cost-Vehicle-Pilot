@@ -14,7 +14,9 @@ ArabamFiyat.com, ikinci el araç piyasasında fiyat belirsizliğini azaltmayı v
 
 ## Çözüm Yaklaşımı
 
-ArabamFiyat.com, araç özelliklerini ve geçmiş piyasa verilerini analiz ederek adil fiyat tahmini üretir. Kullanıcının girdiği araç bilgileri makine öğrenmesi modeli tarafından değerlendirilir. Sonuç ekranında fiyat tahmini, fiyat aralığı, piyasa durumu, trend grafikleri ve kısa yapay zeka yorumu sunulur.
+ArabamFiyat.com, kullanıcının seçtiği marka, seri, model, yıl ve kilometreye yakın güncel ilanları analiz ederek piyasa değeri ve önerilen fiyat aralığı üretir. Fiyatın ana kaynağı güncel ilan havuzudur. Makine öğrenmesi modeli eski fiyatı doğrudan güncel tahmin olarak sunmaz; boya ve değişen bilgisinin göreli etkisini öğrenir ve bu oranı güncel piyasa değerine uygular.
+
+Sonuç ekranında tahmini piyasa değeri, fiyat aralığı, kondisyon etkisi, fiyat konumu, trend ve yıl/kilometre ilişkileri sunulur.
 
 ## Başarı Kriterleri
 

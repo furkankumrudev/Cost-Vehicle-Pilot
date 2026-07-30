@@ -1,9 +1,9 @@
 import type {
-  CatalogResponse, Filters, MarketOverview, MarketTableResponse, MoversResponse, TrendResponse,
+  CatalogResponse, Filters, MarketOverview, MarketTableResponse, MoversResponse, PriceRelationshipsResponse, TrendResponse,
   ValuationRequest, ValuationResponse,
 } from "../types";
 
-const API_URL = import.meta.env.VITE_API_URL ?? "http://127.0.0.1:8000";
+const API_URL = import.meta.env.VITE_API_URL ?? (import.meta.env.DEV ? "http://127.0.0.1:8000" : "");
 
 const toQuery = (values: Record<string, string | number | undefined | null>) => {
   const query = new URLSearchParams();
@@ -30,6 +30,7 @@ export const api = {
   options: (field: "body_type" | "fuel_type" | "transmission") => get<CatalogResponse>("/api/catalog/options", { field }),
   overview: (filters: Filters) => get<MarketOverview>("/api/market/overview", filters),
   trend: (filters: Filters, start_date?: string, end_date?: string) => get<TrendResponse>("/api/market/trend", { ...filters, start_date, end_date }),
+  priceRelationships: (filters: Filters) => get<PriceRelationshipsResponse>("/api/market/price-relationships", filters),
   table: (filters: Filters, group_by: string) => get<MarketTableResponse>("/api/market/table", { ...filters, group_by }),
   movers: (direction: "up" | "down") => get<MoversResponse>("/api/market/movers", { direction }),
   valuation: async (payload: ValuationRequest) => {

@@ -14,7 +14,7 @@ from src.api.dependencies import MarketFilters
 from src.api.routes.market import get_movers, get_overview, get_trend
 from src.api.routes.valuation import create_valuation
 from src.api.schemas import ValuationRequest
-from src.api.services.market_service import _snapshot_scope
+from src.api.services.market_service import _snapshot_scope, build_price_relationships
 from src.api.services.trend_service import build_listing_trend
 from src.maintenance.save_market_snapshot import save_snapshot
 
@@ -75,6 +75,25 @@ class ApiServiceTests(unittest.TestCase):
         with self.assertRaises(DatabaseUnavailable):
             missing.listing_count()
 
+    def test_repository_falls_back_to_raw_table_when_clean_table_is_empty(self) -> None:
+        with closing(self.repository.connect()) as connection:
+            connection.execute("DELETE FROM vehicle_listings_clean")
+            connection.execute(
+                """CREATE TABLE vehicle_listings (
+                    id INTEGER PRIMARY KEY, title TEXT, brand TEXT, series TEXT, model TEXT,
+                    year INTEGER, mileage_km INTEGER, price INTEGER
+                )"""
+            )
+            connection.execute(
+                """INSERT INTO vehicle_listings
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)""",
+                (1, "Ham ilan", "Test", "A", "1.0", 2020, 80_000, 900_000),
+            )
+            connection.commit()
+
+        self.assertEqual(self.repository.listing_table(), "vehicle_listings")
+        self.assertEqual(self.repository.listing_count(), 1)
+
     def test_snapshot_save_is_idempotent_for_one_day(self) -> None:
         snapshot_date = date(2026, 7, 23)
         self.assertEqual(save_snapshot(self.repository, snapshot_date), 1)
@@ -87,6 +106,18 @@ class ApiServiceTests(unittest.TestCase):
         self.assertEqual(_snapshot_scope({}), ("market", "all"))
         self.assertEqual(_snapshot_scope({"brand": "Test"}), ("brand", "Test"))
         self.assertIsNone(_snapshot_scope({"brand": "Test", "year_min": 2020}))
+
+
+    def test_price_relationships_use_real_years_and_mileage_bands(self) -> None:
+        frame = pd.DataFrame({
+            "year": [2020, 2020, 2020, 2021, 2021, 2021],
+            "mileage_km": [20_000, 25_000, 22_000, 80_000, 90_000, 95_000],
+            "price": [900_000, 920_000, 910_000, 1_000_000, 1_020_000, 980_000],
+        })
+        result = build_price_relationships(frame)
+        self.assertEqual([point["label"] for point in result["year_points"]], ["2020", "2021"])
+        self.assertEqual(result["mileage_points"][0]["label"], "0-25 bin km")
+        self.assertEqual(result["mileage_points"][0]["listing_count"], 3)
 
 
 if __name__ == "__main__":

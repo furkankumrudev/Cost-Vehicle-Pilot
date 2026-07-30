@@ -8,9 +8,9 @@ from fastapi import APIRouter, Depends, Query
 
 from ..database import ListingRepository
 from ..dependencies import MarketFilters, safe_repository
-from ..schemas import MarketOverview, MarketTableResponse, MoversResponse, TrendResponse
-from ..services.market_service import grouped_table, movers, overview
-from ..services.trend_service import build_listing_trend
+from ..schemas import MarketOverview, MarketTableResponse, MoversResponse, PriceRelationshipsResponse, TrendResponse
+from ..services.market_service import grouped_table, movers, overview, price_relationships
+from ..services.trend_service import build_listing_trend, merge_clean_trend
 
 router = APIRouter(prefix="/api/market", tags=["market"])
 
@@ -27,10 +27,25 @@ def get_trend(
 ) -> TrendResponse:
     if start_date and end_date and start_date > end_date:
         return TrendResponse(available=False, message="Başlangıç tarihi bitiş tarihinden büyük olamaz.")
-    points = build_listing_trend(repository.load_listings(filters.as_dict()), start_date, end_date)
+    listings = repository.load_listings(filters.as_dict())
+    points = build_listing_trend(listings, start_date, end_date)
     if len(points) < 2:
         return TrendResponse(available=False, message="Bu dönem için yeterli geçmiş veri bulunmuyor.")
-    return TrendResponse(available=True, points=points)
+    clean_listings = listings[listings["is_clean_claimed"].fillna(0).astype(int) == 1] if "is_clean_claimed" in listings else listings.iloc[0:0]
+    clean_points = build_listing_trend(clean_listings, start_date, end_date)
+    return TrendResponse(
+        available=True,
+        points=merge_clean_trend(points, clean_points),
+        clean_available=len(clean_points) >= 2,
+        clean_listing_count=int(len(clean_listings)),
+    )
+
+
+@router.get("/price-relationships", response_model=PriceRelationshipsResponse)
+def get_price_relationships(
+    filters: MarketFilters = Depends(), repository: ListingRepository = Depends(safe_repository),
+) -> PriceRelationshipsResponse:
+    return PriceRelationshipsResponse(**price_relationships(repository, filters.as_dict()))
 
 
 @router.get("/table", response_model=MarketTableResponse)

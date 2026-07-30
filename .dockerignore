@@ -1,0 +1,12 @@
+.git
+.venv
+.env
+__pycache__
+*.pyc
+web/node_modules
+web/dist
+data/runtime
+data/models
+data/training
+car_price_prediction.csv
+tmp

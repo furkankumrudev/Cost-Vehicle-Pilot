@@ -45,12 +45,38 @@ class TrendPoint(BaseModel):
     median_price: float
     average_price: float
     listing_count: int
+    clean_median_price: float | None = None
+    clean_average_price: float | None = None
+    clean_listing_count: int | None = None
 
 
 class TrendResponse(BaseModel):
     available: bool
     label: str = "İlan tarihine göre medyan fiyat"
     points: list[TrendPoint] = Field(default_factory=list)
+    clean_available: bool = False
+    clean_listing_count: int = 0
+    message: str | None = None
+
+
+class PriceRelationshipPoint(BaseModel):
+    label: str
+    median_price: float
+    average_price: float
+    listing_count: int
+
+
+class PriceRelationshipsResponse(BaseModel):
+    listing_count: int = 0
+    clean_listing_count: int = 0
+    year_available: bool = False
+    mileage_available: bool = False
+    clean_year_available: bool = False
+    clean_mileage_available: bool = False
+    year_points: list[PriceRelationshipPoint] = Field(default_factory=list)
+    mileage_points: list[PriceRelationshipPoint] = Field(default_factory=list)
+    clean_year_points: list[PriceRelationshipPoint] = Field(default_factory=list)
+    clean_mileage_points: list[PriceRelationshipPoint] = Field(default_factory=list)
     message: str | None = None
 
 
@@ -99,6 +125,12 @@ class SimilarListing(BaseModel):
     similarity_score: float | None = None
 
 
+class ComparisonSummary(BaseModel):
+    used_listing_count: int
+    median_year: int | None = None
+    median_mileage_km: int | None = None
+
+
 class ValuationRequest(BaseModel):
     brand: str | None = Field(default=None, max_length=80)
     series: str | None = Field(default=None, max_length=100)
@@ -109,6 +141,8 @@ class ValuationRequest(BaseModel):
     year: int | None = Field(default=None, ge=1900, le=2100)
     mileage_km: int | None = Field(default=None, ge=0, le=2_000_000)
     asking_price: int | None = Field(default=None, ge=1)
+    changed_parts: int | None = Field(default=None, ge=0, le=30)
+    painted_parts: int | None = Field(default=None, ge=0, le=30)
 
 
 class ValuationResponse(BaseModel):
@@ -122,7 +156,9 @@ class ValuationResponse(BaseModel):
     price_assessment: str | None = None
     asking_price_delta_percent: float | None = None
     explanation: str
-    similar_listings: list[SimilarListing] = Field(default_factory=list)
+    comparison_summary: ComparisonSummary | None = None
+    condition_adjustment_percent: float | None = None
+    condition_adjustment_note: str | None = None
 
 
 class SimilarListingsResponse(BaseModel):

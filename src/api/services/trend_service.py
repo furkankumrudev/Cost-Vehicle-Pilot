@@ -68,6 +68,25 @@ def build_listing_trend(
     ]
 
 
+def merge_clean_trend(
+    points: list[dict[str, object]], clean_points: list[dict[str, object]],
+) -> list[dict[str, object]]:
+    """Attach clean-declared aggregates to their matching real listing dates."""
+    clean_by_date = {item["date"]: item for item in clean_points}
+    merged: list[dict[str, object]] = []
+    for point in points:
+        item = dict(point)
+        clean = clean_by_date.get(point["date"])
+        if clean:
+            item.update({
+                "clean_median_price": clean["median_price"],
+                "clean_average_price": clean["average_price"],
+                "clean_listing_count": clean["listing_count"],
+            })
+        merged.append(item)
+    return merged
+
+
 def unavailable_changes() -> dict[str, float | None]:
     return {"change_30d": None, "change_90d": None, "change_yoy": None}
 

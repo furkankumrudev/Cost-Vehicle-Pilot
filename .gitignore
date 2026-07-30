@@ -232,3 +232,8 @@ data/runtime/
 # React/Vite local output
 web/node_modules/
 web/dist/
+
+# Local machine-learning inputs and generated artifacts
+car_price_prediction.csv
+data/training/
+data/models/
