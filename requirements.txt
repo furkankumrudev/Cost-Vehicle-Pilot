@@ -1,7 +1,5 @@
 pandas
 numpy
-plotly
-streamlit
 beautifulsoup4
 nodriver
 fastapi

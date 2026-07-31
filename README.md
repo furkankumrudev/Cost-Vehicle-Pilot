@@ -28,7 +28,7 @@ React + TypeScript + Vite  ->  FastAPI  ->  SQLite
 - Veri temizleme: `src/maintenance/clean_vehicle_data.py`
 - Model eğitimi ve çıkarımı: `src/ml/`
 
-Eski Streamlit arayüzü (`src/app.py`) ve statik HTML prototipi (`frontend/`) yalnızca geçmiş geliştirme çıktılarıdır; final ürün demosunda React arayüzü kullanılmalıdır.
+Final ürün arayüzü React uygulamasıdır; demo ve geliştirme akışı `web/` klasöründen yürütülür.
 
 ## Hızlı Başlangıç
 

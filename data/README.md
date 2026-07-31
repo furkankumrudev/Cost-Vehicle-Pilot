@@ -30,7 +30,7 @@ Bu klasör Git'e dahil edilmez. İçinde SQLite veritabanı, checkpoint dosyalar
 Scraper
   -> yeni ilanları vehicle_listings tablosuna ekler
   -> cleaning hattı vehicle_listings_clean tablosunu üretir
-  -> Streamlit arayüzü temiz tablodan piyasa analizini gösterir
+  -> FastAPI ve React arayüzü temiz tablodan piyasa analizini gösterir
 ```
 
 ## Not

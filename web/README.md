@@ -1,6 +1,6 @@
 # ArabamFiyat.com Web Uygulaması
 
-Bu klasör, gerçek FastAPI verisine bağlanan React + Vite arayüzüdür. Eski `frontend/` klasörü statik prototip olarak korunmuştur.
+Bu klasör, gerçek FastAPI verisine bağlanan React + Vite arayüzüdür.
 
 ```bat
 npm install

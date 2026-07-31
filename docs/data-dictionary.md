@@ -55,7 +55,7 @@ Table: `vehicle_listings`
 
 ## Analysis Output
 
-Streamlit arayüzü bu kayıtlardan şu değerleri üretir:
+API ve React arayüzü bu kayıtlardan şu değerleri üretir:
 
 - benzer ilan sayısı
 - minimum fiyat

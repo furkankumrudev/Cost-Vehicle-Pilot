@@ -61,4 +61,4 @@
 
 [Teknik çalışma günlüğü](evidence/work-log.md) gerçek Git commitlerini, [piyasa trendleri ekranı](evidence/market-trends.png) çalışan ürünün gerçek ekranını içerir. Bu bireysel projede geriye dönük temsilî toplantı kaydı oluşturulmamıştır.
 
-İlgili teknik çıktılar: `src/maintenance/clean_vehicle_data.py`, `src/analysis/market_engine.py`, `src/api/`, `src/api/services/trend_service.py` ve `src/app.py`.
+İlgili teknik çıktılar: `src/maintenance/clean_vehicle_data.py`, `src/analysis/market_engine.py`, `src/api/` ve `src/api/services/trend_service.py`.

@@ -9,10 +9,10 @@ ArabamFiyat.com'un veri stratejisi, kullanıcının seçtiği araç özellikleri
 Proje hazır ve eski bir public CSV veri setine bağlı kalmayacaktır. Bunun yerine veri akışı şu şekilde tasarlanmıştır:
 
 ```text
-Araç özellikleri formu
-  -> sorgu oluşturma
-  -> güncel ilan toplama
+İzinli veri güncelleme akışı
   -> SQLite kayıt katmanı
+  -> cleaning hattı
+  -> araç özellikleri formu
   -> benzer ilan filtreleme
   -> fiyat dağılımı ve piyasa aralığı
 ```
@@ -25,7 +25,7 @@ Bu dosya statik bir eğitim datası değildir; yalnızca kullanıcı deneyimini 
 
 ## Güncel İlan Verisi
 
-Scraper modülü, seçilen araç özelliklerine göre arama yapıp ilanları normalize ederek SQLite veritabanına yazar.
+Veri alma modülü, günlük veya periyodik bakım akışında yeni ilanları SQLite veritabanına yazar. Kullanıcı arayüzü tarayıcı açmaz; yalnızca temizlenmiş mevcut ilan verisini analiz eder.
 
 Varsayılan lokal veritabanı:
 
