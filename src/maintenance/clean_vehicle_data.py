@@ -16,7 +16,7 @@ import re
 import sqlite3
 import unicodedata
 from collections import Counter
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
@@ -117,12 +117,28 @@ ACRONYM_FIXES = [
 
 
 @dataclass(frozen=True, slots=True)
+class ModelOutlierPolicy:
+    """Conservative thresholds for rejecting placeholder-like asking prices."""
+
+    min_group_size: int = 50
+    median_multiplier: float = 20.0
+    iqr_multiplier: float = 3.0
+
+    def upper_price_bound(self, sorted_prices: list[int]) -> float:
+        median = interpolated_quantile(sorted_prices, 0.50)
+        q1 = interpolated_quantile(sorted_prices, 0.25)
+        q3 = interpolated_quantile(sorted_prices, 0.75)
+        return max(q3 + self.iqr_multiplier * (q3 - q1), median * self.median_multiplier)
+
+
+@dataclass(frozen=True, slots=True)
 class CleanRules:
     min_price: int
     max_price: int
     min_year: int
     max_year: int
     max_mileage: int
+    model_outlier_policy: ModelOutlierPolicy = field(default_factory=ModelOutlierPolicy)
 
 
 @dataclass(frozen=True, slots=True)
@@ -488,6 +504,45 @@ def duplicate_keys(row: dict[str, Any]) -> list[tuple[str, ...]]:
     return keys
 
 
+def interpolated_quantile(sorted_values: list[int], quantile: float) -> float:
+    """Return a linear-interpolated quantile without an extra runtime dependency."""
+    if not sorted_values:
+        raise ValueError("Cannot calculate a quantile for an empty value list.")
+
+    position = (len(sorted_values) - 1) * quantile
+    lower = int(position)
+    upper = min(lower + 1, len(sorted_values) - 1)
+    fraction = position - lower
+    return float(sorted_values[lower] + (sorted_values[upper] - sorted_values[lower]) * fraction)
+
+
+def extreme_model_price_outlier_ids(
+    rows: list[dict[str, Any]],
+    policy: ModelOutlierPolicy | None = None,
+) -> set[int]:
+    """Find only placeholder-like prices within sufficiently large exact model groups."""
+    active_policy = policy or ModelOutlierPolicy()
+    groups: dict[tuple[str, str, str], list[tuple[int, int]]] = {}
+    for row in rows:
+        listing_id = normalize_int(row.get("id"))
+        price = normalize_int(row.get("price"))
+        brand = clean_text(row.get("brand"))
+        series = clean_text(row.get("series"))
+        model = clean_text(row.get("model"))
+        if listing_id is None or price is None or not brand or not series or not model:
+            continue
+        groups.setdefault((brand, series, model), []).append((listing_id, price))
+
+    outlier_ids: set[int] = set()
+    for members in groups.values():
+        if len(members) < active_policy.min_group_size:
+            continue
+        prices = sorted(price for _, price in members)
+        upper_bound = active_policy.upper_price_bound(prices)
+        outlier_ids.update(listing_id for listing_id, price in members if price > upper_bound)
+    return outlier_ids
+
+
 def table_columns(connection: sqlite3.Connection, table: str) -> list[str]:
     return [str(row[1]) for row in connection.execute(f"PRAGMA table_info({table})")]
 
@@ -578,6 +633,33 @@ def insert_rejected(
     insert_row(connection, REJECTED_TABLE, rejected_columns, payload)
 
 
+def reject_extreme_model_price_outliers(
+    connection: sqlite3.Connection,
+    raw_columns: list[str],
+    policy: ModelOutlierPolicy,
+) -> int:
+    """Move only extreme relative-price anomalies from clean output to rejected output."""
+    if "id" not in raw_columns:
+        return 0
+
+    rows = [
+        dict(row)
+        for row in connection.execute(
+            f"SELECT id, brand, series, model, price FROM {CLEAN_TABLE}"
+        )
+    ]
+    outlier_ids = extreme_model_price_outlier_ids(rows, policy)
+    for listing_id in sorted(outlier_ids):
+        row = connection.execute(
+            f"SELECT * FROM {CLEAN_TABLE} WHERE id = ?", (listing_id,)
+        ).fetchone()
+        if row is None:
+            continue
+        insert_rejected(connection, raw_columns, dict(row), "model_price_outlier")
+        connection.execute(f"DELETE FROM {CLEAN_TABLE} WHERE id = ?", (listing_id,))
+    return len(outlier_ids)
+
+
 def write_report(connection: sqlite3.Connection, metrics: dict[str, Any]) -> None:
     rows = [(key, str(value)) for key, value in sorted(metrics.items())]
     connection.executemany(
@@ -647,6 +729,16 @@ def clean_database(db_path: Path, catalog_path: Path, rules: CleanRules) -> Clea
             insert_row(connection, CLEAN_TABLE, raw_columns, row)
             clean_total += 1
 
+        relative_outlier_total = reject_extreme_model_price_outliers(
+            connection,
+            raw_columns,
+            rules.model_outlier_policy,
+        )
+        if relative_outlier_total:
+            rejection_counts["model_price_outlier"] += relative_outlier_total
+            rejected_total += relative_outlier_total
+            clean_total -= relative_outlier_total
+
         metrics: dict[str, Any] = {
             "raw_total": raw_total,
             "clean_total": clean_total,
@@ -702,6 +794,9 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--min-year", type=int, default=1980)
     parser.add_argument("--max-year", type=int, default=2026)
     parser.add_argument("--max-mileage", type=int, default=700_000)
+    parser.add_argument("--outlier-min-group-size", type=int, default=50)
+    parser.add_argument("--outlier-median-multiplier", type=float, default=20.0)
+    parser.add_argument("--outlier-iqr-multiplier", type=float, default=3.0)
     return parser
 
 
@@ -713,6 +808,11 @@ def main() -> None:
         min_year=args.min_year,
         max_year=args.max_year,
         max_mileage=args.max_mileage,
+        model_outlier_policy=ModelOutlierPolicy(
+            min_group_size=args.outlier_min_group_size,
+            median_multiplier=args.outlier_median_multiplier,
+            iqr_multiplier=args.outlier_iqr_multiplier,
+        ),
     )
     result = clean_database(Path(args.db_path), Path(args.catalog_path), rules)
     print(f"raw_total={result.raw_total}")

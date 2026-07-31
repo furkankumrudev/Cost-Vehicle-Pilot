@@ -68,3 +68,5 @@ API ve React arayüzü bu kayıtlardan şu değerleri üretir:
 - benzerlik skoruna göre ağırlıklı medyan
 - analiz güven seviyesi
 - uç fiyatlardan arındırılmış benzer ilan havuzu
+
+`vehicle_listings_rejected` tablosu, analiz dışı bırakılan kayıtları ve nedenini tutar. `model_price_outlier` nedeni, en az 50 kayıtlı aynı marka-seri-model grubunun medyanının 20 katını aşan ve grup içi dağılıma göre ekstrem olan placeholder benzeri fiyatlar için kullanılır.
