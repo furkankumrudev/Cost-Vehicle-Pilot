@@ -12,7 +12,7 @@ Bu liste finalden önce yalnızca gerçek bilgiler ve gerçek kanıtlarla tamaml
 
 ## Ürün ve Teknik Teslim
 
-- [ ] Güncel kodlar commit edildi ve public GitHub reposuna gönderildi.
+- [x] Güncel kodlar commit edildi ve public GitHub reposuna gönderildi.
 - [ ] Temiz bilgisayarda kurulum adımları doğrulandı.
 - [x] Backend testleri ve React production build çalıştırıldı.
 - [x] Model kartı ile mimari dokümanı incelendi.
