@@ -6,6 +6,10 @@ Kullanıcı marka, seri, model, yıl ve kilometre bilgisini girer. Uygulama yere
 
 > Bu ürün bir ekspertiz ya da kesin satış fiyatı hizmeti değildir. Sonuçlar, mevcut ilan verisinden üretilen karar destek tahminleridir.
 
+## Demo
+
+[2 dakikalık ürün demosunu YouTube'da izle](https://youtu.be/CIdeayz5XvY)
+
 ## Takım
 
 | Takım adı | Üye | Roller |

@@ -235,3 +235,6 @@ web/dist/
 car_price_prediction.csv
 data/training/
 data/models/
+
+# Local delivery artifacts
+deliverables/
