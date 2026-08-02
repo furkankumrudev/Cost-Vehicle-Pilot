@@ -1,8 +1,13 @@
 from __future__ import annotations
 
+import sqlite3
 import unittest
 
-from src.maintenance.clean_vehicle_data import ModelOutlierPolicy, extreme_model_price_outlier_ids
+from src.maintenance.clean_vehicle_data import (
+    ModelOutlierPolicy,
+    extreme_model_price_outlier_ids,
+    standardize_cosmetic_name_variants,
+)
 
 
 class CleanVehicleDataTests(unittest.TestCase):
@@ -34,6 +39,39 @@ class CleanVehicleDataTests(unittest.TestCase):
 
         self.assertEqual(policy.min_group_size, 10)
         self.assertEqual(policy.upper_price_bound([100, 100, 100, 100]), 1_200.0)
+
+    def test_cosmetic_name_variants_are_merged_without_touching_plus_packages(self) -> None:
+        with sqlite3.connect(":memory:") as connection:
+            connection.execute("CREATE TABLE vehicle_listings_clean (series TEXT, model TEXT)")
+            connection.executemany(
+                "INSERT INTO vehicle_listings_clean (series, model) VALUES (?, ?)",
+                [
+                    ("i30", "1.6 TDCi Titanium"),
+                    ("I30", "1.6 TDCI Titanium"),
+                    ("i30", "200 AMG"),
+                    ("i30", "200 AMG+"),
+                ],
+            )
+
+            updated = standardize_cosmetic_name_variants(connection, ["series", "model"])
+
+            self.assertEqual(updated, {"series": 1, "model": 1})
+            self.assertEqual(
+                connection.execute(
+                    "SELECT DISTINCT series FROM vehicle_listings_clean ORDER BY series"
+                ).fetchall(),
+                [("i30",)],
+            )
+            models = [
+                row[0]
+                for row in connection.execute(
+                    "SELECT DISTINCT model FROM vehicle_listings_clean ORDER BY model"
+                )
+            ]
+            self.assertEqual(len(models), 3)
+            self.assertEqual(sum("tdci titanium" in model.casefold() for model in models), 1)
+            self.assertIn("200 AMG", models)
+            self.assertIn("200 AMG+", models)
 
 
 if __name__ == "__main__":

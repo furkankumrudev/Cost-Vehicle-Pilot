@@ -151,6 +151,8 @@ class CleanResult:
     corrected_brand_total: int
     corrected_location_total: int
     corrected_brand_page_field_total: int
+    canonicalized_series_variant_total: int
+    canonicalized_model_variant_total: int
 
 
 def normalize_key(value: object) -> str:
@@ -387,6 +389,12 @@ def normalize_series(value: object, brand: str | None) -> str | None:
     if normalize_key(brand) == "mercedesbenz" and len(text) == 1 and text.isalpha():
         return f"{text.upper()} Serisi"
     return text
+
+
+def cosmetic_variant_key(value: object) -> str:
+    """Compare names while preserving meaningful package markers such as '+'."""
+    text = clean_text(value) or ""
+    return re.sub(r"[\s-]+", "", text).casefold()
 
 
 def infer_tofas_series(*values: object) -> str | None:
@@ -660,6 +668,48 @@ def reject_extreme_model_price_outliers(
     return len(outlier_ids)
 
 
+def standardize_cosmetic_name_variants(
+    connection: sqlite3.Connection,
+    columns: list[str],
+) -> dict[str, int]:
+    """Merge only cosmetic series/model variants in the derived clean table.
+
+    Case, whitespace and hyphen variations are consolidated for selector
+    quality. Other punctuation is deliberately retained so package variants
+    such as ``AMG`` and ``AMG+`` never collapse into one another.
+    """
+    updated_by_column: dict[str, int] = {}
+    for column in ("series", "model"):
+        if column not in columns:
+            continue
+
+        groups: dict[str, list[tuple[str, int]]] = {}
+        rows = connection.execute(
+            f"SELECT TRIM({column}), COUNT(*) FROM {CLEAN_TABLE} "
+            f"WHERE {column} IS NOT NULL AND TRIM({column}) <> '' "
+            f"GROUP BY TRIM({column})"
+        )
+        for value, count in rows:
+            groups.setdefault(cosmetic_variant_key(value), []).append((str(value), int(count)))
+
+        updated = 0
+        for variants in groups.values():
+            if len(variants) < 2:
+                continue
+
+            canonical, _ = sorted(variants, key=lambda item: (-item[1], item[0].casefold()))[0]
+            for value, count in variants:
+                if value == canonical:
+                    continue
+                connection.execute(
+                    f"UPDATE {CLEAN_TABLE} SET {column} = ? WHERE {column} = ?",
+                    (canonical, value),
+                )
+                updated += count
+        updated_by_column[column] = updated
+    return updated_by_column
+
+
 def write_report(connection: sqlite3.Connection, metrics: dict[str, Any]) -> None:
     rows = [(key, str(value)) for key, value in sorted(metrics.items())]
     connection.executemany(
@@ -729,6 +779,8 @@ def clean_database(db_path: Path, catalog_path: Path, rules: CleanRules) -> Clea
             insert_row(connection, CLEAN_TABLE, raw_columns, row)
             clean_total += 1
 
+        canonicalized_variants = standardize_cosmetic_name_variants(connection, raw_columns)
+
         relative_outlier_total = reject_extreme_model_price_outliers(
             connection,
             raw_columns,
@@ -748,6 +800,8 @@ def clean_database(db_path: Path, catalog_path: Path, rules: CleanRules) -> Clea
             "corrected_brand_total": corrected_brand_total,
             "corrected_location_total": corrected_location_total,
             "corrected_brand_page_field_total": corrected_brand_page_field_total,
+            "canonicalized_series_variant_total": canonicalized_variants.get("series", 0),
+            "canonicalized_model_variant_total": canonicalized_variants.get("model", 0),
         }
         metrics.update({f"rejected_{reason}": total for reason, total in rejection_counts.items()})
         metrics.update(
@@ -782,6 +836,8 @@ def clean_database(db_path: Path, catalog_path: Path, rules: CleanRules) -> Clea
         corrected_brand_total=corrected_brand_total,
         corrected_location_total=corrected_location_total,
         corrected_brand_page_field_total=corrected_brand_page_field_total,
+        canonicalized_series_variant_total=canonicalized_variants.get("series", 0),
+        canonicalized_model_variant_total=canonicalized_variants.get("model", 0),
     )
 
 
@@ -823,6 +879,8 @@ def main() -> None:
     print(f"corrected_brand_total={result.corrected_brand_total}")
     print(f"corrected_location_total={result.corrected_location_total}")
     print(f"corrected_brand_page_field_total={result.corrected_brand_page_field_total}")
+    print(f"canonicalized_series_variant_total={result.canonicalized_series_variant_total}")
+    print(f"canonicalized_model_variant_total={result.canonicalized_model_variant_total}")
 
 
 if __name__ == "__main__":
