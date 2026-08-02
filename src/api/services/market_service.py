@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from contextlib import closing
+from math import ceil, sqrt
 from typing import Any
 
 import pandas as pd
@@ -11,7 +12,7 @@ from src.analysis.market_engine import build_market_analysis
 from src.ml.predict_price_model import ConditionAdjustment, DEFAULT_MODEL_PATH, estimate_condition_adjustment
 
 from ..database import ListingRepository
-from ..services.trend_service import snapshot_changes, unavailable_changes
+from ..services.trend_service import build_listing_trend, snapshot_changes, unavailable_changes
 
 MIN_RELATIONSHIP_SAMPLE = 3
 MILEAGE_BANDS = (
@@ -178,7 +179,9 @@ def condition_adjustment_from_payload(payload: dict[str, Any]) -> tuple[Conditio
     required = ("brand", "series", "model", "year", "mileage_km")
     if any(payload.get(field) in (None, "") for field in required):
         return None, None
-    if payload.get("changed_parts") is None or payload.get("painted_parts") is None:
+    changed_parts = payload.get("changed_parts")
+    painted_parts = payload.get("painted_parts")
+    if changed_parts is None and painted_parts is None:
         return None, None
     if not DEFAULT_MODEL_PATH.exists():
         return None, "Boya ve değişen etkisi modeli henüz eğitilmemiş."
@@ -189,8 +192,8 @@ def condition_adjustment_from_payload(payload: dict[str, Any]) -> tuple[Conditio
         "model": payload.get("model"),
         "yil": payload.get("year"),
         "kilometre": payload.get("mileage_km"),
-        "degisen_sayisi": payload.get("changed_parts"),
-        "boyali_sayisi": payload.get("painted_parts"),
+        "degisen_sayisi": changed_parts or 0,
+        "boyali_sayisi": painted_parts or 0,
     }
     try:
         adjustment = estimate_condition_adjustment(model_payload)
@@ -205,6 +208,36 @@ def condition_adjustment_from_payload(payload: dict[str, Any]) -> tuple[Conditio
     return adjustment, note
 
 
+def enrich_condition_payload(
+    payload: dict[str, Any], reference_listings: pd.DataFrame,
+) -> tuple[dict[str, Any], str | None]:
+    """Fill omitted year and mileage from the actual comparable-listing group.
+
+    Paint and changed-part counts still affect a valuation when the user wants a
+    broad model comparison. The fallback comes from the same listings used for
+    the live market value, rather than an arbitrary default vehicle.
+    """
+    if payload.get("changed_parts") is None and payload.get("painted_parts") is None:
+        return payload, None
+
+    enriched = dict(payload)
+    used_fields: list[str] = []
+    if enriched.get("year") is None and "year" in reference_listings:
+        years = pd.to_numeric(reference_listings["year"], errors="coerce").dropna()
+        if not years.empty:
+            enriched["year"] = int(years.median())
+            used_fields.append("model yılı")
+    if enriched.get("mileage_km") is None and "mileage_km" in reference_listings:
+        mileages = pd.to_numeric(reference_listings["mileage_km"], errors="coerce").dropna()
+        if not mileages.empty:
+            enriched["mileage_km"] = int(mileages.median())
+            used_fields.append("kilometre")
+
+    if not used_fields:
+        return enriched, None
+    return enriched, f"{', '.join(used_fields).capitalize()} girilmediği için referans ilan grubunun medyanı kullanıldı."
+
+
 def _assess_asking_price(market_value: float, asking_price: int | None) -> tuple[str | None, float | None]:
     if asking_price is None or market_value <= 0:
         return None, None
@@ -216,33 +249,153 @@ def _assess_asking_price(market_value: float, asking_price: int | None) -> tuple
     return "Piyasa içinde", difference
 
 
-def build_comparison_summary(listings: pd.DataFrame) -> dict[str, int | None]:
+def build_comparison_summary(
+    listings: pd.DataFrame, *, matched_listing_count: int, selected_listing_count: int,
+    outlier_count: int, selection_mode: str, selection_note: str, clean_only: bool,
+) -> dict[str, int | str | None]:
     """Return concise, source-free context for the comparable listing group."""
     years = pd.to_numeric(listings.get("year"), errors="coerce").dropna() if "year" in listings else pd.Series(dtype=float)
     mileages = pd.to_numeric(listings.get("mileage_km"), errors="coerce").dropna() if "mileage_km" in listings else pd.Series(dtype=float)
     return {
+        "matched_listing_count": matched_listing_count,
+        "selected_listing_count": selected_listing_count,
         "used_listing_count": int(len(listings)),
+        "outlier_count": outlier_count,
+        "selection_mode": selection_mode,
+        "selection_note": selection_note,
+        "clean_only": clean_only,
         "median_year": int(years.median()) if not years.empty else None,
         "median_mileage_km": int(mileages.median()) if not mileages.empty else None,
     }
 
 
+def build_reference_price_points(
+    listings: pd.DataFrame, *, adjustment_factor: float = 1.0,
+) -> list[dict[str, float | int | None]]:
+    """Return one display-safe point per analyzed listing for a price strip plot."""
+    if listings.empty or "price" not in listings:
+        return []
+    frame = listings.copy()
+    frame["price"] = pd.to_numeric(frame["price"], errors="coerce") * adjustment_factor
+    frame = frame[frame["price"] > 0].copy()
+    if frame.empty:
+        return []
+
+    years = pd.to_numeric(frame["year"], errors="coerce") if "year" in frame else pd.Series(index=frame.index)
+    mileages = pd.to_numeric(frame["mileage_km"], errors="coerce") if "mileage_km" in frame else pd.Series(index=frame.index)
+    points: list[dict[str, float | int | None]] = []
+    for index, row in frame.sort_values("price").iterrows():
+        year = years.get(index)
+        mileage = mileages.get(index)
+        points.append({
+            "price": float(row["price"]),
+            "year": int(year) if pd.notna(year) else None,
+            "mileage_km": int(mileage) if pd.notna(mileage) else None,
+        })
+    return points
+
+
+def build_reference_mileage_points(
+    listings: pd.DataFrame, *, adjustment_factor: float = 1.0,
+) -> list[dict[str, float | int]]:
+    """Show price movement across mileage bands from the exact reference group."""
+    if listings.empty or not {"mileage_km", "price"}.issubset(listings.columns):
+        return []
+
+    frame = listings[["mileage_km", "price"]].copy()
+    frame["mileage_km"] = pd.to_numeric(frame["mileage_km"], errors="coerce")
+    frame["price"] = pd.to_numeric(frame["price"], errors="coerce") * adjustment_factor
+    frame = frame.dropna(subset=["mileage_km", "price"])
+    frame = frame[(frame["mileage_km"] >= 0) & (frame["price"] > 0)]
+    if frame.empty:
+        return []
+
+    minimum = float(frame["mileage_km"].min())
+    maximum = float(frame["mileage_km"].max())
+    if minimum == maximum:
+        return [{
+            "lower_mileage_km": int(minimum), "upper_mileage_km": int(maximum),
+            "median_price": float(frame["price"].median()), "average_price": float(frame["price"].mean()),
+            "listing_count": int(len(frame)),
+        }]
+
+    bucket_count = min(8, max(3, ceil(sqrt(len(frame)))))
+    step = (maximum - minimum) / bucket_count
+    points: list[dict[str, float | int]] = []
+    for index in range(bucket_count):
+        lower = minimum + step * index
+        upper = maximum if index == bucket_count - 1 else minimum + step * (index + 1)
+        matches = frame["mileage_km"].between(lower, upper, inclusive="both" if index == bucket_count - 1 else "left")
+        band = frame[matches]
+        if band.empty:
+            continue
+        points.append({
+            "lower_mileage_km": int(round(lower)), "upper_mileage_km": int(round(upper)),
+            "median_price": float(band["price"].median()), "average_price": float(band["price"].mean()),
+            "listing_count": int(len(band)),
+        })
+    return points
+
+
+def build_reference_listing_trend(
+    listings: pd.DataFrame, *, adjustment_factor: float = 1.0,
+) -> list[dict[str, object]]:
+    """Aggregate listed prices by their real publication date without inventing history."""
+    if listings.empty or "listing_date" not in listings:
+        return []
+    frame = listings.copy()
+    frame["price"] = pd.to_numeric(frame["price"], errors="coerce") * adjustment_factor
+    points = build_listing_trend(frame)
+    return points if len(points) >= 2 else []
+
+
 def valuation(repository: ListingRepository, payload: dict[str, Any]) -> dict[str, object]:
-    filters = {key: payload.get(key) for key in ("brand", "series", "model", "year_min", "year_max", "mileage_max")}
+    filters = {
+        key: payload.get(key)
+        for key in ("brand", "series", "model", "year_min", "year_max", "mileage_max", "clean_only")
+    }
     listings = repository.load_listings(filters)
-    adjustment, adjustment_note = condition_adjustment_from_payload(payload)
     result = build_market_analysis(
         listings, target_year=payload.get("year"), target_mileage=payload.get("mileage_km"),
         selected_model=payload.get("model"), user_price=payload.get("asking_price"),
     )
     if result.get("status") == "empty":
+        matched_count = int(result.get("raw_count", 0))
+        selection_note = str(result.get("selection_note") or "")
+        detail = (
+            f"Seçilen modelde {matched_count} ilan var; ancak {selection_note.casefold()} içinde ilan bulunamadı. "
+            "Daha yakın bir sonuç için yıl veya kilometre bilgisini güncelleyebilir, alanlardan birini boş bırakabilirsiniz."
+            if matched_count and selection_note
+            else "Bu araç için yeterli benzer ilan bulunamadı. Filtreleri genişletmeyi deneyin."
+        )
         return {
             "status": "empty", "listing_count": 0,
-            "explanation": "Bu araç için yeterli benzer ilan bulunamadı. Filtreleri genişletmeyi deneyin.",
+            "explanation": detail,
         }
+    condition_payload, fallback_note = enrich_condition_payload(payload, result["used_listings"])
+    adjustment, adjustment_note = condition_adjustment_from_payload(condition_payload)
+    if adjustment_note and fallback_note:
+        adjustment_note = f"{adjustment_note} {fallback_note}"
     summary = result["summary"]
-    comparison_summary = build_comparison_summary(result["used_listings"])
+    comparison_summary = build_comparison_summary(
+        result["used_listings"],
+        matched_listing_count=int(result["raw_count"]),
+        selected_listing_count=int(result["selected_count"]),
+        outlier_count=int(result["outlier_count"]),
+        selection_mode="all_matching" if payload.get("year") is None and payload.get("mileage_km") is None else "context_window",
+        selection_note=str(result["selection_note"]),
+        clean_only=bool(payload.get("clean_only")),
+    )
     condition_factor = adjustment.factor if adjustment else 1.0
+    reference_price_points = build_reference_price_points(
+        result["used_listings"], adjustment_factor=condition_factor,
+    )
+    reference_mileage_points = build_reference_mileage_points(
+        result["used_listings"], adjustment_factor=condition_factor,
+    )
+    reference_listing_trend = build_reference_listing_trend(
+        result["used_listings"], adjustment_factor=condition_factor,
+    )
     market_value = float(summary["weighted_median"]) * condition_factor
     low_price = float(summary["weighted_q1"]) * condition_factor
     high_price = float(summary["weighted_q3"]) * condition_factor
@@ -262,8 +415,12 @@ def valuation(repository: ListingRepository, payload: dict[str, Any]) -> dict[st
         "median_price": median_price,
         "listing_count": int(result["count"]), "confidence": str(result["confidence"]),
         "price_assessment": price_assessment, "asking_price_delta_percent": asking_price_delta,
+        "asking_price": payload.get("asking_price"),
         "explanation": explanation,
         "comparison_summary": comparison_summary,
+        "reference_price_points": reference_price_points,
+        "reference_mileage_points": reference_mileage_points,
+        "reference_listing_trend": reference_listing_trend,
         "condition_adjustment_percent": adjustment.percent if adjustment else None,
         "condition_adjustment_note": adjustment_note,
     }

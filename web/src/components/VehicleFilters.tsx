@@ -4,6 +4,7 @@ import { api } from "../api/client";
 import type { CatalogOption, Filters } from "../types";
 
 const EMPTY: Filters = {};
+const formatNumberInput = (value: number | undefined) => value == null ? "" : new Intl.NumberFormat("tr-TR").format(value);
 type Props = {
   value: Filters;
   onApply: (filters: Filters) => void;
@@ -64,7 +65,7 @@ export function VehicleFilters({ value, onApply, autoApply = false, showRangeFil
       <Select label="Model" value={draft.model} options={models} disabled={!draft.series} onChange={(next) => change("model", next)} />
       {showRangeFilters && <><label className="field"><span>Minimum model yılı</span><input type="number" min="1980" max="2026" value={draft.year_min ?? ""} onChange={(event) => updateDraft((current) => ({ ...current, year_min: event.target.value ? Number(event.target.value) : undefined }))} placeholder="Örn. 2018" /></label>
       <label className="field"><span>Maksimum model yılı</span><input type="number" min="1980" max="2026" value={draft.year_max ?? ""} onChange={(event) => updateDraft((current) => ({ ...current, year_max: event.target.value ? Number(event.target.value) : undefined }))} placeholder="Örn. 2024" /></label>
-      <label className="field"><span>Maksimum kilometre</span><input type="number" min="0" value={draft.mileage_max ?? ""} onChange={(event) => updateDraft((current) => ({ ...current, mileage_max: event.target.value ? Number(event.target.value) : undefined }))} placeholder="Örn. 100000" /></label></>}
+      <label className="field"><span>Maksimum kilometre</span><input type="text" inputMode="numeric" value={formatNumberInput(draft.mileage_max)} onChange={(event) => { const digits = event.target.value.replace(/\D/g, ""); updateDraft((current) => ({ ...current, mileage_max: digits ? Number(digits) : undefined })); }} placeholder="Örn. 100.000" /></label></>}
       {!autoApply && <button className="primary-button filter-submit" onClick={() => onApply(draft)}>Analizi güncelle</button>}
     </div>
   </section>;

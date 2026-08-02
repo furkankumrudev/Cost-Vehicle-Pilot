@@ -1,4 +1,4 @@
-"""Build cleaned vehicle listing tables from the raw scraper output.
+"""Build cleaned vehicle listing tables from raw local source data.
 
 This module keeps the raw scraper table untouched and creates three derived
 tables:
@@ -20,8 +20,8 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
-from src.ingestion.city_segment_scraper import CITY_SEGMENTS
-from src.ingestion.storage import DEFAULT_DB_PATH
+from src.data_paths import DEFAULT_DB_PATH
+from src.maintenance.turkish_locations import TURKISH_PROVINCES
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 CATALOG_PATH = PROJECT_ROOT / "data" / "reference" / "vehicle_catalog.json"
@@ -159,7 +159,7 @@ def normalize_key(value: object) -> str:
     return re.sub(r"[^a-z0-9]+", "", text)
 
 
-PROVINCE_BY_KEY = {normalize_key(name): name for name, _ in CITY_SEGMENTS}
+PROVINCE_BY_KEY = {normalize_key(name): name for name in TURKISH_PROVINCES}
 PROVINCE_ALIASES = {
     "afyon": "Afyonkarahisar",
     "icel": "Mersin",

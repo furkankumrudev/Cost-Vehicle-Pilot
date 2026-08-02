@@ -28,8 +28,8 @@ GitHub: [@furkankumrudev](https://github.com/furkankumrudev)
 
 ## Sprint Durumu ve Kanitlari
 
-- [Sprint 1](Sprint1Documents/README.md): veri hatti, cleaning ve ilk piyasa analizi. Urun ciktisi tamamlandi; gercek board ve toplantı kaniti bekleniyor.
-- [Sprint 2](Sprint2Documents/README.md): FastAPI, React arayuzu ve tarihsel piyasa takibi. Urun ciktisi tamamlandi; gercek board ve review kaniti bekleniyor.
-- [Sprint 3](Sprint3Documents/README.md): kondisyon etkisi modeli, test, teslim ve canliya hazirlik. Teknik model ciktisi hazir; deploy, demo ve kanitlar bekleniyor.
+- [Sprint 1](Sprint1Documents/README.md): veri hatti, cleaning ve ilk piyasa analizi. Sprint review, retrospective ve Git gecmisinden uretilen teknik kanitlar belgelendi.
+- [Sprint 2](Sprint2Documents/README.md): FastAPI, React arayuzu ve tarihsel piyasa takibi. Sprint review, retrospective, teknik calisma gunlugu ve urun ekrani eklendi.
+- [Sprint 3](Sprint3Documents/README.md): kondisyon etkisi modeli, test, teslim ve canliya hazirlik. Sprint review, retrospective, teknik dogrulama ve degerleme ekrani eklendi.
 
-Her sprint klasorundeki `evidence/` alanina gercek board, daily Scrum, sprint review, retrospective veya urun ekran goruntuleri eklenmelidir.
+Bu proje bireysel yururuldugu icin geriye donuk temsili daily Scrum ya da board kaydi uretilmedi. Sprint karar ve ciktisi; guncel product backlog, sprint review/retrospective belgeleri, gercek Git gecmisi, teknik dogrulama ve urun ekran goruntuleriyle izlenebilir durumdadir.

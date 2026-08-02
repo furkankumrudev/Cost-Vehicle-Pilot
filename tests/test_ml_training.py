@@ -7,6 +7,7 @@ import pandas as pd
 
 from src.ml.predict_price_model import build_feature_frame, estimate_condition_adjustment
 from src.ml.train_price_model import TrainingConfig, normalize_text, prepare_training_frame
+from src.api.services.market_service import condition_adjustment_from_payload
 
 
 class TrainingDataTests(unittest.TestCase):
@@ -56,6 +57,19 @@ class TrainingDataTests(unittest.TestCase):
 
         self.assertAlmostEqual(adjustment.factor, 0.93)
         self.assertAlmostEqual(adjustment.percent, -7.0)
+
+    def test_one_condition_field_defaults_the_other_to_zero(self) -> None:
+        payload = {
+            "brand": "Volkswagen", "series": "Golf", "model": "1.5 TSI",
+            "year": 2021, "mileage_km": 55_000, "changed_parts": 3,
+        }
+        with patch("src.api.services.market_service.estimate_condition_adjustment") as estimate:
+            estimate.return_value = type("Adjustment", (), {"percent": -12.0, "capped": False})()
+            adjustment, _ = condition_adjustment_from_payload(payload)
+
+        self.assertIsNotNone(adjustment)
+        self.assertEqual(estimate.call_args.args[0]["degisen_sayisi"], 3)
+        self.assertEqual(estimate.call_args.args[0]["boyali_sayisi"], 0)
 
 
 if __name__ == "__main__":

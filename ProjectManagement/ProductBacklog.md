@@ -8,7 +8,7 @@ Durumlar proje ilerledikce gercek sprint kararlarina gore guncellenir.
 | AF-02 | Kullanici olarak yil ve kilometre ile analizi daraltabilmeliyim. | Must | Done | Filtreler API sorgusuna yansir. |
 | AF-03 | Kullanici olarak benzer ilanlardan fiyat araligi gorebilmeliyim. | Must | Done | Aykiri fiyatlar disarida birakilir, guven seviyesi gosterilir. |
 | AF-04 | Kullanici olarak piyasa trendini gercek ilan tarihlerinden gorebilmeliyim. | Must | Done | Grafik sahte tarihsel veri uretmez. |
-| AF-05 | Sistem olarak yeni ilanlari temizleyip analiz tablosuna aktarmaliyim. | Must | Done | Scraper sonrasi cleaning hatti calisir. |
+| AF-05 | Sistem olarak yeni ilanlari temizleyip analiz tablosuna aktarmaliyim. | Must | Done | Ham kayitlar cleaning hattindan gecerek analiz tablosuna aktarilir. |
 | AF-06 | Kullanici olarak aracimin tahmini piyasa degerini gorebilmeliyim. | Must | Done | FastAPI mevcut piyasa motorunu kullanir. |
 | AF-07 | Sistem olarak gunluk piyasa ozetlerini saklamaliyim. | Should | Done | Tekrarlayan gun kaydi olusmaz; gunluk snapshot betigi ve idempotent test bulunur. |
 | AF-08 | Kullanici olarak yeterli gecmis veri yoksa bunu acikca gormeliyim. | Must | Done | 30/90/yillik alanlarda sahte yuzde gosterilmez. |

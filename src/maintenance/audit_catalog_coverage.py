@@ -12,7 +12,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Iterable
 
-from src.ingestion.storage import DEFAULT_DB_PATH
+from src.data_paths import DEFAULT_DB_PATH
 from src.maintenance.clean_vehicle_data import (
     CATALOG_PATH,
     CLEAN_TABLE,

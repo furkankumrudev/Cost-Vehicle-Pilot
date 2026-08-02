@@ -59,7 +59,17 @@ data/runtime/vehicle_listings.sqlite3
 
 Veritabanı ve model artefaktları Git'e dahil edilmez. Uygulama bu veri bulunmadığında açık bir durum mesajı döndürür; sahte piyasa sonucu üretmez.
 
-### Çalıştırma
+### Docker ile demo (önerilen)
+
+Docker Desktop açıksa uygulamanın tamamını tek komutla başlat:
+
+```bat
+docker compose up --build
+```
+
+Ardından uygulamayı `http://localhost:8080` adresinden aç. Bu akışta React arayüzü ve FastAPI aynı adres üzerinden birlikte çalışır.
+
+### Geliştirme ortamı
 
 İki ayrı terminal aç:
 

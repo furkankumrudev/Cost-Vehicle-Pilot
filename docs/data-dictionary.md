@@ -50,7 +50,7 @@ Table: `vehicle_listings`
 | changed_part_status | Değişen parça filtresi/başlık analizinden gelen durum (`Değişensiz` gibi) |
 | damage_status | Temiz/hasar iddiası sınıfı (`clean_claimed`, `clean_claimed_from_title`) |
 | is_clean_claimed | Temiz iddialı araç bayrağı; temizse `1`, değilse `0` |
-| scrape_segment | İlanın yakalandığı günlük segment (`clean_24h`, `general_24h`) |
+| scrape_segment | Kaynağa aktarım sırasında atanan veri segmenti (`clean_24h`, `general_24h` gibi) |
 | scraped_at | Verinin toplandığı zaman |
 
 ## Analysis Output

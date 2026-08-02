@@ -35,4 +35,7 @@ def cors_origins() -> list[str]:
     """Accept local Vite by default and allow explicit production origins."""
     configured = os.getenv("CORS_ORIGINS", "")
     origins = [origin.strip() for origin in configured.split(",") if origin.strip()]
-    return origins or ["http://127.0.0.1:5173", "http://localhost:5173"]
+    return origins or [
+        "http://127.0.0.1:5173", "http://localhost:5173",
+        "http://127.0.0.1:5174", "http://localhost:5174",
+    ]

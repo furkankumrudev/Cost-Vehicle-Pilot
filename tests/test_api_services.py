@@ -9,12 +9,20 @@ from pathlib import Path
 
 import pandas as pd
 
+from src.analysis.market_engine import build_market_analysis
 from src.api.database import DatabaseUnavailable, ListingRepository
 from src.api.dependencies import MarketFilters
 from src.api.routes.market import get_movers, get_overview, get_trend
 from src.api.routes.valuation import create_valuation
 from src.api.schemas import ValuationRequest
-from src.api.services.market_service import _snapshot_scope, build_price_relationships
+from src.api.services.market_service import (
+    _snapshot_scope,
+    build_price_relationships,
+    enrich_condition_payload,
+    build_reference_price_points,
+    build_reference_listing_trend,
+    build_reference_mileage_points,
+)
 from src.api.services.trend_service import build_listing_trend
 from src.maintenance.save_market_snapshot import save_snapshot
 
@@ -29,14 +37,15 @@ class ApiServiceTests(unittest.TestCase):
                     id INTEGER PRIMARY KEY, title TEXT, brand TEXT, series TEXT, model TEXT,
                     year INTEGER, mileage_km INTEGER, transmission TEXT, fuel_type TEXT,
                     body_type TEXT, city TEXT, price INTEGER, currency TEXT,
-                    listing_date TEXT, listing_url TEXT, image_url TEXT, scraped_at TEXT
+                    listing_date TEXT, listing_url TEXT, image_url TEXT, scraped_at TEXT,
+                    is_clean_claimed INTEGER
                 )"""
             )
             connection.executemany(
-                """INSERT INTO vehicle_listings_clean VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+                """INSERT INTO vehicle_listings_clean VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
                 [
-                    (1, "Test Sedan", "Test", "A", "1.0", 2020, 80000, "Otomatik", "Benzin", "Sedan", "Ankara", 900000, "TRY", "1 Temmuz 2026", "https://example.test/1", None, "2026-07-01T12:00:00"),
-                    (2, "Test Sedan", "Test", "A", "1.0", 2021, 65000, "Otomatik", "Benzin", "Sedan", "Ankara", 1000000, "TRY", "2 Temmuz 2026", "https://example.test/2", None, "2026-07-02T12:00:00"),
+                    (1, "Test Sedan", "Test", "A", "1.0", 2020, 80000, "Otomatik", "Benzin", "Sedan", "Ankara", 900000, "TRY", "1 Temmuz 2026", "https://example.test/1", None, "2026-07-01T12:00:00", 1),
+                    (2, "Test Sedan", "Test", "A", "1.0", 2021, 65000, "Otomatik", "Benzin", "Sedan", "Ankara", 1000000, "TRY", "2 Temmuz 2026", "https://example.test/2", None, "2026-07-02T12:00:00", 0),
                 ],
             )
             connection.commit()
@@ -68,7 +77,18 @@ class ApiServiceTests(unittest.TestCase):
             self.repository,
         )
         self.assertEqual(response.status, "low_sample")
-        self.assertEqual(response.listing_count, 2)
+        self.assertEqual(response.listing_count, 1)
+        self.assertEqual(response.comparison_summary.matched_listing_count, 2)
+        self.assertEqual(response.comparison_summary.used_listing_count, 1)
+
+    def test_clean_only_valuation_uses_clean_claimed_listings(self) -> None:
+        response = create_valuation(
+            ValuationRequest(brand="Test", series="A", model="1.0", clean_only=True),
+            self.repository,
+        )
+        self.assertEqual(response.status, "low_sample")
+        self.assertEqual(response.listing_count, 1)
+        self.assertTrue(response.comparison_summary.clean_only)
 
     def test_missing_database_is_reported(self) -> None:
         missing = ListingRepository(Path(self.temp_dir.name) / "missing.sqlite3")
@@ -118,6 +138,62 @@ class ApiServiceTests(unittest.TestCase):
         self.assertEqual([point["label"] for point in result["year_points"]], ["2020", "2021"])
         self.assertEqual(result["mileage_points"][0]["label"], "0-25 bin km")
         self.assertEqual(result["mileage_points"][0]["listing_count"], 3)
+
+    def test_reference_price_points_keep_each_comparable_listing(self) -> None:
+        frame = pd.DataFrame({"price": [900_000, 950_000, 1_000_000, 1_050_000, 1_100_000]})
+        points = build_reference_price_points(frame)
+        self.assertEqual(len(points), len(frame))
+        self.assertEqual(points[0]["price"], 900_000)
+        self.assertEqual(points[-1]["price"], 1_100_000)
+
+    def test_reference_charts_use_only_the_selected_listing_group(self) -> None:
+        frame = pd.DataFrame({
+            "mileage_km": [60_000, 70_000, 80_000, 90_000],
+            "price": [1_200_000, 1_150_000, 1_100_000, 1_050_000],
+            "listing_date": ["1 Temmuz 2026", "1 Temmuz 2026", "2 Temmuz 2026", "2 Temmuz 2026"],
+        })
+        mileage_points = build_reference_mileage_points(frame)
+        date_points = build_reference_listing_trend(frame)
+        self.assertEqual(sum(point["listing_count"] for point in mileage_points), 4)
+        self.assertEqual(len(date_points), 2)
+        self.assertEqual(date_points[0]["median_price"], 1_175_000.0)
+
+    def test_condition_payload_uses_reference_medians_when_year_and_mileage_are_blank(self) -> None:
+        frame = pd.DataFrame({"year": [2020, 2022], "mileage_km": [50_000, 90_000]})
+        enriched, note = enrich_condition_payload(
+            {"brand": "Test", "changed_parts": 2, "painted_parts": 0}, frame,
+        )
+        self.assertEqual(enriched["year"], 2021)
+        self.assertEqual(enriched["mileage_km"], 70_000)
+        self.assertIn("Model yılı", note)
+
+    def test_market_analysis_uses_all_matches_inside_the_context_window(self) -> None:
+        frame = pd.DataFrame({
+            "price": [900_000 + index * 10_000 for index in range(8)],
+            "year": [2020, 2020, 2020, 2020, 2020, 2020, 2019, 2024],
+            "mileage_km": [80_000, 85_000, 90_000, 95_000, 75_000, 70_000, 80_000, 80_000],
+            "model": ["1.0"] * 8,
+            "title": ["Test"] * 8,
+        })
+        broad = build_market_analysis(frame, selected_model="1.0")
+        targeted = build_market_analysis(frame, selected_model="1.0", target_year=2020, target_mileage=80_000)
+        self.assertEqual(broad["selected_count"], 8)
+        self.assertEqual(targeted["selected_count"], 6)
+        self.assertIn("2020 model yılı", targeted["selection_note"])
+        self.assertIn("55.000-105.000 km", targeted["selection_note"])
+
+    def test_market_analysis_does_not_substitute_distant_mileage(self) -> None:
+        frame = pd.DataFrame({
+            "price": [900_000, 920_000],
+            "year": [2020, 2021],
+            "mileage_km": [250_000, 270_000],
+            "model": ["1.0", "1.0"],
+            "title": ["Test", "Test"],
+        })
+        result = build_market_analysis(frame, selected_model="1.0", target_year=2020, target_mileage=80_000)
+        self.assertEqual(result["status"], "empty")
+        self.assertEqual(result["selected_count"], 0)
+        self.assertIn("55.000-105.000 km", result["selection_note"])
 
 
 if __name__ == "__main__":

@@ -114,6 +114,8 @@ class ListingRepository:
                     if value and column in columns:
                         clauses.append(f"LOWER(COALESCE({column}, '')) = LOWER(?)")
                         params.append(str(value).strip())
+                if filters.get("clean_only") and "is_clean_claimed" in columns:
+                    clauses.append("COALESCE(is_clean_claimed, 0) = 1")
                 if filters.get("year_min") is not None and "year" in columns:
                     clauses.append("year >= ?")
                     params.append(int(filters["year_min"]))

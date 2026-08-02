@@ -57,4 +57,4 @@ Veri bilimi odağında uygulanabilir bir problem seçmek, ikinci el araç fiyat 
 
 [Teknik çalışma günlüğü](evidence/work-log.md), Sprint 1 ile ilişkili gerçek Git commitlerini listeler. Bu bireysel projede geriye dönük temsilî toplantı kaydı oluşturulmamıştır.
 
-İlgili teknik çıktılar: `src/ingestion/schema.py`, `src/ingestion/storage.py` ve `data/reference/vehicle_catalog.json`.
+İlgili teknik çıktılar: ham ilan tablosu, veri temizleme hattı ve `data/reference/vehicle_catalog.json`.

@@ -20,15 +20,15 @@ Bu dosya Git'e dahildir; çünkü uygulamanın dropdown seçenekleri için sabit
 
 ## Runtime Data
 
-`data/runtime/vehicle_listings.sqlite3`, scraper tarafından toplanan güncel ilanların tutulduğu yerel SQLite veritabanıdır.
+`data/runtime/vehicle_listings.sqlite3`, analizde kullanılan güncel ilan kayıtlarını tutan yerel SQLite veritabanıdır. Kaynak veriler, uygulamaya izinli veya yerel bir veri alma süreciyle aktarılır.
 
-Bu klasör Git'e dahil edilmez. İçinde SQLite veritabanı, checkpoint dosyaları, debug HTML çıktıları ve tarayıcı profili gibi makineye özel çalışma dosyaları bulunur.
+Bu klasör Git'e dahil edilmez. İçindeki veritabanı makineye özel çalışma verisidir.
 
 ## Veri Akışı
 
 ```text
-Scraper
-  -> yeni ilanları vehicle_listings tablosuna ekler
+İzinli kaynaklardan yerel veri aktarımı
+  -> vehicle_listings ham tablosunu günceller
   -> cleaning hattı vehicle_listings_clean tablosunu üretir
   -> FastAPI ve React arayüzü temiz tablodan piyasa analizini gösterir
 ```

@@ -126,9 +126,29 @@ class SimilarListing(BaseModel):
 
 
 class ComparisonSummary(BaseModel):
+    matched_listing_count: int = 0
+    selected_listing_count: int = 0
     used_listing_count: int
+    outlier_count: int = 0
+    selection_mode: str = "all_matching"
+    selection_note: str
+    clean_only: bool = False
     median_year: int | None = None
     median_mileage_km: int | None = None
+
+
+class ReferencePricePoint(BaseModel):
+    price: float
+    year: int | None = None
+    mileage_km: int | None = None
+
+
+class ReferenceMileagePoint(BaseModel):
+    lower_mileage_km: int
+    upper_mileage_km: int
+    median_price: float
+    average_price: float
+    listing_count: int
 
 
 class ValuationRequest(BaseModel):
@@ -141,6 +161,7 @@ class ValuationRequest(BaseModel):
     year: int | None = Field(default=None, ge=1900, le=2100)
     mileage_km: int | None = Field(default=None, ge=0, le=2_000_000)
     asking_price: int | None = Field(default=None, ge=1)
+    clean_only: bool = False
     changed_parts: int | None = Field(default=None, ge=0, le=30)
     painted_parts: int | None = Field(default=None, ge=0, le=30)
 
@@ -155,8 +176,12 @@ class ValuationResponse(BaseModel):
     confidence: str | None = None
     price_assessment: str | None = None
     asking_price_delta_percent: float | None = None
+    asking_price: float | None = None
     explanation: str
     comparison_summary: ComparisonSummary | None = None
+    reference_price_points: list[ReferencePricePoint] = Field(default_factory=list)
+    reference_mileage_points: list[ReferenceMileagePoint] = Field(default_factory=list)
+    reference_listing_trend: list[TrendPoint] = Field(default_factory=list)
     condition_adjustment_percent: float | None = None
     condition_adjustment_note: str | None = None
 

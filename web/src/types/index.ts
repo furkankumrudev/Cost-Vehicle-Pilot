@@ -92,15 +92,36 @@ export type SimilarListing = {
 };
 
 export type ComparisonSummary = {
+  matched_listing_count: number;
+  selected_listing_count: number;
   used_listing_count: number;
+  outlier_count: number;
+  selection_mode: "all_matching" | "context_window";
+  selection_note: string;
+  clean_only: boolean;
   median_year: number | null;
   median_mileage_km: number | null;
+};
+
+export type ReferencePricePoint = {
+  price: number;
+  year: number | null;
+  mileage_km: number | null;
+};
+
+export type ReferenceMileagePoint = {
+  lower_mileage_km: number;
+  upper_mileage_km: number;
+  median_price: number;
+  average_price: number;
+  listing_count: number;
 };
 
 export type ValuationRequest = Filters & {
   year?: number;
   mileage_km?: number;
   asking_price?: number;
+  clean_only?: boolean;
   changed_parts?: number;
   painted_parts?: number;
 };
@@ -114,8 +135,12 @@ export type ValuationResponse = {
   confidence: string | null;
   price_assessment: string | null;
   asking_price_delta_percent: number | null;
+  asking_price: number | null;
   explanation: string;
   comparison_summary: ComparisonSummary | null;
+  reference_price_points: ReferencePricePoint[];
+  reference_mileage_points: ReferenceMileagePoint[];
+  reference_listing_trend: TrendPoint[];
   condition_adjustment_percent: number | null;
   condition_adjustment_note: string | null;
 };

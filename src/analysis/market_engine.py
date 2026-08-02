@@ -14,8 +14,9 @@ class MarketAnalysisConfig:
     """Tuning knobs for the market engine."""
 
     min_sample_size: int = 8
-    target_sample_size: int = 40
     max_year_distance: int = 6
+    mileage_tolerance_ratio: float = 0.30
+    minimum_mileage_tolerance: int = 25_000
 
 
 @dataclass(slots=True)
@@ -116,7 +117,15 @@ class MarketAnalysisEngine:
             return {"status": "empty", "count": 0}
 
         candidates = self._score_candidates(candidates, request)
-        scored_candidates = self._select_best_candidates(candidates)
+        scored_candidates, selection_note = self._select_context_candidates(candidates, request)
+        if scored_candidates.empty:
+            return {
+                "status": "empty",
+                "count": 0,
+                "raw_count": int(len(candidates)),
+                "selected_count": 0,
+                "selection_note": selection_note,
+            }
         cleaned, outlier_count = _remove_price_outliers(scored_candidates)
         summary = _price_summary(cleaned)
         if not summary:
@@ -129,8 +138,10 @@ class MarketAnalysisEngine:
             "summary": summary,
             "count": count,
             "raw_count": int(len(candidates)),
+            "selected_count": int(len(scored_candidates)),
             "used_count": int(len(cleaned)),
             "outlier_count": outlier_count,
+            "selection_note": selection_note,
             "confidence": self._confidence_label(count),
             "market_position": market_position,
             "price_delta_pct": price_delta_pct,
@@ -176,10 +187,36 @@ class MarketAnalysisEngine:
             index=candidates.index,
         )
 
-    def _select_best_candidates(self, candidates: pd.DataFrame) -> pd.DataFrame:
-        if len(candidates) > self.config.target_sample_size:
-            return candidates.head(self.config.target_sample_size).copy()
-        return candidates.copy()
+    def _select_context_candidates(
+        self, candidates: pd.DataFrame, request: MarketAnalysisRequest
+    ) -> tuple[pd.DataFrame, str]:
+        """Keep every listing inside a transparent year/mileage context window."""
+        if request.target_year is None and request.target_mileage is None:
+            return candidates.copy(), "Seçilen modeldeki tüm eşleşen ilanlar kullanıldı."
+
+        selected = candidates.copy()
+        criteria: list[str] = []
+        if request.target_year is not None:
+            years = pd.to_numeric(
+                selected.get("year", pd.Series(index=selected.index, dtype=float)), errors="coerce"
+            )
+            selected = selected[years.eq(request.target_year)].copy()
+            criteria.append(f"{request.target_year} model yılı")
+
+        if request.target_mileage is not None:
+            tolerance = max(
+                int(request.target_mileage * self.config.mileage_tolerance_ratio),
+                self.config.minimum_mileage_tolerance,
+            )
+            mileage_lower = max(0, request.target_mileage - tolerance)
+            mileage_upper = request.target_mileage + tolerance
+            mileages = pd.to_numeric(
+                selected.get("mileage_km", pd.Series(index=selected.index, dtype=float)), errors="coerce"
+            )
+            selected = selected[mileages.between(mileage_lower, mileage_upper)].copy()
+            criteria.append(f"{mileage_lower:,}-{mileage_upper:,} km".replace(",", "."))
+
+        return selected, "Yakınlık aralığı: " + " · ".join(criteria)
 
     def _confidence_label(self, count: int) -> str:
         if count >= 50:
