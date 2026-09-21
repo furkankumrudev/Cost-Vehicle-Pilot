@@ -5,7 +5,7 @@ from __future__ import annotations
 import argparse
 import asyncio
 import sqlite3
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 from src.ingestion.category_page_scraper import find_browser_executable, has_access_challenge, has_login_page
@@ -34,7 +34,7 @@ ACTIVE_MARKERS = (
 
 
 def utc_now() -> str:
-    return datetime.now(timezone.utc).isoformat()
+    return datetime.now(UTC).isoformat()
 
 
 def ensure_status_columns(connection: sqlite3.Connection) -> None:

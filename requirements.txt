@@ -1,10 +1,5 @@
-pandas
-numpy
-beautifulsoup4
-nodriver
-fastapi
-uvicorn[standard]
-catboost
-scikit-learn
-joblib
-python-dotenv
+# Full local development set: the API runtime plus the ingestion layer.
+-r requirements-api.txt
+
+beautifulsoup4==4.15.0
+nodriver==0.50.3

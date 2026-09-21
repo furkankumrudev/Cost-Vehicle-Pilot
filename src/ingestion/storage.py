@@ -3,8 +3,8 @@
 from __future__ import annotations
 
 import sqlite3
+from collections.abc import Iterable
 from pathlib import Path
-from typing import Iterable
 
 from .schema import VehicleListing
 
@@ -122,7 +122,7 @@ class ListingStore:
     def close(self) -> None:
         self.connection.close()
 
-    def __enter__(self) -> "ListingStore":
+    def __enter__(self) -> ListingStore:
         return self
 
     def __exit__(self, *_: object) -> None:

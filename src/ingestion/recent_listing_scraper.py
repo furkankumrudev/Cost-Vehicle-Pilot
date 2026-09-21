@@ -22,7 +22,12 @@ from src.ingestion.category_page_scraper import (
     has_access_challenge,
     has_login_page,
 )
-from src.ingestion.sahibinden_scraper import ScraperConfig, parse_search_results, start_browser, wait_for_manual_access_check
+from src.ingestion.sahibinden_scraper import (
+    ScraperConfig,
+    parse_search_results,
+    start_browser,
+    wait_for_manual_access_check,
+)
 from src.ingestion.schema import VehicleListing
 from src.ingestion.storage import DEFAULT_DB_PATH, ListingStore
 

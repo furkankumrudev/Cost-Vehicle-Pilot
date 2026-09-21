@@ -3,11 +3,10 @@
 from __future__ import annotations
 
 import json
-from pathlib import Path
 
 from fastapi import APIRouter, Depends, Query
 
-from ..database import ListingRepository, PROJECT_ROOT
+from ..database import PROJECT_ROOT, ListingRepository
 from ..dependencies import safe_repository
 from ..schemas import CatalogOption, CatalogResponse
 

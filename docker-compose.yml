@@ -3,6 +3,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.api
+    restart: unless-stopped
     environment:
       SQLITE_DB_PATH: /app/runtime/vehicle_listings.sqlite3
       SOURCE_DB_PATH: /seed-data/vehicle_listings.sqlite3
@@ -10,6 +11,9 @@ services:
     volumes:
       - ./data/runtime:/seed-data:ro
       - ./data/models:/app/data/models:ro
+      # Keep the working database (and the market snapshots that accumulate in
+      # it) alive across container restarts instead of reseeding from scratch.
+      - api-runtime:/app/runtime
     expose:
       - "8000"
     healthcheck:
@@ -23,8 +27,12 @@ services:
     build:
       context: .
       dockerfile: web/Dockerfile
+    restart: unless-stopped
     depends_on:
       api:
         condition: service_healthy
     ports:
       - "8080:80"
+
+volumes:
+  api-runtime:

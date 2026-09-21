@@ -45,15 +45,37 @@ Final ürün arayüzü React uygulamasıdır; demo ve geliştirme akışı `web/
 
 ### Kurulum
 
+Windows:
+
 ```bat
 py -m venv .venv
 .venv\Scripts\activate
-pip install -r requirements.txt
+pip install -r requirements-dev.txt
 copy .env.example .env
 cd web
 npm ci
 cd ..
 ```
+
+Linux / macOS:
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements-dev.txt
+cp .env.example .env
+(cd web && npm ci)
+```
+
+Bagimlilik dosyalari uc katmana ayrilmistir:
+
+| Dosya | Icerik |
+| --- | --- |
+| `requirements-api.txt` | API, analiz ve ML calisma zamani |
+| `requirements.txt` | Yukaridakiler + ilan alma katmani |
+| `requirements-dev.txt` | Yukaridakiler + lint ve dogrulama araclari |
+
+Surumler sabitlenmistir; yerel kurulum, CI ve container imajlari ayni paketleri kullanir.
 
 `.env` dosyasında `SQLITE_DB_PATH` ile analiz veritabanının yolunu tanımlayabilirsin. Varsayılan yol:
 
@@ -73,17 +95,28 @@ docker compose up --build
 
 Ardından uygulamayı `http://localhost:8080` adresinden aç. Bu akışta React arayüzü ve FastAPI aynı adres üzerinden birlikte çalışır.
 
+Calisma veritabani `api-runtime` adli kalici bir volume uzerinde tutulur:
+`data/runtime/` altindaki veritabani yalnizca volume bos oldugunda tohum olarak
+kopyalanir, sonraki her yeniden baslatmada birikmis gunluk snapshot'lar korunur.
+Tohumu bilerek tazelemek icin `RESEED_DB=1` ile baslat.
+
 ### Geliştirme ortamı
 
-İki ayrı terminal aç:
+İki ayrı terminal aç. Windows:
 
 ```bat
 scripts\run_api.bat
-```
-
-```bat
 scripts\run_web_app.bat
 ```
+
+Linux / macOS:
+
+```bash
+./scripts/run_api.sh
+./scripts/run_web_app.sh
+```
+
+Her bakim komutunun iki platformda da karsiligi vardir (`scripts/*.bat` ve `scripts/*.sh`); POSIX scriptleri ortak ayarlari `scripts/lib.sh` uzerinden paylasir.
 
 Adresler:
 
@@ -95,19 +128,28 @@ API docs: http://127.0.0.1:8000/docs
 
 ## Doğrulama
 
-Backend testlerini ve React production build'ini tek komutla çalıştır:
+Lint, backend testlerini ve React production build'ini tek komutla çalıştır:
 
 ```bat
 scripts\verify_project.bat
 ```
 
+```bash
+./scripts/verify_project.sh
+```
+
 Manuel olarak:
 
-```bat
-.venv\Scripts\python.exe -m unittest discover -s tests -v
-cd web
-npm run build
+```bash
+.venv/bin/python -m ruff check .
+.venv/bin/python -m unittest discover -s tests -v
+(cd web && npm run build)
 ```
+
+Ayni uc adim her push ve pull request'te GitHub Actions uzerinde calisir
+([`.github/workflows/ci.yml`](.github/workflows/ci.yml)): backend Python 3.11 ve
+3.12 uzerinde, frontend Node 22 uzerinde, ayrica her iki container imaji da
+derlenir.
 
 ## ML Modeli
 

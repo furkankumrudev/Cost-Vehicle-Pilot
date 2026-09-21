@@ -10,7 +10,7 @@ from typing import Any
 
 import pandas as pd
 
-from .settings import PROJECT_ROOT, sqlite_db_path
+from .settings import sqlite_db_path
 
 DEFAULT_DB_PATH = sqlite_db_path()
 

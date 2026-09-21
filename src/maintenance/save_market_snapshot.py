@@ -6,7 +6,7 @@ import argparse
 from contextlib import closing
 from datetime import date
 
-from src.api.database import ListingRepository, SNAPSHOT_TABLE, ensure_snapshot_table
+from src.api.database import SNAPSHOT_TABLE, ListingRepository, ensure_snapshot_table
 
 
 def save_snapshot(repository: ListingRepository, snapshot_date: date) -> int:

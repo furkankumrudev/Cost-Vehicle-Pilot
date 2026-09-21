@@ -18,10 +18,10 @@ from src.api.schemas import ValuationRequest
 from src.api.services.market_service import (
     _snapshot_scope,
     build_price_relationships,
-    enrich_condition_payload,
-    build_reference_price_points,
     build_reference_listing_trend,
     build_reference_mileage_points,
+    build_reference_price_points,
+    enrich_condition_payload,
 )
 from src.api.services.trend_service import build_listing_trend
 from src.maintenance.save_market_snapshot import save_snapshot

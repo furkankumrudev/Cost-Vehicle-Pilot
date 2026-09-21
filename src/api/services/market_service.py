@@ -9,7 +9,7 @@ from typing import Any
 import pandas as pd
 
 from src.analysis.market_engine import build_market_analysis
-from src.ml.predict_price_model import ConditionAdjustment, DEFAULT_MODEL_PATH, estimate_condition_adjustment
+from src.ml.predict_price_model import DEFAULT_MODEL_PATH, ConditionAdjustment, estimate_condition_adjustment
 
 from ..database import ListingRepository
 from ..services.trend_service import build_listing_trend, snapshot_changes, unavailable_changes

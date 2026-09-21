@@ -37,7 +37,6 @@ TEXT_FIXES = {
     "TofaÅŸ": "Tofaş",
     "TofaÅ£": "Tofaş",
     "Tofaţ": "Tofaş",
-    "TofaÅ£": "Tofaş",
     "Sahin": "Şahin",
     "Şahin": "Şahin",
     "Ţahin": "Şahin",
@@ -731,8 +730,6 @@ def missing_counts(connection: sqlite3.Connection, columns: list[str]) -> dict[s
 def clean_database(db_path: Path, catalog_path: Path, rules: CleanRules) -> CleanResult:
     brand_map = load_catalog_brands(catalog_path)
     known_brand_keys = {normalize_key(value) for value in brand_map.values()}
-    brand_by_slug = {key: value for key, value in brand_map.items() if "-" in key or key.isascii()}
-
     rejection_counts: Counter[str] = Counter()
     seen_keys: set[tuple[str, ...]] = set()
 
