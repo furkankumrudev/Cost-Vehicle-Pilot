@@ -163,12 +163,30 @@ Yerel Kaggle CSV dosyası proje kökünde `car_price_prediction.csv` adıyla var
 scripts\train_price_model.bat
 ```
 
+## Veri Kaynakları
+
+Uygulama iki ayrı kaynaktan beslenir ve bunları asla birbirine karıştırmaz:
+
+| Kaynak | Tablo | Ne anlatır | Nasıl gelir |
+| --- | --- | --- | --- |
+| TSB kasko değer listesi | `reference_vehicle_values` | Marka/model/yıl bazında **sigorta referans değeri** | Aylık yayımlanan dosya; tam otomatik aktarım |
+| İlan verisi | `vehicle_listings` → `vehicle_listings_clean` | Gerçek **ilan isteme fiyatı**, kilometre ve kondisyon | Operatör komutuyla toplanır |
+
+Referans değer omurgadır: aylık gelir, kesintiye uğramaz ve uygulamanın her zaman bir dayanağı olmasını sağlar. İlan verisi ise bunun üzerine güncel piyasa sapmasını ekleyen katmandır.
+
+Referans listelerinin nasıl bırakılacağı [data/reference/kasko/README.md](data/reference/kasko/README.md) dosyasında anlatılır.
+
+### Neden ilan toplama otomatik değil
+
+İlan kaynağı otomatik erişimi kasten engelliyor (erişim doğrulaması ve oturum duvarı). Bu engeli aşmak yerine, toplama katmanı görünür tarayıcıyla çalışan bir **operatör komutu** olarak bırakıldı; doğrulama gerektiğinde durur ve insanı bekler. Süreklilik bu yüzden referans değer kaynağına dayandırılmıştır.
+
 ## Günlük Veri Akışı
 
-Analiz tablosunun tazelenmesi ve günlük piyasa özetinin saklanması tek bir bakım hattında toplanmıştır:
+Referans aktarımı, analiz tablosunun tazelenmesi ve günlük piyasa özeti tek bir bakım hattında toplanmıştır:
 
 ```text
-ham ilan tablosu -> clean_vehicle_data -> save_market_snapshot -> pipeline_runs kaydi
+kasko liste kutusu -> import_reference_values (yeni donem yoksa atlanir)
+ham ilan tablosu   -> clean_vehicle_data -> save_market_snapshot -> pipeline_runs kaydi
 ```
 
 Tek seferlik çalıştırma:
@@ -188,6 +206,8 @@ Sürekli çalıştırma (her gün 03:00 UTC, `PIPELINE_HOUR` / `PIPELINE_MINUTE`
 ```
 
 Docker akışında bunu `scheduler` servisi üstlenir; `docker compose up` ile birlikte açılır.
+
+Aylık liste günde bir kez kontrol edilir; yeni dönem yoksa adım `skipped` olarak kaydedilir — bu bir hata değildir ve hattı bayat göstermez.
 
 Hattın her adımı, başarılı da olsa başarısız da olsa `pipeline_runs` tablosuna yazılır. Bir adım hata alırsa hat durmaz: sonraki adım yine çalışır ve hata kaydedilir. `/api/health` bu kayıtlara bakarak son başarılı çalışmayı, üzerinden geçen saati ve hattın bayatlayıp bayatlamadığını bildirir; 36 saati aşan sessizlikte `status` alanı `degraded` olur. Böylece durmuş bir veri akışı sessizce sağlıklı görünmez.
 

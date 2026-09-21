@@ -12,9 +12,12 @@ from src.api.main import pipeline_freshness
 from src.maintenance.pipeline import (
     RUN_TABLE,
     STATUS_FAILED,
+    STATUS_SKIPPED,
     STATUS_SUCCESS,
     STEP_CLEAN,
+    STEP_REFERENCE,
     STEP_SNAPSHOT,
+    NothingToDo,
     StepResult,
     ensure_run_table,
     last_success_at,
@@ -84,6 +87,22 @@ class PipelineRunLogTests(unittest.TestCase):
             f"SELECT status, detail FROM {RUN_TABLE} WHERE step = ?", (STEP_CLEAN,)
         ).fetchone()
         self.assertEqual(stored[0], STATUS_FAILED)
+
+    def test_a_step_with_no_work_is_skipped_not_failed(self) -> None:
+        def nothing_new() -> str:
+            raise NothingToDo("Yeni kasko donemi bulunamadi.")
+
+        result = run_step(self.connection, STEP_REFERENCE, nothing_new)
+
+        self.assertEqual(result.status, STATUS_SKIPPED)
+        # The monthly list has nothing new on most days; that must not make the
+        # daily pipeline look broken.
+        self.assertTrue(result.succeeded)
+
+    def test_a_skipped_step_does_not_count_as_pipeline_freshness(self) -> None:
+        record_step(self.connection, _result(STEP_REFERENCE, STATUS_SKIPPED, "2026-09-21T03:00:00+00:00"))
+
+        self.assertIsNone(last_success_at(self.connection))
 
     def test_a_successful_step_records_its_detail(self) -> None:
         result = run_step(self.connection, STEP_SNAPSHOT, lambda: "saved_snapshots=4")

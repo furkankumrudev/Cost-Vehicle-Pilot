@@ -17,7 +17,8 @@ from datetime import UTC, date, datetime
 from pathlib import Path
 
 from src.api.database import ListingRepository
-from src.api.settings import sqlite_db_path
+from src.api.settings import PROJECT_ROOT, sqlite_db_path
+from src.ingestion.tsb_reference import import_new_files
 from src.maintenance.clean_vehicle_data import CATALOG_PATH, CleanRules, clean_database
 from src.maintenance.save_market_snapshot import save_snapshot
 
@@ -26,9 +27,18 @@ logger = logging.getLogger(__name__)
 RUN_TABLE = "pipeline_runs"
 STEP_CLEAN = "clean_vehicle_data"
 STEP_SNAPSHOT = "save_market_snapshot"
+STEP_REFERENCE = "import_reference_values"
 
 STATUS_SUCCESS = "success"
 STATUS_FAILED = "failed"
+STATUS_SKIPPED = "skipped"
+
+# Monthly reference lists are dropped here; the daily run picks up new periods.
+REFERENCE_INBOX = PROJECT_ROOT / "data" / "reference" / "kasko"
+
+
+class NothingToDo(Exception):
+    """Raised by a step that had no work this run. Not a failure."""
 
 
 @dataclass(frozen=True, slots=True)
@@ -43,7 +53,9 @@ class StepResult:
 
     @property
     def succeeded(self) -> bool:
-        return self.status == STATUS_SUCCESS
+        # Nothing to do is not a failure: the reference list is published
+        # monthly while this pipeline runs every day.
+        return self.status in {STATUS_SUCCESS, STATUS_SKIPPED}
 
 
 def utc_now() -> datetime:
@@ -120,6 +132,9 @@ def run_step(connection: sqlite3.Connection, step: str, action: Callable[[], str
     try:
         detail = action()
         status = STATUS_SUCCESS
+    except NothingToDo as nothing:
+        detail = str(nothing)
+        status = STATUS_SKIPPED
     except Exception as error:  # noqa: BLE001 - a failed step must not stop the pipeline
         logger.exception("Pipeline step failed: %s", step)
         detail = f"{type(error).__name__}: {error}"
@@ -141,6 +156,7 @@ def run_pipeline(
     db_path: Path | None = None,
     catalog_path: Path = CATALOG_PATH,
     snapshot_date: date | None = None,
+    reference_inbox: Path | None = None,
 ) -> list[StepResult]:
     """Rebuild the cleaned analysis table, then store today's market summary.
 
@@ -161,9 +177,16 @@ def run_pipeline(
             raise RuntimeError("Snapshot icin analiz edilebilir ilan bulunamadi.")
         return f"saved_snapshots={saved}"
 
+    def reference() -> str:
+        results = import_new_files(reference_inbox or REFERENCE_INBOX, db_path)
+        if not results:
+            raise NothingToDo("Yeni kasko donemi bulunamadi.")
+        return " ".join(str(result) for result in results)
+
     with closing(sqlite3.connect(db_path)) as connection:
         ensure_run_table(connection)
         return [
+            run_step(connection, STEP_REFERENCE, reference),
             run_step(connection, STEP_CLEAN, clean),
             run_step(connection, STEP_SNAPSHOT, snapshot),
         ]
