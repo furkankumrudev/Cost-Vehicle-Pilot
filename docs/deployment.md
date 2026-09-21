@@ -8,7 +8,27 @@ Bu yapı, React arayüzü ve FastAPI servisinin tek bir yerel adres altında ça
 - Yerel izinli SQLite veritabanı: `data/runtime/vehicle_listings.sqlite3`
 - Opsiyonel kondisyon etkisi modeli: `data/models/kaggle_price_effect/kaggle_price_effect_model.cbm`
 
-Veritabanı konteynere salt okunur kaynak olarak bağlanır ve Git'e eklenmez. Başlangıçta konteynerin geçici çalışma alanına kopyalanır; bu, Windows bind mount'larında SQLite dosya kilitleme sorunlarını önler. Veritabanı yoksa API health kontrolü başarısız olur; bu, sahte piyasa verisiyle açılmaktan daha güvenlidir.
+Veritabanı konteynere salt okunur kaynak olarak bağlanır ve Git'e eklenmez. İlk açılışta `api-runtime` adlı kalıcı volume'e kopyalanır; bu, Windows bind mount'larında SQLite dosya kilitleme sorunlarını önler. Volume dolu olduğunda tohumlama tekrarlanmaz, böylece biriken günlük snapshot'lar ve temizlenmiş tablo yeniden başlatmalarda korunur. Tohumu bilerek tazelemek için `RESEED_DB=1` kullanılır. Veritabanı yoksa API health kontrolü başarısız olur; bu, sahte piyasa verisiyle açılmaktan daha güvenlidir.
+
+## Servisler
+
+| Servis | Görev |
+| --- | --- |
+| `api` | FastAPI; veritabanını yalnızca okur |
+| `scheduler` | Günlük bakım hattını çalıştırır; veritabanına yazan tek servis |
+| `web` | Nginx üzerinde React arayüzü |
+
+`scheduler`, `api` ile aynı imajı ve aynı `api-runtime` volume'unu kullanır. Tek yazar / çok okuyan bu düzen SQLite için güvenlidir.
+
+### Zamanlama ayarları
+
+| Değişken | Varsayılan | Açıklama |
+| --- | --- | --- |
+| `PIPELINE_HOUR` | `3` | Günlük çalıştırma saati (UTC) |
+| `PIPELINE_MINUTE` | `0` | Günlük çalıştırma dakikası (UTC) |
+| `PIPELINE_RUN_ON_START` | `false` | Konteyner açılışında bir kez hemen çalıştır |
+
+İlan toplama adımı bu hatta bilinçli olarak dahil değildir: tarayıcı sürüyor ve manuel erişim doğrulaması isteyebiliyor, bu yüzden operatör komutu olarak kalır.
 
 ## Çalıştırma
 
@@ -42,3 +62,18 @@ docker compose up --build
 ```
 
 Ardından web ekranından araç değerleme akışı ve `http://localhost:8080/api/health` endpointi doğrulanmalıdır.
+
+Health yanıtı veri akışının durumunu da bildirir:
+
+```json
+{
+  "status": "ok",
+  "database_available": true,
+  "listing_count": 12345,
+  "last_pipeline_success_at": "2026-09-21T03:00:12+00:00",
+  "pipeline_age_hours": 6.4,
+  "pipeline_stale": false
+}
+```
+
+`status` alanı, hat 36 saatten uzun süredir başarıyla tamamlanmadıysa `degraded` olur. Hat hiç çalışmadıysa üç alan da `null` döner; sistem tahminde bulunmaz. Bu, durmuş bir veri akışının "sağlıklı" görünmesini engeller.

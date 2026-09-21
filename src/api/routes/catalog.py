@@ -6,9 +6,10 @@ import json
 
 from fastapi import APIRouter, Depends, Query
 
-from ..database import PROJECT_ROOT, ListingRepository
+from ..database import ListingRepository
 from ..dependencies import safe_repository
 from ..schemas import CatalogOption, CatalogResponse
+from ..settings import PROJECT_ROOT
 
 router = APIRouter(prefix="/api/catalog", tags=["catalog"])
 CATALOG_PATH = PROJECT_ROOT / "data" / "reference" / "vehicle_catalog.json"

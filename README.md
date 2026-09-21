@@ -163,6 +163,36 @@ Yerel Kaggle CSV dosyası proje kökünde `car_price_prediction.csv` adıyla var
 scripts\train_price_model.bat
 ```
 
+## Günlük Veri Akışı
+
+Analiz tablosunun tazelenmesi ve günlük piyasa özetinin saklanması tek bir bakım hattında toplanmıştır:
+
+```text
+ham ilan tablosu -> clean_vehicle_data -> save_market_snapshot -> pipeline_runs kaydi
+```
+
+Tek seferlik çalıştırma:
+
+```bash
+./scripts/run_pipeline.sh
+```
+
+```bat
+scripts\run_pipeline.bat
+```
+
+Sürekli çalıştırma (her gün 03:00 UTC, `PIPELINE_HOUR` / `PIPELINE_MINUTE` ile değiştirilir):
+
+```bash
+./scripts/run_scheduler.sh
+```
+
+Docker akışında bunu `scheduler` servisi üstlenir; `docker compose up` ile birlikte açılır.
+
+Hattın her adımı, başarılı da olsa başarısız da olsa `pipeline_runs` tablosuna yazılır. Bir adım hata alırsa hat durmaz: sonraki adım yine çalışır ve hata kaydedilir. `/api/health` bu kayıtlara bakarak son başarılı çalışmayı, üzerinden geçen saati ve hattın bayatlayıp bayatlamadığını bildirir; 36 saati aşan sessizlikte `status` alanı `degraded` olur. Böylece durmuş bir veri akışı sessizce sağlıklı görünmez.
+
+İlan toplama adımı bu hatta bilinçli olarak dahil edilmemiştir: tarayıcı sürdüğü ve manuel erişim doğrulaması isteyebildiği için operatör komutu olarak kalır (`scripts/run_daily_update.sh`).
+
 ## Veri İlkeleri
 
 - Uygulama analizde temizlenmiş ilan tablosunu tercih eder; temiz tablo yoksa ham tabloya güvenli biçimde geri döner.

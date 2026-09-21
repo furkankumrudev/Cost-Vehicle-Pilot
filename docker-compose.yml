@@ -23,6 +23,27 @@ services:
       retries: 3
       start_period: 20s
 
+  # Runs the unattended maintenance steps on a daily schedule. It shares the
+  # API's runtime volume: the scheduler is the only writer, the API only reads.
+  scheduler:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    restart: unless-stopped
+    command: ["python", "-m", "src.maintenance.scheduler"]
+    environment:
+      SQLITE_DB_PATH: /app/runtime/vehicle_listings.sqlite3
+      # Wait for the API to have seeded the volume; never reseed from here.
+      PIPELINE_HOUR: "3"
+      PIPELINE_MINUTE: "0"
+      PIPELINE_RUN_ON_START: "false"
+    volumes:
+      - api-runtime:/app/runtime
+      - ./data/models:/app/data/models:ro
+    depends_on:
+      api:
+        condition: service_healthy
+
   web:
     build:
       context: .

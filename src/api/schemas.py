@@ -26,6 +26,11 @@ class HealthResponse(BaseModel):
     table: str | None = None
     listing_count: int | None = None
     message: str | None = None
+    # Data-flow freshness. Null values mean the pipeline has not recorded a
+    # successful run yet, which is reported as-is rather than guessed.
+    last_pipeline_success_at: str | None = None
+    pipeline_age_hours: float | None = None
+    pipeline_stale: bool | None = None
 
 
 class MarketOverview(BaseModel):
