@@ -27,7 +27,6 @@ export const api = {
   brands: () => get<CatalogResponse>("/api/catalog/brands"),
   series: (brand: string) => get<CatalogResponse>("/api/catalog/series", { brand }),
   models: (brand: string, series: string) => get<CatalogResponse>("/api/catalog/models", { brand, series }),
-  options: (field: "body_type" | "fuel_type" | "transmission") => get<CatalogResponse>("/api/catalog/options", { field }),
   overview: (filters: Filters) => get<MarketOverview>("/api/market/overview", filters),
   trend: (filters: Filters, start_date?: string, end_date?: string) => get<TrendResponse>("/api/market/trend", { ...filters, start_date, end_date }),
   priceRelationships: (filters: Filters) => get<PriceRelationshipsResponse>("/api/market/price-relationships", filters),

@@ -4,6 +4,8 @@ import { api } from "../api/client";
 import type { CatalogOption, Filters } from "../types";
 
 const EMPTY: Filters = {};
+// Dealers list next year's model year before the calendar turns.
+const MAX_MODEL_YEAR = new Date().getFullYear() + 1;
 const formatNumberInput = (value: number | undefined) => value == null ? "" : new Intl.NumberFormat("tr-TR").format(value);
 type Props = {
   value: Filters;
@@ -19,10 +21,15 @@ function Select({ label, value, options, disabled, onChange }: {
   disabled?: boolean;
   onChange: (value: string) => void;
 }) {
+  // The shipped catalog covers far more vehicles than the database holds, so
+  // hide the entries with nothing to analyse. If none has listings, keep them
+  // all rather than rendering an empty dropdown.
+  const withListings = options.filter((option) => (option.listing_count ?? 0) > 0);
+  const visible = withListings.length ? withListings : options;
   return <label className="field"><span>{label}</span>
     <select value={value ?? ""} disabled={disabled} onChange={(event) => onChange(event.target.value)}>
       <option value="">Tümü</option>
-      {options.map((option) => <option key={option.name} value={option.name}>{option.name}{option.listing_count ? ` (${option.listing_count})` : ""}</option>)}
+      {visible.map((option) => <option key={option.name} value={option.name}>{option.name}{option.listing_count ? ` (${option.listing_count})` : ""}</option>)}
     </select>
   </label>;
 }
@@ -63,8 +70,8 @@ export function VehicleFilters({ value, onApply, autoApply = false, showRangeFil
       <Select label="Marka" value={draft.brand} options={brands} onChange={(next) => change("brand", next)} />
       <Select label="Seri" value={draft.series} options={series} disabled={!draft.brand} onChange={(next) => change("series", next)} />
       <Select label="Model" value={draft.model} options={models} disabled={!draft.series} onChange={(next) => change("model", next)} />
-      {showRangeFilters && <><label className="field"><span>Minimum model yılı</span><input type="number" min="1980" max="2026" value={draft.year_min ?? ""} onChange={(event) => updateDraft((current) => ({ ...current, year_min: event.target.value ? Number(event.target.value) : undefined }))} placeholder="Örn. 2018" /></label>
-      <label className="field"><span>Maksimum model yılı</span><input type="number" min="1980" max="2026" value={draft.year_max ?? ""} onChange={(event) => updateDraft((current) => ({ ...current, year_max: event.target.value ? Number(event.target.value) : undefined }))} placeholder="Örn. 2024" /></label>
+      {showRangeFilters && <><label className="field"><span>Minimum model yılı</span><input type="number" min="1980" max={MAX_MODEL_YEAR} value={draft.year_min ?? ""} onChange={(event) => updateDraft((current) => ({ ...current, year_min: event.target.value ? Number(event.target.value) : undefined }))} placeholder="Örn. 2018" /></label>
+      <label className="field"><span>Maksimum model yılı</span><input type="number" min="1980" max={MAX_MODEL_YEAR} value={draft.year_max ?? ""} onChange={(event) => updateDraft((current) => ({ ...current, year_max: event.target.value ? Number(event.target.value) : undefined }))} placeholder="Örn. 2024" /></label>
       <label className="field"><span>Maksimum kilometre</span><input type="text" inputMode="numeric" value={formatNumberInput(draft.mileage_max)} onChange={(event) => { const digits = event.target.value.replace(/\D/g, ""); updateDraft((current) => ({ ...current, mileage_max: digits ? Number(digits) : undefined })); }} placeholder="Örn. 100.000" /></label></>}
       {!autoApply && <button className="primary-button filter-submit" onClick={() => onApply(draft)}>Analizi güncelle</button>}
     </div>

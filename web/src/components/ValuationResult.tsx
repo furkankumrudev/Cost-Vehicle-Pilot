@@ -1,4 +1,4 @@
-import { BadgePercent, CalendarRange, Gauge, Sparkles } from "lucide-react";
+import { AlertTriangle, BadgePercent, CalendarRange, Gauge, Sparkles } from "lucide-react";
 import { CartesianGrid, Line, LineChart, ReferenceArea, ReferenceLine, ResponsiveContainer, Scatter, ScatterChart, Tooltip, XAxis, YAxis } from "recharts";
 import type { ReferenceMileagePoint, ReferencePricePoint, TrendPoint, ValuationResponse } from "../types";
 import { money, number, percent } from "../utils/format";
@@ -29,7 +29,7 @@ function ComparisonSummary({ data }: { data: ValuationResponse }) {
 }
 
 function MarketRangeCard({ data }: { data: ValuationResponse }) {
-  return <div className="range-card">
+  return <div className={`range-card${data.status === "low_sample" ? " leading" : ""}`}>
     <p>Önerilen piyasa aralığı</p>
     <strong>{money(data.recommended_low_price)} — {money(data.recommended_high_price)}</strong>
     <div className="range-card-details">
@@ -178,8 +178,20 @@ function ReferenceInsights({ data }: { data: ValuationResponse }) {
 export function ValuationResult({ data }: { data: ValuationResponse | null }) {
   if (!data) return <div className="valuation-placeholder"><Sparkles size={26} /><strong>Aracınızın piyasa değerini hesaplayın</strong><p>Seçtiğiniz kriterlerle eşleşen gerçek ilanlardan bir tahmin oluşturacağız.</p></div>;
   if (data.status === "empty") return <EmptyState title="Güncel piyasa karşılaştırması oluşmadı" detail={data.explanation} />;
+  // The engine reports "low_sample" when the reference group is below its own
+  // minimum. Showing that estimate at full visual weight would contradict the
+  // warning printed underneath it, so the range leads instead.
+  const lowSample = data.status === "low_sample";
   return <section className="valuation-result">
-    <div className="result-hero"><span className="eyebrow">TAHMİNİ PİYASA DEĞERİ</span><strong>{money(data.estimated_market_value)}</strong><p>Güncel ilan verisi · {data.confidence} güven</p></div>
+    <div className={`result-hero${lowSample ? " low-confidence" : ""}`}>
+      <span className="eyebrow">TAHMİNİ PİYASA DEĞERİ</span>
+      <strong>{money(data.estimated_market_value)}</strong>
+      <p>Güncel ilan verisi · {data.confidence} güven</p>
+      {lowSample && <p className="result-hero-warning">
+        <AlertTriangle size={15} />
+        <span>Bu tahmin yalnızca {number(data.listing_count)} ilana dayanıyor. Tek bir sayı yerine yanındaki önerilen aralığı dikkate alın.</span>
+      </p>}
+    </div>
     <MarketRangeCard data={data} />
     <ConditionAdjustmentCard data={data} />
     <ComparisonSummary data={data} />

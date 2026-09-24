@@ -3,6 +3,7 @@ import { VehicleFilters } from "./VehicleFilters";
 import type { Filters, ValuationRequest } from "../types";
 
 const formatNumberInput = (value: string) => value ? new Intl.NumberFormat("tr-TR").format(Number(value)) : "";
+const MAX_MODEL_YEAR = new Date().getFullYear() + 1;
 
 export function ValuationForm({ onSubmit }: { onSubmit: (payload: ValuationRequest) => void }) {
   const [filters, setFilters] = useState<Filters>({});
@@ -41,7 +42,7 @@ export function ValuationForm({ onSubmit }: { onSubmit: (payload: ValuationReque
   return <div className="valuation-form">
     <VehicleFilters value={filters} onApply={setFilters} autoApply showRangeFilters={false} />
     <div className="valuation-extras">
-      <label className="field"><span>Model yılı</span><input type="number" min="1980" max="2026" value={year} onChange={(event) => setYear(event.target.value)} placeholder="Örn. 2021" /></label>
+      <label className="field"><span>Model yılı</span><input type="number" min="1980" max={MAX_MODEL_YEAR} value={year} onChange={(event) => setYear(event.target.value)} placeholder="Örn. 2021" /></label>
       <label className="field"><span>Kilometre</span><input type="text" inputMode="numeric" value={formatNumberInput(mileage)} onChange={(event) => updateMileage(event.target.value)} placeholder="Örn. 80.000" /></label>
       <label className="field"><span>İstenen fiyat</span><input type="text" inputMode="numeric" value={formatNumberInput(askingPrice)} onChange={(event) => updateAskingPrice(event.target.value)} placeholder="Örn. 1.500.000" /></label>
       <label className="clean-only-toggle"><input type="checkbox" checked={cleanOnly} onChange={(event) => updateCleanOnly(event.target.checked)} /><span><strong>Temiz araç</strong><small>Temiz beyanlı ilanlarla karşılaştır</small></span></label>
